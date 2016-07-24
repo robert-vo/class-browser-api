@@ -28,7 +28,13 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.robert.scraper</groupId>
+            <artifactId>ClassScraper</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ClassScraper-1.0.jar</systemPath>
+        </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
