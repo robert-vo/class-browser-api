@@ -57,11 +57,13 @@ public class ClassScraperAPIController {
 
     @RequestMapping(value = "/api/classes", method = RequestMethod.GET)
     public List<Class> getAllClasses(@RequestParam(value = "term", required = true) String term,
-                                     @RequestParam Map<String,String> requestParams) {
+                                     @RequestParam Map<String,String> requestParams) throws Exception {
 
         if(areAllParamsValid(requestParams)) {
 
             Stream<Class> stream = allClasses.stream();
+
+            stream = filterByTerm(stream, term);
 
             for (String param : requestParams.keySet()) {
                 stream = filterStreamWithParam(stream, param, requestParams.get(param));
@@ -74,10 +76,8 @@ public class ClassScraperAPIController {
         }
     }
 
-    private Stream<Class> filterStreamWithParam(Stream<Class> stream, final String param, final String paramValue) {
+    private Stream<Class> filterStreamWithParam(Stream<Class> stream, final String param, final String paramValue) throws Exception {
         switch (param) {
-            case "term":
-                return stream.filter(e -> e.getTerm().getTermID().equals(paramValue));
             case "session":
                 if (paramValue.equals("1")) {
                     String newParamValue = "Regular Academic Session";
@@ -187,17 +187,24 @@ public class ClassScraperAPIController {
                 }
 
             case "sunday":
-                if(paramValue.equals("false")) {
-                    return stream.filter(e -> !e.isSundayClass());
-                }
-                else if(paramValue.equals("true")) {
-                    return stream.filter(e -> e.isSundayClass());
-                }
-                else {
-                    System.out.println("Invalid day parameter");
-                }
+                return filterBySunday(stream, paramValue);
             default:
                 return stream;
+        }
+    }
+
+    private Stream<Class> filterByTerm(Stream<Class> stream, String term) {
+        return stream.filter(e -> e.getTerm().getTermID().equals(term));
+    }
+
+    private Stream<Class> filterBySunday(Stream<Class> stream, String exists) throws Exception {
+        switch (exists) {
+            case "false":
+                return stream.filter(e -> !e.isSundayClass());
+            case "true":
+                return stream.filter(Class::isSundayClass);
+            default:
+                throw new Exception("Invalid parameter for sunday");
         }
     }
 
