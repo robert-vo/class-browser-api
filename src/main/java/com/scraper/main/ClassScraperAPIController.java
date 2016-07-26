@@ -23,13 +23,13 @@ public class ClassScraperAPIController {
     }
 
     private void loadAllClassesFromScraping() {
-        classScraper = new ClassScraper(2016, "Fall");
-        classScraper.setPageLimit(10);
-        classScraper.startScraper();
-        allClasses.addAll(classScraper.getAllClasses());
+//        classScraper = new ClassScraper(2016, "Fall");
+//        classScraper.setPageLimit(150);
+//        classScraper.startScraper();
+//        allClasses.addAll(classScraper.getAllClasses());
 
         classScraper = new ClassScraper(2016, "Summer");
-        classScraper.setPageLimit(10);
+//        classScraper.setPageLimit(1);
         classScraper.startScraper();
         allClasses.addAll(classScraper.getAllClasses());
     }
@@ -38,7 +38,6 @@ public class ClassScraperAPIController {
     public List<Class> getAllClasses(@RequestParam(value = "term", required = true)             Optional<String>    term,
                                      @RequestParam(value = "title", required = false)           Optional<String>    title,
                                      @RequestParam(value = "subject", required = false)         Optional<String>    subject,
-                                     @RequestParam(value = "status", required = false)          Optional<String>    status,
                                      @RequestParam(value = "instructorName", required = false)  Optional<String>    instructorName,
                                      @RequestParam(value = "location", required = false)        Optional<String>    location,
                                      @RequestParam(value = "building", required = false)        Optional<String>    building,
@@ -47,6 +46,7 @@ public class ClassScraperAPIController {
                                      @RequestParam(value = "session", required = false)         Optional<String>    session,
                                      @RequestParam(value = "component", required = false)       Optional<String>    component,
                                      @RequestParam(value = "hours", required = false)           Optional<Integer>   hours,
+                                     @RequestParam(value = "status", required = false)          Optional<Boolean>   status,
                                      @RequestParam(value = "online", required = false)          Optional<Boolean>   online,
                                      @RequestParam(value = "core", required = false)            Optional<Boolean>   core,
                                      @RequestParam(value = "monday", required = false)          Optional<Boolean>   isMonday,
@@ -105,8 +105,8 @@ public class ClassScraperAPIController {
         return e -> !hours.isPresent() || getClassHours(e.getDepartmentCourseNumber()) == hours.get();
     }
 
-    private Predicate<Class> getPredicateToFilterByStatus(Optional<String> status) {
-        return e -> !status.isPresent() || e.getClassStatus().toString().equals(status.get());
+    private Predicate<Class> getPredicateToFilterByStatus(Optional<Boolean> status) {
+        return e -> !status.isPresent() || (status.get() == Boolean.TRUE ? e.getClassStatus().toString().equals("OPEN") : e.getClassStatus().toString().equals("CLOSED"));
     }
 
     private Predicate<Class> getPredicateToFilterByInstructorName(Optional<String> instructorName) {
@@ -125,7 +125,7 @@ public class ClassScraperAPIController {
     }
 
     private Predicate<Class> getPredicateToFilterByBuilding(Optional<String> building) {
-        return e -> !building.isPresent() || e.getBuildingAbbreviation().equals(building.get());
+        return e -> !building.isPresent() || e.getBuildingAbbreviation().toUpperCase().equals(building.get().toUpperCase());
     }
 
     private Predicate<Class> getPredicateToFilterByMonday(Optional<Boolean> isMonday) {
@@ -156,6 +156,12 @@ public class ClassScraperAPIController {
         return e -> !isSunday.isPresent() || e.isSundayClass();
     }
 
+    /**
+     * Options include
+     * Face to Face
+     * Online
+     * Hybrid
+     */
     private Predicate<Class> getPredicateToFilterByFormat(Optional<String> format) {
         return e -> !format.isPresent() || e.getFormat().toUpperCase().equals(format.get().toUpperCase());
     }
@@ -171,8 +177,13 @@ public class ClassScraperAPIController {
                         e.getSession().equals(session.get()));
     }
 
+    /**
+     * Options include
+     * LAB
+     * LEC
+     */
     private Predicate<Class> getPredicateToFilterByComponent(Optional<String> component) {
-        return e -> !component.isPresent() || e.getComponent().equals(component.get());
+        return e -> !component.isPresent() || e.getComponent().toUpperCase().equals(component.get().toUpperCase());
     }
 
     private Predicate<Class> getPredicateToFilterBySyllabus(Optional<Boolean> syllabus) {
