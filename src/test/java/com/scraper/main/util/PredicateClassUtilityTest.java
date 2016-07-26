@@ -48,33 +48,48 @@ public class PredicateClassUtilityTest {
     }
 
     @Test
-    public void testGetPredicateToFilerByTitleForValidTermFall2016() {
+    public void testGetPredicateToFilterByTitleForValidTermFall2016() {
         assertTrue(getPredicateToFilterByTitle(Optional.of("titlea")).test(classOne));
     }
 
     @Test
-    public void testGetPredicateToFilerByTitleForValidTermSummer2016() {
+    public void testGetPredicateToFilterByTitleForValidTermSummer2016() {
         assertTrue(getPredicateToFilterByTitle(Optional.of("titleb")).test(classTwo));
     }
 
     @Test
-    public void testGetPredicateToFilerByTitleForNullTerm() {
+    public void testGetPredicateToFilterByTitleForNullTerm() {
         assertTrue(getPredicateToFilterByTitle(Optional.ofNullable(null)).test(classNull));
     }
 
     @Test
-    public void testGetPredicateToFilerBySubjectForValidTermFall2016() {
+    public void testGetPredicateToFilterBySubjectForValidTermFall2016() {
         assertTrue(getPredicateToFilterBySubject(Optional.of("one_dept")).test(classOne));
     }
 
     @Test
-    public void testGetPredicateToFilerBySubjectForValidTermSummer2016() {
+    public void testGetPredicateToFilterBySubjectForValidTermSummer2016() {
         assertTrue(getPredicateToFilterBySubject(Optional.of("two_dept")).test(classTwo));
     }
 
     @Test
-    public void testGetPredicateToFilerBySubjectForNullTerm() {
+    public void testGetPredicateToFilterBySubjectForNullTerm() {
         assertTrue(getPredicateToFilterBySubject(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByHoursForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByHours(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByHoursForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByHours(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByHoursForNullTerm() {
+        assertTrue(getPredicateToFilterByHours(Optional.ofNullable(null)).test(classNull));
     }
 
 }
