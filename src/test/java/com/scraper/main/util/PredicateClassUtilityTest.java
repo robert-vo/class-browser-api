@@ -7,8 +7,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static com.scraper.main.util.PredicateClassUtility.getPredicateToFilterByTerm;
-import static com.scraper.main.util.PredicateClassUtility.getPredicateToFilterByTitle;
+import static com.scraper.main.util.PredicateClassUtility.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -60,8 +59,22 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilerByTitleForNullTerm() {
-        assertFalse(getPredicateToFilterByTitle(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByTitle(Optional.ofNullable(null)).test(classNull));
     }
 
+    @Test
+    public void testGetPredicateToFilerBySubjectForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySubject(Optional.of("one_dept")).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilerBySubjectForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySubject(Optional.of("two_dept")).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilerBySubjectForNullTerm() {
+        assertTrue(getPredicateToFilterBySubject(Optional.ofNullable(null)).test(classNull));
+    }
 
 }
