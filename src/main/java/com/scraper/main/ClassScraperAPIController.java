@@ -118,7 +118,10 @@ public class ClassScraperAPIController {
     }
 
     private Predicate<Class> getPredicateToFilterByAttribute(Optional<Boolean> doesExist, String attributeType) {
-        return e -> !doesExist.isPresent() || (doesExist.get() == Boolean.TRUE ? e.getAttributes().toUpperCase().contains(attributeType) : doesExist.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains(attributeType));
+        return e ->
+                !doesExist.isPresent() ||
+                        (doesExist.get() == Boolean.TRUE ? e.getAttributes().toUpperCase().contains(attributeType) :
+                                doesExist.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains(attributeType));
     }
 
     private Predicate<Class> getPredicateToFilterByBuilding(Optional<String> building) {
@@ -162,7 +165,10 @@ public class ClassScraperAPIController {
     }
 
     private Predicate<Class> getPredicateToFilterBySession(Optional<String> session) {
-        return e -> !session.isPresent() || (session.get().equals("1") ? e.getSession().equals("Regular Academic Session") : e.getSession().equals(session.get()));
+        return e -> !session.isPresent() ||
+                (session.get().equals("1") ?
+                        e.getSession().equals("Regular Academic Session") :
+                        e.getSession().equals(session.get()));
     }
 
     private Predicate<Class> getPredicateToFilterByComponent(Optional<String> component) {
@@ -170,7 +176,10 @@ public class ClassScraperAPIController {
     }
 
     private Predicate<Class> getPredicateToFilterBySyllabus(Optional<Boolean> syllabus) {
-        return e -> !syllabus.isPresent() || (syllabus.get() == Boolean.TRUE ? !e.getSyllabus().equals("Unavailable") : syllabus.get() == Boolean.FALSE && e.getSyllabus().equals("Unavailable"));
+        return e -> !syllabus.isPresent() ||
+                (syllabus.get() == Boolean.TRUE ?
+                        !e.getSyllabus().equals("Unavailable") :
+                        syllabus.get() == Boolean.FALSE && e.getSyllabus().equals("Unavailable"));
     }
 
 }
