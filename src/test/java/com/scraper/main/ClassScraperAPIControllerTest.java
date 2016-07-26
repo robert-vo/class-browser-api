@@ -1,6 +1,7 @@
 package com.scraper;
 
 import com.scraper.main.Application;
+import com.scraper.main.ClassScraperAPIController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -45,4 +48,5 @@ public class ClassScraperAPIControllerTest {
 //				.andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
 //
 	}
+
 }
