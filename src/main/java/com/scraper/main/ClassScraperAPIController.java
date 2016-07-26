@@ -16,7 +16,8 @@ public class ClassScraperAPIController {
 
     private ClassScraper classScraper;
     private List<Class> allClasses = new LinkedList<>();
-
+    final private String CORE = "CORE";
+    final private String ONLINE = "DISTANCE";
     ClassScraperAPIController() {
         loadAllClassesFromScraping();
     }
@@ -34,53 +35,53 @@ public class ClassScraperAPIController {
     }
 
     @RequestMapping(value = "/api/classes", method = RequestMethod.GET)
-    public List<Class> getAllClasses(@RequestParam(value = "term", required = true)               Optional<String>    term,
-                                       @RequestParam(value = "title", required = false)           Optional<String>    title,
-                                       @RequestParam(value = "subject", required = false)         Optional<String>    subject,
-                                       @RequestParam(value = "status", required = false)          Optional<String>    status,
-                                       @RequestParam(value = "instructorName", required = false)  Optional<String>    instructorName,
-                                       @RequestParam(value = "location", required = false)        Optional<String>    location,
-                                       @RequestParam(value = "building", required = false)        Optional<String>    building,
-                                       @RequestParam(value = "format", required = false)          Optional<String>    format,
-                                       @RequestParam(value = "duration", required = false)        Optional<String>    duration,
-                                       @RequestParam(value = "session", required = false)         Optional<String>    session,
-                                       @RequestParam(value = "component", required = false)       Optional<String>    component,
-                                       @RequestParam(value = "hours", required = false)           Optional<Integer>   hours,
-                                       @RequestParam(value = "online", required = false)          Optional<Boolean>   online,
-                                       @RequestParam(value = "core", required = false)            Optional<Boolean>   core,
-                                       @RequestParam(value = "monday", required = false)          Optional<Boolean>   isMonday,
-                                       @RequestParam(value = "tuesday", required = false)         Optional<Boolean>   isTuesday,
-                                       @RequestParam(value = "wednesday", required = false)       Optional<Boolean>   isWednesday,
-                                       @RequestParam(value = "thursday", required = false)        Optional<Boolean>   isThursday,
-                                       @RequestParam(value = "friday", required = false)          Optional<Boolean>   isFriday,
-                                       @RequestParam(value = "saturday", required = false)        Optional<Boolean>   isSaturday,
-                                       @RequestParam(value = "sunday", required = false)          Optional<Boolean>   isSunday,
-                                       @RequestParam(value = "syllabus", required = false)        Optional<Boolean>   syllabus) {
+    public List<Class> getAllClasses(@RequestParam(value = "term", required = true)             Optional<String>    term,
+                                     @RequestParam(value = "title", required = false)           Optional<String>    title,
+                                     @RequestParam(value = "subject", required = false)         Optional<String>    subject,
+                                     @RequestParam(value = "status", required = false)          Optional<String>    status,
+                                     @RequestParam(value = "instructorName", required = false)  Optional<String>    instructorName,
+                                     @RequestParam(value = "location", required = false)        Optional<String>    location,
+                                     @RequestParam(value = "building", required = false)        Optional<String>    building,
+                                     @RequestParam(value = "format", required = false)          Optional<String>    format,
+                                     @RequestParam(value = "duration", required = false)        Optional<String>    duration,
+                                     @RequestParam(value = "session", required = false)         Optional<String>    session,
+                                     @RequestParam(value = "component", required = false)       Optional<String>    component,
+                                     @RequestParam(value = "hours", required = false)           Optional<Integer>   hours,
+                                     @RequestParam(value = "online", required = false)          Optional<Boolean>   online,
+                                     @RequestParam(value = "core", required = false)            Optional<Boolean>   core,
+                                     @RequestParam(value = "monday", required = false)          Optional<Boolean>   isMonday,
+                                     @RequestParam(value = "tuesday", required = false)         Optional<Boolean>   isTuesday,
+                                     @RequestParam(value = "wednesday", required = false)       Optional<Boolean>   isWednesday,
+                                     @RequestParam(value = "thursday", required = false)        Optional<Boolean>   isThursday,
+                                     @RequestParam(value = "friday", required = false)          Optional<Boolean>   isFriday,
+                                     @RequestParam(value = "saturday", required = false)        Optional<Boolean>   isSaturday,
+                                     @RequestParam(value = "sunday", required = false)          Optional<Boolean>   isSunday,
+                                     @RequestParam(value = "syllabus", required = false)        Optional<Boolean>   syllabus) {
 
         return allClasses
                 .stream()
-                .filter(filterByTerm(term))
-                .filter(e -> !title.isPresent() || e.getClassTitle().equals(title.get()))
-                .filter(e -> !subject.isPresent() || e.getDepartmentAbbreviation().equals(subject.get().toUpperCase()))
-                .filter(e -> !hours.isPresent() || getClassHours(e.getDepartmentCourseNumber()) == hours.get())
-                .filter(e -> !status.isPresent() || e.getClassStatus().toString().equals(status.get()))
-                .filter(e -> !core.isPresent() || (core.get() == Boolean.TRUE ? e.getAttributes().toUpperCase().contains("CORE") : core.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains("CORE")))
-                .filter(e -> !online.isPresent() || (online.get() == Boolean.TRUE ? e.getAttributes().toUpperCase().contains("DISTANCE") : online.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains("DISTANCE")))
-                .filter(e -> !isMonday.isPresent() || e.isMondayClass())
-                .filter(e -> !isTuesday.isPresent() || e.isTuesdayClass())
-                .filter(e -> !isWednesday.isPresent() || e.isWednesdayClass())
-                .filter(e -> !isThursday.isPresent() || e.isThursdayClass())
-                .filter(e -> !isFriday.isPresent() || e.isFridayClass())
-                .filter(e -> !isSaturday.isPresent() || e.isSaturdayClass())
-                .filter(e -> !isSunday.isPresent() || e.isSundayClass())
-                .filter(e -> !instructorName.isPresent() || e.getInstructorName().equals(instructorName.get()))
-                .filter(e -> !location.isPresent() || e.getLocation().equals(location.get()))
-                .filter(e -> !building.isPresent() || e.getBuildingAbbreviation().equals(building.get()))
-                .filter(e -> !format.isPresent() || e.getFormat().equals(format.get()))
-                .filter(e -> !duration.isPresent() || e.getDuration().equals(duration.get()))
-                .filter(e -> !session.isPresent() || (session.get().equals("1") ? e.getSession().equals("Regular Academic Session") : e.getSession().equals(session.get())))
-                .filter(e -> !component.isPresent() || e.getComponent().equals(component.get()))
-                .filter(e -> !syllabus.isPresent() || (syllabus.get() == Boolean.TRUE ? !e.getSyllabus().equals("Unavailable") : syllabus.get() == Boolean.FALSE && e.getSyllabus().equals("Unavailable")))
+                .filter(getPredicateToFilterByTerm(term))
+                .filter(getPredicateToFilterByTitle(title))
+                .filter(getPredicateToFilterBySubject(subject))
+                .filter(getPredicateToFilterByHours(hours))
+                .filter(getPredicateToFilterByStatus(status))
+                .filter(getPredicateToFilterByAttribute(core, CORE))
+                .filter(getPredicateToFilterByAttribute(online, ONLINE))
+                .filter(getPredicateToFilterByMonday(isMonday))
+                .filter(getPredicateToFilterByTuesday(isTuesday))
+                .filter(getPredicateToFilterByWednesday(isWednesday))
+                .filter(getPredicateToFilterByThursday(isThursday))
+                .filter(getPredicateToFilterByFriday(isFriday))
+                .filter(getPredicateToFilterBySaturday(isSaturday))
+                .filter(getPredicateToFilterBySunday(isSunday))
+                .filter(getPredicateToFilterByInstructorName(instructorName))
+                .filter(getPredicateToFilterByLocation(location))
+                .filter(getPredicateToFilterByBuilding(building))
+                .filter(getPredicateToFilterByFormat(format))
+                .filter(getPredicateToFilterByDuration(duration))
+                .filter(getPredicateToFilterBySession(session))
+                .filter(getPredicateToFilterByComponent(component))
+                .filter(getPredicateToFilterBySyllabus(syllabus))
                 .collect(Collectors.toList());
     }
 
@@ -88,8 +89,88 @@ public class ClassScraperAPIController {
         return Character.getNumericValue(classTitle.charAt(1));
     }
 
-    private Predicate<Class> filterByTerm(Optional<String> term) {
-        return aClass -> !term.isPresent() || aClass.getTerm().getTermID().equals(term.get());
+    private Predicate<Class> getPredicateToFilterByTerm(Optional<String> term) {
+        return e -> !term.isPresent() || e.getTerm().getTermID().equals(term.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterByTitle(Optional<String> title) {
+        return e -> !title.isPresent() || e.getClassTitle().toUpperCase().equals(title.get().toUpperCase());
+    }
+
+    private Predicate<Class> getPredicateToFilterBySubject(Optional<String> subject) {
+        return e -> !subject.isPresent() || e.getDepartmentAbbreviation().toUpperCase().equals(subject.get().toUpperCase());
+    }
+
+    private Predicate<Class> getPredicateToFilterByHours(Optional<Integer> hours) {
+        return e -> !hours.isPresent() || getClassHours(e.getDepartmentCourseNumber()) == hours.get();
+    }
+
+    private Predicate<Class> getPredicateToFilterByStatus(Optional<String> status) {
+        return e -> !status.isPresent() || e.getClassStatus().toString().equals(status.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterByInstructorName(Optional<String> instructorName) {
+        return aClass -> !instructorName.isPresent() || aClass.getInstructorName().equals(instructorName.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterByLocation(Optional<String> location) {
+        return e -> !location.isPresent() || e.getLocation().equals(location.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterByAttribute(Optional<Boolean> doesExist, String attributeType) {
+        return e -> !doesExist.isPresent() || (doesExist.get() == Boolean.TRUE ? e.getAttributes().toUpperCase().contains(attributeType) : doesExist.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains(attributeType));
+    }
+
+    private Predicate<Class> getPredicateToFilterByBuilding(Optional<String> building) {
+        return e -> !building.isPresent() || e.getBuildingAbbreviation().equals(building.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterByMonday(Optional<Boolean> isMonday) {
+        return e -> !isMonday.isPresent() || e.isMondayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterByTuesday(Optional<Boolean> isTuesday) {
+        return e -> !isTuesday.isPresent() || e.isTuesdayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterByWednesday(Optional<Boolean> isWednesday) {
+        return e -> !isWednesday.isPresent() || e.isWednesdayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterByThursday(Optional<Boolean> isThursday) {
+        return e -> !isThursday.isPresent() || e.isThursdayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterByFriday(Optional<Boolean> isFriday) {
+        return e -> !isFriday.isPresent() || e.isFridayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterBySaturday(Optional<Boolean> isSaturday) {
+        return e -> !isSaturday.isPresent() || e.isSaturdayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterBySunday(Optional<Boolean> isSunday) {
+        return e -> !isSunday.isPresent() || e.isSundayClass();
+    }
+
+    private Predicate<Class> getPredicateToFilterByFormat(Optional<String> format) {
+        return e -> !format.isPresent() || e.getFormat().toUpperCase().equals(format.get().toUpperCase());
+    }
+
+    private Predicate<Class> getPredicateToFilterByDuration(Optional<String> duration) {
+        return e -> !duration.isPresent() || e.getDuration().equals(duration.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterBySession(Optional<String> session) {
+        return e -> !session.isPresent() || (session.get().equals("1") ? e.getSession().equals("Regular Academic Session") : e.getSession().equals(session.get()));
+    }
+
+    private Predicate<Class> getPredicateToFilterByComponent(Optional<String> component) {
+        return e -> !component.isPresent() || e.getComponent().equals(component.get());
+    }
+
+    private Predicate<Class> getPredicateToFilterBySyllabus(Optional<Boolean> syllabus) {
+        return e -> !syllabus.isPresent() || (syllabus.get() == Boolean.TRUE ? !e.getSyllabus().equals("Unavailable") : syllabus.get() == Boolean.FALSE && e.getSyllabus().equals("Unavailable"));
     }
 
 }
