@@ -26,7 +26,7 @@ public class PredicateClassUtilityTest {
     public void setUp() {
         classOne = new Class(Term.FALL_2016, "TitleA", "ONE_DEPT", "1111", Class.Status.Open, "Course", 0, 0, 0, null, null, "Core", null, null,
                 false, false, false, false, false, false, false, "classonename", "Email", "UH", "PGH", "Room", "Hybrid", "Description", "15 weeks",
-                "1", "LEC", "Syllabus");
+                "Regular Academic Session", "LEC", "Syllabus");
 
         classTwo = new Class(Term.SUMMER_2016, "TitleB", "TWO_DEPT", "9999", Class.Status.Closed, "Course", 0, 0, 0, null, null, "Distance", null, null,
                 true, true, true, true, true, true, true, "classtwoname", "Email", "UHV", "SEC", "Room", "Online", "Description", "6 weeks",
@@ -290,5 +290,79 @@ public class PredicateClassUtilityTest {
         assertTrue(getPredicateToFilterBySunday(Optional.ofNullable(null)).test(classNull));
     }
 
+    @Test
+    public void testGetPredicateToFilterByFormatForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByFormat(Optional.of("Hybrid")).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFormatForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByFormat(Optional.of("Online")).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFormatForNullTerm() {
+        assertTrue(getPredicateToFilterByFormat(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByDuration(Optional.of("15")).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByDuration(Optional.of("6")).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForNullTerm() {
+        assertTrue(getPredicateToFilterByDuration(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySessionForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySession(Optional.of("1")).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySessionForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySession(Optional.of("MIN")).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySessionForNullTerm() {
+        assertTrue(getPredicateToFilterBySession(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByComponent(Optional.of("lEc")).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByComponent(Optional.of("LaB")).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForNullTerm() {
+        assertTrue(getPredicateToFilterByComponent(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.of(Boolean.TRUE)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.of(Boolean.FALSE)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForNullTerm() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.ofNullable(null)).test(classNull));
+    }
 
 }
