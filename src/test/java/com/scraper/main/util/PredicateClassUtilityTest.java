@@ -56,7 +56,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByTitleForNullTerm() {
-        assertTrue(getPredicateToFilterByTitle(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByTitle(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterBySubjectForNullTerm() {
-        assertTrue(getPredicateToFilterBySubject(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterBySubject(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByHoursForNullTerm() {
-        assertTrue(getPredicateToFilterByHours(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByHours(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByStatusForNullTerm() {
-        assertTrue(getPredicateToFilterByStatus(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByStatus(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByInstructorNameForNullTerm() {
-        assertTrue(getPredicateToFilterByInstructorName(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByInstructorName(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -131,7 +131,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByLocationForNullTerm() {
-        assertTrue(getPredicateToFilterByLocation(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByLocation(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByCoreAttributeForNullTerm() {
-        assertTrue(getPredicateToFilterByAttribute(Optional.ofNullable(null), CORE).test(classNull));
+        assertTrue(getPredicateToFilterByAttribute(Optional.empty(), CORE).test(classNull));
     }
 
     @Test
@@ -161,7 +161,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByOnlineAttributeForNullTerm() {
-        assertTrue(getPredicateToFilterByAttribute(Optional.ofNullable(null), ONLINE).test(classNull));
+        assertTrue(getPredicateToFilterByAttribute(Optional.empty(), ONLINE).test(classNull));
     }
 
     @Test
@@ -176,7 +176,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByBuildingForNullTerm() {
-        assertTrue(getPredicateToFilterByBuilding(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByBuilding(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -191,7 +191,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByMondayForNullTerm() {
-        assertTrue(getPredicateToFilterByMonday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByMonday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByTuesdayForNullTerm() {
-        assertTrue(getPredicateToFilterByTuesday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByTuesday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByWednesdayForNullTerm() {
-        assertTrue(getPredicateToFilterByWednesday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByWednesday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -236,7 +236,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByThursdayForNullTerm() {
-        assertTrue(getPredicateToFilterByThursday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByThursday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -251,7 +251,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByFridayForNullTerm() {
-        assertTrue(getPredicateToFilterByFriday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByFriday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -266,7 +266,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterBySaturdayForNullTerm() {
-        assertTrue(getPredicateToFilterBySaturday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterBySaturday(Optional.empty()).test(classNull));
     }
 
 
@@ -282,7 +282,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterBySundayForNullTerm() {
-        assertTrue(getPredicateToFilterBySunday(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterBySunday(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -297,7 +297,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByFormatForNullTerm() {
-        assertTrue(getPredicateToFilterByFormat(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByFormat(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -312,7 +312,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByDurationForNullTerm() {
-        assertTrue(getPredicateToFilterByDuration(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByDuration(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -327,7 +327,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterBySessionForNullTerm() {
-        assertTrue(getPredicateToFilterBySession(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterBySession(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -342,7 +342,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterByComponentForNullTerm() {
-        assertTrue(getPredicateToFilterByComponent(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterByComponent(Optional.empty()).test(classNull));
     }
 
     @Test
@@ -357,7 +357,7 @@ public class PredicateClassUtilityTest {
 
     @Test
     public void testGetPredicateToFilterBySyllabusForNullTerm() {
-        assertTrue(getPredicateToFilterBySyllabus(Optional.ofNullable(null)).test(classNull));
+        assertTrue(getPredicateToFilterBySyllabus(Optional.empty()).test(classNull));
     }
 
 }
