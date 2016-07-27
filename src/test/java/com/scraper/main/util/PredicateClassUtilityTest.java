@@ -4,16 +4,11 @@ import com.scraper.main.Class;
 import com.scraper.main.Term;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.Optional;
-
 import static com.scraper.main.util.PredicateClassUtility.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Robert on 7/26/16.
- */
 public class PredicateClassUtilityTest {
 
     Class classOne;
