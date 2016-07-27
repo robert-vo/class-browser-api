@@ -17,8 +17,7 @@ public class ClassScraperAPIController {
 
     private ClassScraper classScraper;
     private List<Class> allClasses = new LinkedList<>();
-    final private String CORE = "CORE";
-    final private String ONLINE = "DISTANCE";
+
     ClassScraperAPIController() {
         loadAllClassesFromScraping();
     }
@@ -30,7 +29,7 @@ public class ClassScraperAPIController {
 //        allClasses.addAll(classScraper.getAllClasses());
 
         classScraper = new ClassScraper(2016, "Summer");
-        classScraper.setPageLimit(1);
+        classScraper.setPageLimit(5);
         classScraper.startScraper();
         allClasses.addAll(classScraper.getAllClasses());
     }
@@ -66,8 +65,8 @@ public class ClassScraperAPIController {
                 .filter(getPredicateToFilterBySubject(subject))
                 .filter(getPredicateToFilterByHours(hours))
                 .filter(getPredicateToFilterByStatus(status))
-                .filter(getPredicateToFilterByAttribute(core, CORE))
-                .filter(getPredicateToFilterByAttribute(online, ONLINE))
+                .filter(getPredicateToFilterByAttribute(core, "CORE"))
+                .filter(getPredicateToFilterByAttribute(online, "ONLINE"))
                 .filter(getPredicateToFilterByMonday(isMonday))
                 .filter(getPredicateToFilterByTuesday(isTuesday))
                 .filter(getPredicateToFilterByWednesday(isWednesday))
