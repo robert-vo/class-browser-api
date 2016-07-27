@@ -38,11 +38,11 @@ public class PredicateClassUtility {
      * @return
      */
     public static Predicate<Class> getPredicateToFilterByStatus(Optional<Boolean> status) {
-        return e -> !status.isPresent() || (status.get() == Boolean.TRUE ? e.getClassStatus().toString().equals("OPEN") : e.getClassStatus().toString().equals("CLOSED"));
+        return e -> !status.isPresent() || (status.get() == Boolean.TRUE ? e.getClassStatus().equals(Class.Status.Open) : e.getClassStatus().equals(Class.Status.Closed));
     }
 
     public static Predicate<Class> getPredicateToFilterByInstructorName(Optional<String> instructorName) {
-        return aClass -> !instructorName.isPresent() || aClass.getInstructorName().equals(instructorName.get());
+        return aClass -> !instructorName.isPresent() || aClass.getInstructorName().toUpperCase().equals(instructorName.get().toUpperCase());
     }
 
     public static Predicate<Class> getPredicateToFilterByLocation(Optional<String> location) {
