@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class ClassScraperAPIController {
                                      @RequestParam(value = "sunday", required = false)          Optional<Boolean>   isSunday,
                                      @RequestParam(value = "syllabus", required = false)        Optional<Boolean>   syllabus) {
 
-        return allClasses
+        return new ArrayList<>(allClasses
                 .parallelStream()
                 .filter(getPredicateToFilterByTerm(term))
                 .filter(getPredicateToFilterByTitle(title))
@@ -82,7 +83,7 @@ public class ClassScraperAPIController {
                 .filter(getPredicateToFilterBySession(session))
                 .filter(getPredicateToFilterByComponent(component))
                 .filter(getPredicateToFilterBySyllabus(syllabus))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
 }
