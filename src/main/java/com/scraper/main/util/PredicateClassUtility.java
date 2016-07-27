@@ -94,10 +94,10 @@ public class PredicateClassUtility {
      * If {@param doesExist} does not exist, the original stream will not be altered.
      */
     public static Predicate<Class> getPredicateToFilterByAttribute(Optional<Boolean> doesExist, String attributeType) {
-        return e ->
-                !doesExist.isPresent() ||
-                        (doesExist.get() == Boolean.TRUE ? e.getAttributes().contains(attributeType) :
-                                doesExist.get() != Boolean.FALSE || !e.getAttributes().contains(attributeType));
+        return e -> !doesExist.isPresent() ||
+                (doesExist.get() == Boolean.TRUE ?
+                        e.getAttributes().toUpperCase().contains(attributeType) :
+                        doesExist.get() != Boolean.FALSE || !e.getAttributes().toUpperCase().contains(attributeType));
     }
 
     /**
