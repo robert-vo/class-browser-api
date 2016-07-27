@@ -1,14 +1,9 @@
 package com.scraper.main;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.scraper.main.util.PredicateClassUtility.*;
@@ -17,25 +12,41 @@ import static com.scraper.main.util.PredicateClassUtility.*;
 public class ClassScraperAPIController {
 
     private ClassScraper classScraper;
-    private List<Class> allClasses = new LinkedList<>();
+    private HashSet<Class> allClasses = new HashSet<>();
+    private String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
     ClassScraperAPIController() {
         loadAllClassesFromScraping();
     }
 
     private void loadAllClassesFromScraping() {
-//        classScraper = new ClassScraper(2016, "Fall");
-//        classScraper.setPageLimit(150);
-//        classScraper.startScraper();
-//        allClasses.addAll(classScraper.getAllClasses());
-
-        classScraper = new ClassScraper(2016, "Summer");
-        classScraper.setPageLimit(5);
+        classScraper = new ClassScraper(2016, "Fall");
+        classScraper.setPageLimit(150);
         classScraper.startScraper();
         allClasses.addAll(classScraper.getAllClasses());
+
+        Timer timer = new Timer ();
+        TimerTask hourlyTask = new TimerTask() {
+            @Override
+            public void run () {
+                classScraper = new ClassScraper(2016, "Summer");
+                classScraper.setPageLimit(1);
+                classScraper.startScraper();
+                allClasses.addAll(classScraper.getAllClasses());
+                classScraper = new ClassScraper(2016, "Fall");
+                classScraper.setPageLimit(1);
+                classScraper.startScraper();
+                allClasses.addAll(classScraper.getAllClasses());
+                updateTimeStamp();
+            }
+        };
+
+        timer.schedule (hourlyTask, 0l, 100*60*60);
+
     }
 
     @RequestMapping(value = "/api/classes", method = RequestMethod.GET)
+    @ResponseBody
     public List<Class> getAllClasses(@RequestParam(value = "term", required = true)             String              term,
                                      @RequestParam(value = "title", required = false)           Optional<String>    title,
                                      @RequestParam(value = "subject", required = false)         Optional<String>    subject,
@@ -83,7 +94,16 @@ public class ClassScraperAPIController {
                 .filter(getPredicateToFilterBySession(session))
                 .filter(getPredicateToFilterByComponent(component))
                 .filter(getPredicateToFilterBySyllabus(syllabus))
+                .map(this::injectCurrentTime)
                 .collect(Collectors.toList()));
     }
 
+    private Class injectCurrentTime(Class c) {
+        c.setLastUpdated(timeStamp);
+        return c;
+    }
+
+    private void updateTimeStamp() {
+        timeStamp = new SimpleDateFormat("MM/dd/yyyy @ hh:mm:ss a").format(Calendar.getInstance().getTime());
+    }
 }
