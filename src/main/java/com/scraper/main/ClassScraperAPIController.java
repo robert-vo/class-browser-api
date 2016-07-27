@@ -20,11 +20,6 @@ public class ClassScraperAPIController {
     }
 
     private void loadAllClassesFromScraping() {
-        classScraper = new ClassScraper(2016, "Fall");
-        classScraper.setPageLimit(150);
-        classScraper.startScraper();
-        allClasses.addAll(classScraper.getAllClasses());
-
         Timer timer = new Timer ();
         TimerTask hourlyTask = new TimerTask() {
             @Override
