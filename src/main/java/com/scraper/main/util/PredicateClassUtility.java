@@ -8,12 +8,14 @@ import java.util.function.Predicate;
 public class PredicateClassUtility {
 
     /**
+     * @param term, a String literal of the Term object. The String must be in increments of 10 starting from 1970.
+     * 1970 = fall 2015
+     * 1980 = spring 2016
      * 1990 = summer 2016
      * 2000 = fall 2016
      * 2010 = spring 2017
-     * etc
-     * @param term
-     * @return
+     * etc.
+     * @return a predicate that will match the applied stream to specific terms.
      */
     public static Predicate<Class> getPredicateToFilterByTerm(String term) {
         return e -> e.getTerm().getTermID().equals(term);
@@ -127,19 +129,16 @@ public class PredicateClassUtility {
     }
 
     /**
-     * Options include
-     * LAB
-     * LEC
+     * @param component, a String literal that should be either 'Lab', or 'Lec', case in-sensitive.
+     * @return a predicate that will match the applied stream to specific class components.
      */
     public static Predicate<Class> getPredicateToFilterByComponent(Optional<String> component) {
         return e -> !component.isPresent() || e.getComponent().toUpperCase().equals(component.get().toUpperCase());
     }
 
     /**
-     * Options include
-     * 1, 0, yes, no, true, false
-     * @param syllabus
-     * @return
+     * @param syllabus, a Boolean object specifying TRUE for an available syllabus or FALSE for an unavailable syllabus.
+     * @return a predicate that will match the applied stream to an available or unavailable syllabus.
      */
     public static Predicate<Class> getPredicateToFilterBySyllabus(Optional<Boolean> syllabus) {
         return e -> !syllabus.isPresent() ||
