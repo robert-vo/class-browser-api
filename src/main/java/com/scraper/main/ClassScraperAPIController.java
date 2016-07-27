@@ -36,7 +36,7 @@ public class ClassScraperAPIController {
             }
         };
 
-        timer.schedule (hourlyTask, 0l, 100*60*60);
+        timer.schedule (hourlyTask, 0l, 341587*60*60);
 
     }
 
