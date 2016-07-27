@@ -6,6 +6,7 @@
     <groupId>com.robert.scraper-api</groupId>
     <artifactId>ClassScraper-api</artifactId>
     <version>1.0</version>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -44,11 +45,6 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.10.19</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.7</version>
         </dependency>
     </dependencies>
 
