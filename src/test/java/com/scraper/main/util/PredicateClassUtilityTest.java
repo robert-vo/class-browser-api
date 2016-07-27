@@ -184,4 +184,194 @@ public class PredicateClassUtilityTest {
         assertTrue(getPredicateToFilterByBuilding(Optional.ofNullable(null)).test(classNull));
     }
 
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+
+    @Test
+    public void testGetPredicateToFilterByMondayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByMonday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByMondayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByMonday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByMondayForNullTerm() {
+        assertTrue(getPredicateToFilterByMonday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByTuesdayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByTuesday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByTuesdayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByTuesday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByTuesdayForNullTerm() {
+        assertTrue(getPredicateToFilterByTuesday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByWednesdayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByWednesday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByWednesdayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByWednesday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByWednesdayForNullTerm() {
+        assertTrue(getPredicateToFilterByWednesday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByThursdayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByThursday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByThursdayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByThursday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByThursdayForNullTerm() {
+        assertTrue(getPredicateToFilterByThursday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFridayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByFriday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFridayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByFriday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFridayForNullTerm() {
+        assertTrue(getPredicateToFilterByFriday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySaturdayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySaturday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySaturdayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySaturday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySaturdayForNullTerm() {
+        assertTrue(getPredicateToFilterBySaturday(Optional.ofNullable(null)).test(classNull));
+    }
+
+
+    @Test
+    public void testGetPredicateToFilterBySundayForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySunday(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySundayForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySunday(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySundayForNullTerm() {
+        assertTrue(getPredicateToFilterBySunday(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFormatForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByFormat(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFormatForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByFormat(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByFormatForNullTerm() {
+        assertTrue(getPredicateToFilterByFormat(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByDuration(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByDuration(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByDurationForNullTerm() {
+        assertTrue(getPredicateToFilterByDuration(Optional.ofNullable(null)).test(classNull));
+    }
+    @Test
+    public void testGetPredicateToFilterBySessionForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySession(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySessionForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySession(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySessionForNullTerm() {
+        assertTrue(getPredicateToFilterBySession(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForValidTermFall2016() {
+        assertTrue(getPredicateToFilterByComponent(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterByComponent(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterByComponentForNullTerm() {
+        assertTrue(getPredicateToFilterByComponent(Optional.ofNullable(null)).test(classNull));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForValidTermFall2016() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.of(1)).test(classOne));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForValidTermSummer2016() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.of(9)).test(classTwo));
+    }
+
+    @Test
+    public void testGetPredicateToFilterBySyllabusForNullTerm() {
+        assertTrue(getPredicateToFilterBySyllabus(Optional.ofNullable(null)).test(classNull));
+    }
+
 }
