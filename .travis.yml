@@ -1,4 +1,6 @@
 language: java
 jdk:
   - oraclejdk8
+before_script:
+    - curl https://github.com/robert-vo/Class-Scraper/releases/download/1.0/ClassScraper-1.0.jar
 script: mvn clean install
