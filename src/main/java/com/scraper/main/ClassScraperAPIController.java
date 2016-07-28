@@ -25,18 +25,32 @@ public class ClassScraperAPIController {
             @Override
             public void run () {
                 classScraper = new ClassScraper(2016, "Summer");
-                classScraper.setPageLimit(1);
+
+                Optional<String> envVariable = Optional.ofNullable(System.getenv("pageLimit"));
+                if(envVariable.isPresent()) {
+                    classScraper.setPageLimit(Integer.parseInt(envVariable.get()));
+                }
+                else {
+                    classScraper.setPageLimit(1);
+                }
                 classScraper.startScraper();
                 allClasses.addAll(classScraper.getAllClasses());
                 classScraper = new ClassScraper(2016, "Fall");
-                classScraper.setPageLimit(1);
+
+                if(envVariable.isPresent()) {
+                    classScraper.setPageLimit(Integer.parseInt(envVariable.get()));
+                }
+                else {
+                    classScraper.setPageLimit(1);
+                }
+
                 classScraper.startScraper();
                 allClasses.addAll(classScraper.getAllClasses());
                 updateTimeStamp();
             }
         };
 
-        timer.schedule (hourlyTask, 0l, 341587*60*60);
+        timer.schedule (hourlyTask, 60*60*24, 60*60*24*100);
 
     }
 
