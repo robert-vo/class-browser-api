@@ -3,4 +3,3 @@ jdk:
   - oraclejdk8
 script:
     mvn -f pom-travis-ci.xml
-    mvn clean install
