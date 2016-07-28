@@ -2,5 +2,6 @@ language: java
 jdk:
   - oraclejdk8
 script:
-    mvn install:install-file -Dfile=lib/ClassScraper-1.0.jar
+    mvn install:install-file -Dfile=lib/ClassScraper-1.0.jar -DgroupId=com.robert.scraper \
+        -DartifactId=ClassScraper -Dversion=1.0 -Dpackaging=jar
     mvn clean install
