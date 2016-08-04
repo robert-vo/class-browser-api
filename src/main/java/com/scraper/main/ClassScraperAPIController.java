@@ -19,7 +19,6 @@ public class ClassScraperAPIController {
     private ClassScraper classScraper;
     private HashSet<ClassInformation> allClassInformations = new HashSet<>();
     private HashSet<Class> allClasses = new HashSet<>();
-    private String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
     static Properties properties = new Properties();
     static String jdbcDriver;
     static String databaseURL;
@@ -131,20 +130,10 @@ public class ClassScraperAPIController {
                 .collect(Collectors.toList()));
     }
 
-    private ClassInformation injectCurrentTime(ClassInformation c) {
-//        c.setLastUpdated(timeStamp);
-        return c;
-    }
-
-    private void updateTimeStamp() {
-        timeStamp = new SimpleDateFormat("MM/dd/yyyy @ hh:mm:ss a").format(Calendar.getInstance().getTime());
-    }
-
-
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term) {
-        List<ClassInformation> allClassInformations = new LinkedList<>();
+        List<ClassInformation> allClassInformation = new LinkedList<>();
 
         final String SQL_QUERY_ALL_CLASSES = "SELECT * FROM class, building, department, terms WHERE class.TERM_ID = ? AND " +
                 "building.building_abbreviation = class.building_abbv AND " +
@@ -163,12 +152,12 @@ public class ClassScraperAPIController {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ClassInformation c = getClassEntryFromResultSet(resultSet);
-                allClassInformations.add(c);
+                allClassInformation.add(c);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return allClassInformations;
+        return allClassInformation;
     }
 
     private ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
