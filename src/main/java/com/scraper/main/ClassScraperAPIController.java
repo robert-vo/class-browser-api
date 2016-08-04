@@ -40,40 +40,6 @@ public class ClassScraperAPIController {
         passWord        = properties.getProperty("passWord");
     }
 
-    private void loadAllClassesFromScraping() {
-        Timer timer = new Timer ();
-        TimerTask hourlyTask = new TimerTask() {
-            @Override
-            public void run () {
-                classScraper = new ClassScraper(2016, "Summer");
-
-                Optional<String> envVariable = Optional.ofNullable(System.getenv("pageLimit"));
-                if(envVariable.isPresent()) {
-                    classScraper.setPageLimit(Integer.parseInt(envVariable.get()));
-                }
-                else {
-                    classScraper.setPageLimit(1);
-                }
-                classScraper.startScraper();
-                allClasses.addAll(classScraper.getAllClasses());
-                classScraper = new ClassScraper(2016, "Fall");
-
-                if(envVariable.isPresent()) {
-                    classScraper.setPageLimit(Integer.parseInt(envVariable.get()));
-                }
-                else {
-                    classScraper.setPageLimit(1);
-                }
-
-                classScraper.startScraper();
-                allClasses.addAll(classScraper.getAllClasses());
-            }
-        };
-
-//        timer.schedule (hourlyTask, 60*60*24, 60*60*24*100);
-
-    }
-
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term) {
