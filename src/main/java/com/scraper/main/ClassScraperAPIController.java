@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.scraper.main.util.PredicateClassUtility.*;
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +23,6 @@ public class ClassScraperAPIController {
     static String useSSL;
 
     ClassScraperAPIController() throws IOException {
-        loadAllClassesFromScraping();
         setDatabaseConfigurations();
     }
 
@@ -73,20 +69,20 @@ public class ClassScraperAPIController {
     private ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
 
         HashMap<String, String> termInformation = new LinkedHashMap<>();
-        termInformation.put("term_id", rs.getString("term_id"));
-        termInformation.put("year",    rs.getString("year"));
+        termInformation.put("termID",  rs.getString("term_id"));
+        termInformation.put("year",     rs.getString("year"));
         termInformation.put("semester", rs.getString("semester"));
 
         HashMap<String, Integer> seatInformation = new LinkedHashMap<>();
-        seatInformation.put("seatsTaken", rs.getInt("seats_taken"));
-        seatInformation.put("seatsAvailable", rs.getInt("seats_available"));
-        seatInformation.put("seatsTotal", rs.getInt("seats_total"));
+        seatInformation.put("seatsTaken",       rs.getInt("seats_taken"));
+        seatInformation.put("seatsAvailable",   rs.getInt("seats_available"));
+        seatInformation.put("seatsTotal",       rs.getInt("seats_total"));
 
         HashMap<String, String> dateTimeInformation = new LinkedHashMap<>();
-        dateTimeInformation.put("startDate", rs.getString("start_date"));
-        dateTimeInformation.put("endDate", rs.getString("end_date"));
-        dateTimeInformation.put("startTime", rs.getString("start_time"));
-        dateTimeInformation.put("endTime", rs.getString("end_time"));
+        dateTimeInformation.put("startDate",    rs.getString("start_date"));
+        dateTimeInformation.put("endDate",      rs.getString("end_date"));
+        dateTimeInformation.put("startTime",    rs.getString("start_time"));
+        dateTimeInformation.put("endTime",      rs.getString("end_time"));
 
         HashMap<String, Boolean> classDays = new LinkedHashMap<>();
         classDays.put("monday",     rs.getBoolean("monday"));
@@ -99,36 +95,26 @@ public class ClassScraperAPIController {
 
         HashMap<String, String> departmentInformation = new LinkedHashMap<>();
         departmentInformation.put("department",         rs.getString("department"));
-        departmentInformation.put("department name",    rs.getString("department_name"));
+        departmentInformation.put("departmentName",     rs.getString("department_name"));
 
         HashMap<String, String> locationInformation = new LinkedHashMap<>();
-        locationInformation.put("location",            rs.getString("location"));
-        locationInformation.put("building_id",            rs.getString("building_id"));
-        locationInformation.put("building_abbreviation",  rs.getString("building_abbreviation"));
-        locationInformation.put("building_name",          rs.getString("building_name"));
+        locationInformation.put("location",               rs.getString("location"));
+        locationInformation.put("buildingID",             rs.getString("building_id"));
+        locationInformation.put("buildingAbbreviation",   rs.getString("building_abbreviation"));
+        locationInformation.put("buildingName",           rs.getString("building_name"));
 
         HashMap<String, String> instructorInformation = new LinkedHashMap<>();
-        instructorInformation.put("instructor",            rs.getString("instructor"));
-        instructorInformation.put("instructor_email",      rs.getString("instructor_email"));
+        instructorInformation.put("instructor",         rs.getString("instructor"));
+        instructorInformation.put("instructorEmail",    rs.getString("instructor_email"));
 
-        ClassInformation c = new ClassInformation(
-                termInformation,
-                rs.getString("Title"),
-                departmentInformation,
-                rs.getString("Status"),
-                rs.getString("crn"),
-                seatInformation,
-                dateTimeInformation,
-                rs.getString("attributes"),
-                classDays,
-                instructorInformation,
-                locationInformation,
-                rs.getString("format"),
-                rs.getString("description"),
-                rs.getString("duration"),
-                rs.getString("session"),
-                rs.getString("component"),
-                rs.getString("syllabus"),
+        ClassInformation c = new ClassInformation(termInformation,
+                rs.getString("Title"), departmentInformation,
+                rs.getString("Status"), rs.getString("crn"),
+                seatInformation, dateTimeInformation, rs.getString("attributes"),
+                classDays, instructorInformation, locationInformation,
+                rs.getString("format"), rs.getString("description"),
+                rs.getString("duration"), rs.getString("session"),
+                rs.getString("component"), rs.getString("syllabus"),
                 rs.getString("last_updated_at"));
         return c;
     }
