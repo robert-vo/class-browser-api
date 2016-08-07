@@ -25,7 +25,30 @@ public class ClassInformation {
     private String session;
     private String component;
     private String syllabus;
+    private String core[];
     private String lastUpdated;
+
+    public ClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
+        this.termInformation = termInformation;
+        this.classTitle = classTitle;
+        this.departmentInformation = departmentInformation;
+        this.classStatus = classStatus;
+        this.courseNumber = courseNumber;
+        this.seatInformation = seatInformation;
+        this.dateTimeInformation = dateTimeInformation;
+        this.attributes = attributes;
+        this.classDays = classDays;
+        this.instructorInformation = instructorInformation;
+        this.locationInformation = locationInformation;
+        this.format = format;
+        this.description = description;
+        this.duration = duration;
+        this.session = session;
+        this.component = component;
+        this.syllabus = syllabus;
+        this.core = core;
+        this.lastUpdated = lastUpdated;
+    }
 
     public HashMap<String, String> getTermInformation() {
         return termInformation;
@@ -163,32 +186,19 @@ public class ClassInformation {
         this.syllabus = syllabus;
     }
 
+    public String[] getCore() {
+        return core;
+    }
+
+    public void setCore(String[] core) {
+        this.core = core;
+    }
+
     public String getLastUpdated() {
         return lastUpdated;
     }
 
     public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public ClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String lastUpdated) {
-        this.termInformation = termInformation;
-        this.classTitle = classTitle;
-        this.departmentInformation = departmentInformation;
-        this.classStatus = classStatus;
-        this.courseNumber = courseNumber;
-        this.seatInformation = seatInformation;
-        this.dateTimeInformation = dateTimeInformation;
-        this.attributes = attributes;
-        this.classDays = classDays;
-        this.instructorInformation = instructorInformation;
-        this.locationInformation = locationInformation;
-        this.format = format;
-        this.description = description;
-        this.duration = duration;
-        this.session = session;
-        this.component = component;
-        this.syllabus = syllabus;
         this.lastUpdated = lastUpdated;
     }
 }
