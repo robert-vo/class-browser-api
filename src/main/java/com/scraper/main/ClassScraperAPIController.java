@@ -36,15 +36,25 @@ public class ClassScraperAPIController {
         passWord        = properties.getProperty("passWord");
     }
 
+    @RequestMapping(value = "/core={core}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ClassInformation> getAllCoreCourses(@PathVariable(value = "core") String core) {
+        List<ClassInformation> allClassInformation = new LinkedList<>();
+        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class, ";
+        return null;
+    }
+
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term) {
         List<ClassInformation> allClassInformation = new LinkedList<>();
 
-        final String SQL_QUERY_ALL_CLASSES = "SELECT * FROM class, building, department, terms WHERE class.TERM_ID = ? AND " +
+        final String SQL_QUERY_ALL_CLASSES = "SELECT * FROM class, building, department, terms, class_information " +
+                "WHERE class.TERM_ID = ? AND " +
                 "building.building_abbreviation = class.building_abbv AND " +
                 "department.department_abbreviation = class.department AND " +
-                "terms.term_id = class.term_id";
+                "terms.term_id = class.term_id AND " +
+                "class.department_crn = class_information.department_crn";
 
         try {
             java.lang.Class.forName(jdbcDriver);
@@ -107,14 +117,21 @@ public class ClassScraperAPIController {
         instructorInformation.put("instructor",         rs.getString("instructor"));
         instructorInformation.put("instructorEmail",    rs.getString("instructor_email"));
 
+        Optional<String> possibleCoreClasses = Optional.ofNullable(rs.getString("CORE"));
+        String[] core = null;
+        if(possibleCoreClasses.isPresent()) {
+            core = possibleCoreClasses.get().split(",");
+        }
+
         ClassInformation c = new ClassInformation(termInformation,
-                rs.getString("Title"), departmentInformation,
+                rs.getString("CLASS_TITLE"), departmentInformation,
                 rs.getString("Status"), rs.getString("crn"),
                 seatInformation, dateTimeInformation, rs.getString("attributes"),
                 classDays, instructorInformation, locationInformation,
-                rs.getString("format"), rs.getString("description"),
+                rs.getString("format"), rs.getString("CLASS_DESCRIPTION"),
                 rs.getString("duration"), rs.getString("session"),
                 rs.getString("component"), rs.getString("syllabus"),
+                core,
                 rs.getString("last_updated_at"));
         return c;
     }
