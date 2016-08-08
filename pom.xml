@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.github.robert-vo</groupId>
             <artifactId>Class-Scraper</artifactId>
-            <version>v1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
