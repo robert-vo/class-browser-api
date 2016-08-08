@@ -12,7 +12,6 @@ import java.util.*;
 @RequestMapping("/api")
 public class ClassScraperAPIController {
 
-    private ClassScraper classScraper;
     private HashSet<Class> allClasses = new HashSet<>();
     static Properties properties = new Properties();
     static String jdbcDriver;
@@ -38,17 +37,41 @@ public class ClassScraperAPIController {
 
     @RequestMapping(value = "/core={core}", method = RequestMethod.GET)
     @ResponseBody
-    public List<ClassInformation> getAllCoreCourses(@PathVariable(value = "core") String core) {
-        List<ClassInformation> allClassInformation = new LinkedList<>();
-        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class, ";
-        return null;
+    public List<CoreClassInformation> getAllCoreCourses(@PathVariable(value = "core") String core) {
+        List<CoreClassInformation> allClassInformation = new LinkedList<>();
+        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
+                "where (core = ? or core like '?,%' or core like '%, ?') " +
+                "and ? = core.core_id";
+        handleJavaLangClassDriver();
+        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
+            PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
+            preparedStatement.setString(1, core);
+            preparedStatement.setString(2, core);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                CoreClassInformation c;
+                c = new CoreClassInformation(resultSet.getString("Department"),
+                        resultSet.getString("Department_crn"),
+                        resultSet.getString("class_description"),
+                        resultSet.getString("class_title"),
+                        resultSet.getInt("credit_hours"),
+                        resultSet.getString("core"),
+                        resultSet.getInt("core_id"),
+                        resultSet.getString("core_title"),
+                        resultSet.getInt("hours_required"));
+                allClassInformation.add(c);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allClassInformation;
     }
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term) {
         List<ClassInformation> allClassInformation = new LinkedList<>();
-
         final String SQL_QUERY_ALL_CLASSES = "SELECT * FROM class, building, department, terms, class_information " +
                 "WHERE class.TERM_ID = ? AND " +
                 "building.building_abbreviation = class.building_abbv AND " +
@@ -56,11 +79,7 @@ public class ClassScraperAPIController {
                 "terms.term_id = class.term_id AND " +
                 "class.department_crn = class_information.department_crn";
 
-        try {
-            java.lang.Class.forName(jdbcDriver);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        handleJavaLangClassDriver();
 
         try (Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_ALL_CLASSES);
@@ -74,6 +93,14 @@ public class ClassScraperAPIController {
             e.printStackTrace();
         }
         return allClassInformation;
+    }
+
+    private void handleJavaLangClassDriver() {
+        try {
+            java.lang.Class.forName(jdbcDriver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
