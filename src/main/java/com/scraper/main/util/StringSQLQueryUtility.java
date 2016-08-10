@@ -2,9 +2,6 @@ package com.scraper.main.util;
 
 import java.util.Map;
 
-/**
- * Created by Robert on 8/10/16.
- */
 public class StringSQLQueryUtility {
     final static String TRUE_VALUES    = "1|true|yes";
     final static String FALSE_VALUES   = "0|false|no";
@@ -14,6 +11,7 @@ public class StringSQLQueryUtility {
     final static String FORMAT_COLUMN  = " class.format ";
     final static String ONLINE         = "'ONLINE'";
     final static String HYBRID         = "'HYBRID'";
+    final static String FACE_TO_FACE   = "'Face To Face'";
     final static String SQL_QUERY_FOR_ALL_TERMS = "SELECT * FROM class, building, department, terms, class_information " +
             "WHERE class.TERM_ID = ? AND " +
             "building.building_abbreviation = class.building_abbv AND " +
@@ -54,9 +52,15 @@ public class StringSQLQueryUtility {
             }
             else if (s.equalsIgnoreCase("facetoface")) {
                 if (params.get(s).matches(TRUE_VALUES)) {
-                    sqlQuery.append("AND class.format = 'Face to Face' ");
+                    sqlQuery.append(AND)
+                            .append(FORMAT_COLUMN)
+                            .append(EQUALS)
+                            .append(FACE_TO_FACE);
                 } else if (params.get(s).matches(FALSE_VALUES)) {
-                    sqlQuery.append("AND class.format <> 'Face to Face' ");
+                    sqlQuery.append(AND)
+                            .append(FORMAT_COLUMN)
+                            .append(NOT_EQUALS)
+                            .append(FACE_TO_FACE);
                 }
             }
             else if (s.equalsIgnoreCase("status")) {
