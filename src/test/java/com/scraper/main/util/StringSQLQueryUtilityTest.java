@@ -130,5 +130,70 @@ public class StringSQLQueryUtilityTest {
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.session = 'MIN'");
     }
 
+    @Test
+    public void testBuildSqlQueryForDepartmentCOSC() {
+        paramMap.put("department", "COSC");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.department = 'COSC'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForDepartmentCRN1234() {
+        paramMap.put("department_crn", "1234");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.department_crn = '1234'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForLocationUH() {
+        paramMap.put("location", "UH");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.location = 'UH'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForComponentLAB() {
+        paramMap.put("component", "lab");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.component = 'lab'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForComponentLEC() {
+        paramMap.put("component", "lec");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.component = 'lec'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForBuildingSEC() {
+        paramMap.put("building", "SEC");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND building_abbreviation = 'SEC'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForBuildingAH() {
+        paramMap.put("building", "AH");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND building_abbreviation = 'AH'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForOneCreditHour() {
+        paramMap.put("credit_hours", "1");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND credit_hours = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForTwoCreditHours() {
+        paramMap.put("credit_hours", "2");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND credit_hours = '2'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForEnglishCore() {
+        paramMap.put("core", "1");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND (core = 1 or core like '1,%' or core like '%,1')");
+    }
+
+    @Test
+    public void testBuildSqlQueryForMathCore() {
+        paramMap.put("core", "2");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND (core = 2 or core like '2,%' or core like '%,2')");
+    }
 
 }
