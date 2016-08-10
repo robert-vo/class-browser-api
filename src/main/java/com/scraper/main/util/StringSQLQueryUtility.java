@@ -3,34 +3,36 @@ package com.scraper.main.util;
 import java.util.Map;
 
 public class StringSQLQueryUtility {
-    final static String TRUE_VALUES    = "1|true|yes";
-    final static String FALSE_VALUES   = "0|false|no";
-    final static String NOT_EQUALS     = "<> ";
-    final static String EQUALS         = "= ";
-    final static String AND            = "AND";
-    final static String FORMAT_COLUMN  = " class.format ";
-    final static String STATUS_COLUMN  = " class.status ";
-    final static String SESSION_COLUMN = " class.session ";
-    final static String DEPARTMENT_COLUMN = " class.department ";
-    final static String DEPARTMENT_CRN_COLUMN = " class.department_crn ";
-    final static String COMPONENT_COLUMN = " class.component ";
-    final static String LOCATION_COLUMN = " class.location ";
-    final static String BUILDING_COLUMN = " building_abbreviation ";
-    final static String CREDIT_HOURS_COLUMN = " credit_hours ";
-    final static String CORE_COLUMN = " core ";
-    final static String ONLINE         = "'ONLINE'";
-    final static String HYBRID         = "'HYBRID'";
-    final static String FACE_TO_FACE   = "'Face To Face'";
-    final static String OPEN           = "'Open'";
-    final static String CLOSED         = "'Closed'";
-    final static String REGULAR_ACADEMIC_SESSION         = "'Regular Academic Session'";
-    final static String MINI_SESSION    = "'MIN'";
-    final static String SQL_QUERY_FOR_ALL_TERMS = "SELECT * FROM class, building, department, terms, class_information " +
+
+
+    final static String TRUE_VALUES                 = "1|true|yes";
+    final static String FALSE_VALUES                = "0|false|no";
+    final static String NOT_EQUALS                  = "<> ";
+    final static String EQUALS                      = "= ";
+    final static String AND                         = " AND";
+    final static String FORMAT_COLUMN               = " class.format ";
+    final static String STATUS_COLUMN               = " class.status ";
+    final static String SESSION_COLUMN              = " class.session ";
+    final static String DEPARTMENT_COLUMN           = " class.department ";
+    final static String DEPARTMENT_CRN_COLUMN       = " class.department_crn ";
+    final static String COMPONENT_COLUMN            = " class.component ";
+    final static String LOCATION_COLUMN             = " class.location ";
+    final static String BUILDING_COLUMN             = " building_abbreviation ";
+    final static String CREDIT_HOURS_COLUMN         = " credit_hours ";
+    final static String CORE_COLUMN                 = " core ";
+    final static String ONLINE                      = "'ONLINE'";
+    final static String HYBRID                      = "'HYBRID'";
+    final static String FACE_TO_FACE                = "'Face To Face'";
+    final static String OPEN                        = "'Open'";
+    final static String CLOSED                      = "'Closed'";
+    final static String REGULAR_ACADEMIC_SESSION    = "'Regular Academic Session'";
+    final static String MINI_SESSION                = "'MIN'";
+    final static String SQL_QUERY_FOR_ALL_TERMS     = "SELECT * FROM class, building, department, terms, class_information " +
             "WHERE class.TERM_ID = ? AND " +
             "building.building_abbreviation = class.building_abbv AND " +
             "department.department_abbreviation = class.department AND " +
             "terms.term_id = class.term_id AND " +
-            "class.department_crn = class_information.department_crn ";
+            "class.department_crn = class_information.department_crn";
 
     public static String buildSqlQuery(Map<String, String> params) {
 
@@ -43,16 +45,10 @@ public class StringSQLQueryUtility {
             switch (s.toUpperCase()) {
                 case "ONLINE":
                     if (paramValue.matches(TRUE_VALUES)) {
-                        sqlQuery.append(AND)
-                                .append(FORMAT_COLUMN)
-                                .append(EQUALS)
-                                .append(ONLINE);
+                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, EQUALS, ONLINE));
                     }
                     else if (paramValue.matches(FALSE_VALUES)) {
-                        sqlQuery.append(AND)
-                                .append(FORMAT_COLUMN)
-                                .append(NOT_EQUALS)
-                                .append(ONLINE);
+                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, NOT_EQUALS, ONLINE));
                     }
                     break;
                 case "HYBRID":
@@ -172,7 +168,8 @@ public class StringSQLQueryUtility {
                             .append("'");
                     break;
                 case "CORE":
-                    sqlQuery.append("AND (core = ")
+                    sqlQuery.append(AND)
+                            .append(" (core = ")
                             .append(paramValue)
                             .append(" or core like '")
                             .append(paramValue)
@@ -185,5 +182,9 @@ public class StringSQLQueryUtility {
             }
         }
         return sqlQuery.toString();
+    }
+
+    private static String createStringFromColumnConditionValue(String column, String condition, String paramValue) {
+        return AND + column + condition + paramValue;
     }
 }
