@@ -73,7 +73,7 @@ public class ClassScraperAPIController {
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term,
                                                         @RequestParam Map<String, String> params) {
         List<ClassInformation> allClassInformation = new LinkedList<>();
-        final String SQL_QUERY_ALL_CLASSES = buildSqlQuery(term, params);
+        final String SQL_QUERY_ALL_CLASSES = buildSqlQuery(params);
 
         handleJavaLangClassDriver();
 
@@ -91,7 +91,7 @@ public class ClassScraperAPIController {
         return allClassInformation;
     }
 
-    private String buildSqlQuery(String term, Map<String, String> params) {
+    private String buildSqlQuery(Map<String, String> params) {
         final String SQL_QUERY_FOR_ALL_TERMS = "SELECT * FROM class, building, department, terms, class_information " +
                 "WHERE class.TERM_ID = ? AND " +
                 "building.building_abbreviation = class.building_abbv AND " +
