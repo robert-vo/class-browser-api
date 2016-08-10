@@ -11,6 +11,13 @@ public class StringSQLQueryUtility {
     final static String FORMAT_COLUMN  = " class.format ";
     final static String STATUS_COLUMN  = " class.status ";
     final static String SESSION_COLUMN = " class.session ";
+    final static String DEPARTMENT_COLUMN = " class.department ";
+    final static String DEPARTMENT_CRN_COLUMN = " class.department_crn ";
+    final static String COMPONENT_COLUMN = " class.component ";
+    final static String LOCATION_COLUMN = " class.location ";
+    final static String BUILDING_COLUMN = " building_abbreviation ";
+    final static String CREDIT_HOURS_COLUMN = " credit_hours ";
+    final static String CORE_COLUMN = " core ";
     final static String ONLINE         = "'ONLINE'";
     final static String HYBRID         = "'HYBRID'";
     final static String FACE_TO_FACE   = "'Face To Face'";
@@ -49,13 +56,13 @@ public class StringSQLQueryUtility {
                     }
                     break;
                 case "HYBRID":
-                    if (params.get(s).matches(TRUE_VALUES)) {
+                    if (paramValue.matches(TRUE_VALUES)) {
                         sqlQuery.append(AND)
                                 .append(FORMAT_COLUMN)
                                 .append(EQUALS)
                                 .append(HYBRID);
                     }
-                    else if (params.get(s).matches(FALSE_VALUES)) {
+                    else if (paramValue.matches(FALSE_VALUES)) {
                         sqlQuery.append(AND)
                                 .append(FORMAT_COLUMN)
                                 .append(NOT_EQUALS)
@@ -63,13 +70,13 @@ public class StringSQLQueryUtility {
                     }
                     break;
                 case "FACETOFACE":
-                    if (params.get(s).matches(TRUE_VALUES)) {
+                    if (paramValue.matches(TRUE_VALUES)) {
                         sqlQuery.append(AND)
                                 .append(FORMAT_COLUMN)
                                 .append(EQUALS)
                                 .append(FACE_TO_FACE);
                     }
-                    else if (params.get(s).matches(FALSE_VALUES)) {
+                    else if (paramValue.matches(FALSE_VALUES)) {
                         sqlQuery.append(AND)
                                 .append(FORMAT_COLUMN)
                                 .append(NOT_EQUALS)
@@ -77,13 +84,13 @@ public class StringSQLQueryUtility {
                     }
                     break;
                 case "STATUS":
-                    if (params.get(s).matches(TRUE_VALUES + "|open")) {
+                    if (paramValue.matches(TRUE_VALUES + "|open")) {
                         sqlQuery.append(AND)
                                 .append(STATUS_COLUMN)
                                 .append(EQUALS)
                                 .append(OPEN);
                     }
-                    else if (params.get(s).matches(FALSE_VALUES + "|closed")) {
+                    else if (paramValue.matches(FALSE_VALUES + "|closed")) {
                         sqlQuery.append(AND)
                                 .append(STATUS_COLUMN)
                                 .append(EQUALS)
@@ -115,35 +122,66 @@ public class StringSQLQueryUtility {
                                     .append(paramValue);
                             break;
                     }
+                    break;
+                case "DEPARTMENT":
+                    sqlQuery.append(AND)
+                            .append(DEPARTMENT_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "DEPARTMENT_CRN":
+                    sqlQuery.append(AND)
+                            .append(DEPARTMENT_CRN_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "LOCATION":
+                    sqlQuery.append(AND)
+                            .append(LOCATION_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "COMPONENT":
+                    sqlQuery.append(AND)
+                            .append(COMPONENT_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "BUILDING":
+                    sqlQuery.append(AND)
+                            .append(BUILDING_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "CREDIT_HOURS":
+                    sqlQuery.append(AND)
+                            .append(CREDIT_HOURS_COLUMN)
+                            .append(EQUALS)
+                            .append("'")
+                            .append(paramValue)
+                            .append("'");
+                    break;
+                case "CORE":
+                    sqlQuery.append("AND (core = ")
+                            .append(paramValue)
+                            .append(" or core like '")
+                            .append(paramValue)
+                            .append(",%' or core like '%,")
+                            .append(paramValue)
+                            .append("')");
+                    break;
                 default:
                     break;
-            }
-            if (s.equalsIgnoreCase("department")) {
-                sqlQuery.append("AND class.department = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("department_crn")) {
-                sqlQuery.append("AND class.department_crn = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("location")) {
-                sqlQuery.append("AND class.location = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("component")) {
-                sqlQuery.append("AND class.component = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("building")) {
-                sqlQuery.append("AND building_abbreviation = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("credit_hours")) {
-                sqlQuery.append("AND credit_hours = '").append(params.get(s)).append("' ");
-            }
-            else if (s.equalsIgnoreCase("core")) {
-                sqlQuery.append("AND (core = ")
-                        .append(params.get(s))
-                        .append(" or core like '")
-                        .append(params.get(s))
-                        .append(",%' or core like '%,")
-                        .append(params.get(s))
-                        .append("') ");
             }
         }
         return sqlQuery.toString();
