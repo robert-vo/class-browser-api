@@ -9,9 +9,15 @@ public class StringSQLQueryUtility {
     final static String EQUALS         = "= ";
     final static String AND            = "AND";
     final static String FORMAT_COLUMN  = " class.format ";
+    final static String STATUS_COLUMN  = " class.status ";
+    final static String SESSION_COLUMN = " class.session ";
     final static String ONLINE         = "'ONLINE'";
     final static String HYBRID         = "'HYBRID'";
     final static String FACE_TO_FACE   = "'Face To Face'";
+    final static String OPEN           = "'Open'";
+    final static String CLOSED         = "'Closed'";
+    final static String REGULAR_ACADEMIC_SESSION         = "'Regular Academic Session'";
+    final static String MINI_SESSION    = "'MIN'";
     final static String SQL_QUERY_FOR_ALL_TERMS = "SELECT * FROM class, building, department, terms, class_information " +
             "WHERE class.TERM_ID = ? AND " +
             "building.building_abbreviation = class.building_abbv AND " +
@@ -24,65 +30,95 @@ public class StringSQLQueryUtility {
         StringBuilder sqlQuery = new StringBuilder(SQL_QUERY_FOR_ALL_TERMS);
 
         for (String s : params.keySet()) {
-            if (s.equalsIgnoreCase("online")) {
-                if (params.get(s).matches(TRUE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(EQUALS)
-                            .append(ONLINE);
-                } else if (params.get(s).matches(FALSE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(NOT_EQUALS)
-                            .append(ONLINE);
-                }
+
+            String paramValue = params.get(s);
+
+            switch (s.toUpperCase()) {
+                case "ONLINE":
+                    if (paramValue.matches(TRUE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(EQUALS)
+                                .append(ONLINE);
+                    }
+                    else if (paramValue.matches(FALSE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(NOT_EQUALS)
+                                .append(ONLINE);
+                    }
+                    break;
+                case "HYBRID":
+                    if (params.get(s).matches(TRUE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(EQUALS)
+                                .append(HYBRID);
+                    }
+                    else if (params.get(s).matches(FALSE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(NOT_EQUALS)
+                                .append(HYBRID);
+                    }
+                    break;
+                case "FACETOFACE":
+                    if (params.get(s).matches(TRUE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(EQUALS)
+                                .append(FACE_TO_FACE);
+                    }
+                    else if (params.get(s).matches(FALSE_VALUES)) {
+                        sqlQuery.append(AND)
+                                .append(FORMAT_COLUMN)
+                                .append(NOT_EQUALS)
+                                .append(FACE_TO_FACE);
+                    }
+                    break;
+                case "STATUS":
+                    if (params.get(s).matches(TRUE_VALUES + "|open")) {
+                        sqlQuery.append(AND)
+                                .append(STATUS_COLUMN)
+                                .append(EQUALS)
+                                .append(OPEN);
+                    }
+                    else if (params.get(s).matches(FALSE_VALUES + "|closed")) {
+                        sqlQuery.append(AND)
+                                .append(STATUS_COLUMN)
+                                .append(EQUALS)
+                                .append(CLOSED);
+                    }
+                    break;
+                case "SESSION":
+                    switch (paramValue) {
+                        case "1":
+                            sqlQuery.append(AND)
+                                    .append(SESSION_COLUMN)
+                                    .append(EQUALS)
+                                    .append(REGULAR_ACADEMIC_SESSION);
+                            break;
+                        case "MIN":
+                            sqlQuery.append(AND)
+                                    .append(SESSION_COLUMN)
+                                    .append(EQUALS)
+                                    .append(MINI_SESSION);
+                            break;
+                        case "2":
+                        case "3":
+                        case "4":
+                        case "5":
+                        case "6":
+                            sqlQuery.append(AND)
+                                    .append(SESSION_COLUMN)
+                                    .append(EQUALS)
+                                    .append(paramValue);
+                            break;
+                    }
+                default:
+                    break;
             }
-            else if (s.equalsIgnoreCase("hybrid")) {
-                if (params.get(s).matches(TRUE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(EQUALS)
-                            .append(HYBRID);
-                } else if (params.get(s).matches(FALSE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(NOT_EQUALS)
-                            .append(HYBRID);
-                }
-            }
-            else if (s.equalsIgnoreCase("facetoface")) {
-                if (params.get(s).matches(TRUE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(EQUALS)
-                            .append(FACE_TO_FACE);
-                } else if (params.get(s).matches(FALSE_VALUES)) {
-                    sqlQuery.append(AND)
-                            .append(FORMAT_COLUMN)
-                            .append(NOT_EQUALS)
-                            .append(FACE_TO_FACE);
-                }
-            }
-            else if (s.equalsIgnoreCase("status")) {
-                if (params.get(s).equalsIgnoreCase("open") || params.get(s).equalsIgnoreCase("1")) {
-                    sqlQuery.append("AND class.status = 'Open' ");
-                }
-                else if (params.get(s).equalsIgnoreCase("closed") || params.get(s).equalsIgnoreCase("0")) {
-                    sqlQuery.append("AND class.status = 'Closed' ");
-                }
-            }
-            else if (s.equalsIgnoreCase("session")) {
-                if (params.get(s).equals("1")) {
-                    sqlQuery.append("AND class.session = 'Regular Academic Session' ");
-                }
-                else if (params.get(s).equals("MIN")) {
-                    sqlQuery.append("AND class.session = 'MIN' ");
-                }
-                else {
-                    sqlQuery.append("AND class.session = ").append(params.get(s)).append(" ");
-                }
-            }
-            else if (s.equalsIgnoreCase("department")) {
+            if (s.equalsIgnoreCase("department")) {
                 sqlQuery.append("AND class.department = '").append(params.get(s)).append("' ");
             }
             else if (s.equalsIgnoreCase("department_crn")) {
