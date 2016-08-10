@@ -52,4 +52,18 @@ public class StringSQLQueryUtilityTest {
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.format <> 'HYBRID'");
     }
 
+    @Test
+    public void testBuildSqlQueryForFaceToFaceFilterTrue() {
+        paramMap.put("facetoface", "1");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.format = 'Face To Face'");
+    }
+
+
+    @Test
+    public void testBuildSqlQueryForFaceToFaceFilterFalse() {
+        paramMap.put("FaceTOFACE", "false");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + "AND class.format <> 'Face To Face'");
+    }
+
+
 }
