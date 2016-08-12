@@ -73,7 +73,7 @@ public class ClassScraperAPIController {
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term,
-                                                        @RequestParam Map<String, String> params) {
+                                                        @RequestParam Map<String, String> params) throws Exception {
         List<ClassInformation> allClassInformation = new LinkedList<>();
 
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(params);
