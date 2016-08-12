@@ -5,11 +5,12 @@ import java.util.Map;
 public class StringSQLQueryUtility {
 
 
-    final static String TRUE_VALUES                 = "1|true|yes";
-    final static String FALSE_VALUES                = "0|false|no";
+    final static String TRUE_VALUES                 = "1|true|yes(?i)";
+    final static String FALSE_VALUES                = "0|false|no(?i)";
     final static String NOT_EQUALS                  = "<> ";
     final static String EQUALS                      = "= ";
     final static String AND                         = " AND";
+    final static String OR                          = "OR";
     final static String FORMAT_COLUMN               = " class.format ";
     final static String STATUS_COLUMN               = " class.status ";
     final static String SESSION_COLUMN              = " class.session ";
@@ -19,7 +20,7 @@ public class StringSQLQueryUtility {
     final static String LOCATION_COLUMN             = " class.location ";
     final static String BUILDING_COLUMN             = " building_abbreviation ";
     final static String CREDIT_HOURS_COLUMN         = " credit_hours ";
-    final static String CORE_COLUMN                 = " core ";
+    final static String CORE_COLUMN                 = "core";
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
     final static String FACE_TO_FACE_PARAM          = "FACETOFACE";
@@ -54,36 +55,19 @@ public class StringSQLQueryUtility {
 
             switch (s.toUpperCase()) {
                 case ONLINE:
-                    if (paramValue.matches(TRUE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, EQUALS, ONLINE));
-                    }
-                    else if (paramValue.matches(FALSE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, NOT_EQUALS, ONLINE));
-                    }
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, ONLINE));
                     break;
                 case HYBRID:
-                    if (paramValue.matches(TRUE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, EQUALS, HYBRID));
-                    }
-                    else if (paramValue.matches(FALSE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, NOT_EQUALS, HYBRID));
-                    }
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, HYBRID));
                     break;
                 case FACE_TO_FACE_PARAM:
-                    if (paramValue.matches(TRUE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, EQUALS, FACE_TO_FACE_VALUE));
-                    }
-                    else if (paramValue.matches(FALSE_VALUES)) {
-                        sqlQuery.append(createStringFromColumnConditionValue(FORMAT_COLUMN, NOT_EQUALS, FACE_TO_FACE_VALUE));
-                    }
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, FACE_TO_FACE_VALUE));
                     break;
                 case STATUS:
-                    if (paramValue.matches(TRUE_VALUES + "|open")) {
-                        sqlQuery.append(createStringFromColumnConditionValue(STATUS_COLUMN, EQUALS, OPEN));
-                    }
-                    else if (paramValue.matches(FALSE_VALUES + "|closed")) {
-                        sqlQuery.append(createStringFromColumnConditionValue(STATUS_COLUMN, EQUALS, CLOSED));
-                    }
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue,
+                            TRUE_VALUES + "|" + OPEN,
+                            FALSE_VALUES + "|" + CLOSED,
+                            STATUS_COLUMN, OPEN));
                     break;
                 case SESSION:
                     sqlQuery.append(getStringForSessionQuery(SESSION_COLUMN, EQUALS, paramValue));
@@ -107,14 +91,7 @@ public class StringSQLQueryUtility {
                     sqlQuery.append(createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue));
                     break;
                 case CORE:
-                    sqlQuery.append(AND)
-                            .append(" (core = ")
-                            .append(paramValue)
-                            .append(" or core like '")
-                            .append(paramValue)
-                            .append(",%' or core like '%,")
-                            .append(paramValue)
-                            .append("')");
+                    sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
                     break;
                 default:
                     break;
@@ -123,22 +100,41 @@ public class StringSQLQueryUtility {
         return sqlQuery.toString();
     }
 
+    private static String createStringMatchLikeEquals(String paramValue, String column) {
+        final String LIKE = " like ";
+        return AND +
+                " (" + column + " = " + paramValue +
+                " " + OR + " " + column + LIKE + "'" +
+                paramValue + ",%' " + OR + " " + column + LIKE + "'%," +
+                paramValue + "')";
+    }
+
+    private static String createStringFromMatchingTrueFalseValues(String paramValue, String trueValues, String falseValues, String columnName, String param) throws Exception {
+        if (paramValue.matches(trueValues)) {
+            return createStringFromColumnConditionValue(columnName, EQUALS, param);
+        }
+        else if (paramValue.matches(falseValues)) {
+            return createStringFromColumnConditionValue(columnName, NOT_EQUALS, param);
+        }
+        throw new Exception("Invalid parameter value for " + param);
+    }
+
     private static String createStringFromColumnConditionValue(String column, String condition, String paramValue) {
         return AND + column + condition + "'" + paramValue + "'";
     }
 
     private static String getStringForSessionQuery(String column, String condition, String paramValue) throws Exception {
-        switch (paramValue) {
-            case "1":
-                return createStringFromColumnConditionValue(SESSION_COLUMN, EQUALS, REGULAR_ACADEMIC_SESSION);
+        switch (paramValue.toUpperCase()) {
             case "MIN":
-                return createStringFromColumnConditionValue(SESSION_COLUMN, EQUALS, MINI_SESSION);
+                return createStringFromColumnConditionValue(column, condition, MINI_SESSION);
+            case "1":
+                return createStringFromColumnConditionValue(column, condition, REGULAR_ACADEMIC_SESSION);
             case "2":
             case "3":
             case "4":
             case "5":
             case "6":
-                return createStringFromColumnConditionValue(SESSION_COLUMN, EQUALS, paramValue);
+                return createStringFromColumnConditionValue(column, condition, paramValue);
         }
         throw new Exception("Invalid key for session query.");
     }
