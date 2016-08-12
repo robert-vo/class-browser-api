@@ -66,7 +66,7 @@ public class StringSQLQueryUtilityTest {
 
     @Test
     public void testBuildSqlQueryForStatusFilterOpen1() throws Exception {
-        paramMap.put("status", "open");
+        paramMap.put("status", "OPEN");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Open'");
     }
 
@@ -79,13 +79,13 @@ public class StringSQLQueryUtilityTest {
     @Test
     public void testBuildSqlQueryForStatusFilterClosed1() throws Exception {
         paramMap.put("status", "closed");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Closed'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
     }
 
     @Test
     public void testBuildSqlQueryForStatusFilterClosed2() throws Exception {
         paramMap.put("status", "0");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Closed'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
     }
 
     @Test
@@ -187,13 +187,13 @@ public class StringSQLQueryUtilityTest {
     @Test
     public void testBuildSqlQueryForEnglishCore() throws Exception {
         paramMap.put("core", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 1 or core like '1,%' or core like '%,1')");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 1 OR core like '1,%' OR core like '%,1')");
     }
 
     @Test
     public void testBuildSqlQueryForMathCore() throws Exception {
         paramMap.put("core", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 or core like '2,%' or core like '%,2')");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2')");
     }
 
     @Test
@@ -203,4 +203,20 @@ public class StringSQLQueryUtilityTest {
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'Regular Academic Session' AND class.format = 'ONLINE'");
     }
 
+    @Test
+    public void testBuildSqlQueryForOpenCoscClassCore2() throws Exception {
+        paramMap.put("status", "open");
+        paramMap.put("department", "cosc");
+        paramMap.put("core", "2");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2') AND class.department = 'cosc' AND class.status = 'Open'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForLocationABCComponentLecHybrid2HourCourse() throws Exception {
+        paramMap.put("location", "ABC");
+        paramMap.put("component", "lec");
+        paramMap.put("hybrid", "true");
+        paramMap.put("credit_hours", "2");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec' AND class.format = 'HYBRID' AND class.location = 'ABC' AND credit_hours = '2'");
+    }
 }
