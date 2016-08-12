@@ -10,7 +10,7 @@ public class StringSQLQueryUtility {
     final static String NOT_EQUALS                  = "<> ";
     final static String EQUALS                      = "= ";
     final static String AND                         = " AND";
-    final static String OR                          = "OR";
+    final static String OR                          = " OR ";
     final static String FORMAT_COLUMN               = " class.format ";
     final static String STATUS_COLUMN               = " class.status ";
     final static String SESSION_COLUMN              = " class.session ";
@@ -102,10 +102,9 @@ public class StringSQLQueryUtility {
 
     private static String createStringMatchLikeEquals(String paramValue, String column) {
         final String LIKE = " like ";
-        return AND +
-                " (" + column + " = " + paramValue +
-                " " + OR + " " + column + LIKE + "'" +
-                paramValue + ",%' " + OR + " " + column + LIKE + "'%," +
+        return AND + " (" + column + " = " +
+                paramValue + OR + column + LIKE + "'" +
+                paramValue + ",%'" + OR + column + LIKE + "'%," +
                 paramValue + "')";
     }
 
