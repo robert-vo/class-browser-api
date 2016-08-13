@@ -74,15 +74,18 @@ public class ClassScraperAPIController {
     @ResponseBody
     public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term,
                                                         @RequestParam Map<String, String> params) throws Exception {
-        List<ClassInformation> allClassInformation = new LinkedList<>();
 
+        List<ClassInformation> allClassInformation = new LinkedList<>();
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(params);
 
+        if(term.length() != 4) {
+            throw new Exception("Invalid term size");
+        }
         handleJavaLangClassDriver();
-
         try (Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_ALL_CLASSES);
             preparedStatement.setString(1, term);
+            System.out.println("Running query - " + preparedStatement.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 ClassInformation c = getClassEntryFromResultSet(resultSet);
