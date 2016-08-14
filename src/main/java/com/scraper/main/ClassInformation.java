@@ -5,7 +5,11 @@
 
 package com.scraper.main;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class ClassInformation {
     private HashMap<String, String> termInformation;
@@ -27,6 +31,10 @@ public class ClassInformation {
     private String syllabus;
     private String core[];
     private String lastUpdated;
+
+    ClassInformation() {
+
+    }
 
     public ClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
         this.termInformation = termInformation;
@@ -200,5 +208,65 @@ public class ClassInformation {
 
     public void setLastUpdated(String lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public static ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
+
+        HashMap<String, String> termInformation = new LinkedHashMap<>();
+        termInformation.put("termID",  rs.getString("term_id"));
+        termInformation.put("year",     rs.getString("year"));
+        termInformation.put("semester", rs.getString("semester"));
+
+        HashMap<String, Integer> seatInformation = new LinkedHashMap<>();
+        seatInformation.put("seatsTaken",       rs.getInt("seats_taken"));
+        seatInformation.put("seatsAvailable",   rs.getInt("seats_available"));
+        seatInformation.put("seatsTotal",       rs.getInt("seats_total"));
+
+        HashMap<String, String> dateTimeInformation = new LinkedHashMap<>();
+        dateTimeInformation.put("startDate",    rs.getString("start_date"));
+        dateTimeInformation.put("endDate",      rs.getString("end_date"));
+        dateTimeInformation.put("startTime",    rs.getString("start_time"));
+        dateTimeInformation.put("endTime",      rs.getString("end_time"));
+
+        HashMap<String, Boolean> classDays = new LinkedHashMap<>();
+        classDays.put("monday",     rs.getBoolean("monday"));
+        classDays.put("tuesday",    rs.getBoolean("tuesday"));
+        classDays.put("wednesday",  rs.getBoolean("wednesday"));
+        classDays.put("thursday",   rs.getBoolean("thursday"));
+        classDays.put("friday",     rs.getBoolean("friday"));
+        classDays.put("saturday",   rs.getBoolean("saturday"));
+        classDays.put("sunday",     rs.getBoolean("sunday"));
+
+        HashMap<String, String> departmentInformation = new LinkedHashMap<>();
+        departmentInformation.put("department",         rs.getString("department"));
+        departmentInformation.put("departmentName",     rs.getString("department_name"));
+
+        HashMap<String, String> locationInformation = new LinkedHashMap<>();
+        locationInformation.put("location",               rs.getString("location"));
+        locationInformation.put("buildingID",             rs.getString("building_id"));
+        locationInformation.put("buildingAbbreviation",   rs.getString("building_abbreviation"));
+        locationInformation.put("buildingName",           rs.getString("building_name"));
+
+        HashMap<String, String> instructorInformation = new LinkedHashMap<>();
+        instructorInformation.put("instructor",         rs.getString("instructor"));
+        instructorInformation.put("instructorEmail",    rs.getString("instructor_email"));
+
+        Optional<String> possibleCoreClasses = Optional.ofNullable(rs.getString("CORE"));
+        String[] core = null;
+        if(possibleCoreClasses.isPresent()) {
+            core = possibleCoreClasses.get().split(",");
+        }
+
+        ClassInformation c = new ClassInformation(termInformation,
+                rs.getString("CLASS_TITLE"), departmentInformation,
+                rs.getString("Status"), rs.getString("crn"),
+                seatInformation, dateTimeInformation, rs.getString("attributes"),
+                classDays, instructorInformation, locationInformation,
+                rs.getString("format"), rs.getString("CLASS_DESCRIPTION"),
+                rs.getString("duration"), rs.getString("session"),
+                rs.getString("component"), rs.getString("syllabus"),
+                core,
+                rs.getString("last_updated_at"));
+        return c;
     }
 }
