@@ -84,7 +84,7 @@ public class ClassScraperAPIController {
                 throw new InvalidArgumentException("Term");
             }
             catch (InvalidArgumentException e) {
-                ErrorMessage errorMessage = new ErrorMessage("Invalid Term", "Terms must be an integer starting from 1970 and incrementing by 10.");
+                ErrorMessage errorMessage = new ErrorMessage("Invalid Term", "Terms must be an integer starting from 1970 and incrementing by 10.", HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value());
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
         }
