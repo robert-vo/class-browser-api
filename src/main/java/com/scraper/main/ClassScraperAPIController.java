@@ -18,14 +18,12 @@ import static com.scraper.main.CoreClassInformation.getCoreClassFromResultSet;
 @RequestMapping("/api")
 public class ClassScraperAPIController {
 
-    private HashSet<Class> allClasses = new HashSet<>();
     static Properties properties = new Properties();
     static String jdbcDriver;
     static String databaseURL;
     static String databaseTable;
     static String userName;
     static String passWord;
-    static String useSSL;
 
     ClassScraperAPIController() throws IOException {
         setDatabaseConfigurations();
@@ -61,6 +59,7 @@ public class ClassScraperAPIController {
         }
 
         handleJavaLangClassDriver();
+
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
             preparedStatement.setString(1, core);
@@ -95,6 +94,8 @@ public class ClassScraperAPIController {
             }
         }
         handleJavaLangClassDriver();
+
+        ResponseInformation responseInformation = null;
         try (Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_ALL_CLASSES);
             preparedStatement.setString(1, term);
@@ -104,12 +105,15 @@ public class ClassScraperAPIController {
                 ClassInformation c = getClassEntryFromResultSet(resultSet);
                 allClassInformation.add(c);
             }
+
             resultSet.last();
-            System.out.println("Returned " + resultSet.getRow());
+            params.put("term", term);
+            responseInformation = new ResponseInformation(resultSet.getRow(), params);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(allClassInformation, HttpStatus.OK);
+
+        return new ResponseEntity<>(new ClassResponseInformation(responseInformation, allClassInformation), HttpStatus.OK);
     }
 
     private void handleJavaLangClassDriver() {
