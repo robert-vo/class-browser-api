@@ -40,10 +40,17 @@ public class StringSQLQueryUtility {
     final static String MINI_SESSION                = "MIN";
     final static String SQL_QUERY_FOR_ALL_TERMS     = "SELECT * FROM class, building, department, terms, class_information " +
             "WHERE class.TERM_ID = ? AND " +
+            "class.department = class_information.department AND " +
             "building.building_abbreviation = class.building_abbv AND " +
             "department.department_abbreviation = class.department AND " +
             "terms.term_id = class.term_id AND " +
             "class.department_crn = class_information.department_crn";
+
+//    AND class.department = class_information.department
+//    AND class.department_crn = class_information.department_crn
+//    AND class.building_abbv = building.building_abbreviation
+//    AND class.department = department.DEPARTMENT_ABBREVIATION
+//    AND class.term_id = terms.TERM_ID
 
     public static String buildSqlQuery(Map<String, String> params) throws Exception {
 

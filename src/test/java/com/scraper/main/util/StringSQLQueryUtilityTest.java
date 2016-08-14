@@ -9,8 +9,9 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 public class StringSQLQueryUtilityTest {
-    final static String SQL_QUERY_FOR_ALL_TERMS = "SELECT * FROM class, building, department, terms, class_information " +
+    final static String SQL_QUERY_FOR_ALL_TERMS     = "SELECT * FROM class, building, department, terms, class_information " +
             "WHERE class.TERM_ID = ? AND " +
+            "class.department = class_information.department AND " +
             "building.building_abbreviation = class.building_abbv AND " +
             "department.department_abbreviation = class.department AND " +
             "terms.term_id = class.term_id AND " +
