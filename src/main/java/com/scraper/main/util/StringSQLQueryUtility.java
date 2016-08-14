@@ -46,12 +46,6 @@ public class StringSQLQueryUtility {
             "terms.term_id = class.term_id AND " +
             "class.department_crn = class_information.department_crn";
 
-//    AND class.department = class_information.department
-//    AND class.department_crn = class_information.department_crn
-//    AND class.building_abbv = building.building_abbreviation
-//    AND class.department = department.DEPARTMENT_ABBREVIATION
-//    AND class.term_id = terms.TERM_ID
-
     public static String buildSqlQuery(Map<String, String> params) throws Exception {
 
         StringBuilder sqlQuery = new StringBuilder(SQL_QUERY_FOR_ALL_TERMS);
