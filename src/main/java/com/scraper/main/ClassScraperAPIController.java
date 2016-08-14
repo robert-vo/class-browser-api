@@ -1,6 +1,8 @@
 package com.scraper.main;
 
 import com.scraper.main.util.StringSQLQueryUtility;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileInputStream;
@@ -48,7 +50,6 @@ public class ClassScraperAPIController {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
             preparedStatement.setString(1, core);
             preparedStatement.setString(2, core);
-            preparedStatement.setString(3, core);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CoreClassInformation c;
@@ -72,14 +73,20 @@ public class ClassScraperAPIController {
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
     @ResponseBody
-    public List<ClassInformation> getAllClassesFromTerm(@PathVariable(value = "term") String term,
-                                                        @RequestParam Map<String, String> params) throws Exception {
+    public ResponseEntity getAllClassesFromTerm(@PathVariable(value = "term") String term,
+                                                @RequestParam Map<String, String> params) throws Exception {
 
         List<ClassInformation> allClassInformation = new LinkedList<>();
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(params);
 
-        if(term.length() != 4) {
-            throw new Exception("Invalid term size");
+        if(term.length() != 4 || term.matches("[a-z]|[A-Z]")) {
+            try {
+                throw new InvalidArgumentException("Term");
+            }
+            catch (InvalidArgumentException e) {
+                ErrorMessage errorMessage = new ErrorMessage("Invalid Term", "Terms must be an integer starting from 1970 and incrementing by 10.");
+                return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+            }
         }
         handleJavaLangClassDriver();
         try (Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
@@ -94,7 +101,7 @@ public class ClassScraperAPIController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return allClassInformation;
+        return new ResponseEntity<>(allClassInformation, HttpStatus.OK);
     }
 
     private void handleJavaLangClassDriver() {
@@ -164,4 +171,5 @@ public class ClassScraperAPIController {
                 rs.getString("last_updated_at"));
         return c;
     }
+
 }
