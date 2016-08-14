@@ -1,18 +1,18 @@
 package com.scraper.main;
 
-/**
- * Created by Robert on 8/8/16.
- */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class CoreClassInformation {
     public String department;
     public String department_crn;
     public String class_description;
     public String class_title;
-    public int    credit_hours;
+    public int credit_hours;
     public String core;
-    public int    core_id;
+    public int core_id;
     public String core_title;
-    public int    hours_required;
+    public int hours_required;
 
     public CoreClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, String core, int core_id, String core_title, int hours_required) {
         this.department = department;
@@ -96,5 +96,17 @@ public class CoreClassInformation {
 
     public void setHours_required(int hours_required) {
         this.hours_required = hours_required;
+    }
+
+    public static CoreClassInformation getCoreClassFromResultSet(ResultSet rs) throws SQLException {
+        return new CoreClassInformation(rs.getString("Department"),
+                rs.getString("Department_crn"),
+                rs.getString("class_description"),
+                rs.getString("class_title"),
+                rs.getInt("credit_hours"),
+                rs.getString("core"),
+                rs.getInt("core_id"),
+                rs.getString("core_title"),
+                rs.getInt("hours_required"));
     }
 }

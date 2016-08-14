@@ -12,6 +12,7 @@ import java.sql.*;
 import java.util.*;
 
 import static com.scraper.main.ClassInformation.getClassEntryFromResultSet;
+import static com.scraper.main.CoreClassInformation.getCoreClassFromResultSet;
 
 @RestController
 @RequestMapping("/api")
@@ -42,11 +43,23 @@ public class ClassScraperAPIController {
 
     @RequestMapping(value = "/core={core}", method = RequestMethod.GET)
     @ResponseBody
-    public List<CoreClassInformation> getAllCoreCourses(@PathVariable(value = "core") String core) {
+    public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) {
         List<CoreClassInformation> allClassInformation = new LinkedList<>();
         final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
                 "where (core = ? or core like '?,%' or core like '%, ?') " +
                 "and ? = core.core_id";
+
+        try {
+            int numericCore = Integer.parseInt(core);
+            if(!(numericCore > 0 && numericCore < 11)) {
+                throw new InvalidArgumentException("Core");
+            }
+        }
+        catch (NumberFormatException | InvalidArgumentException e) {
+            ErrorMessage errorMessage = new ErrorMessage("Core");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+
         handleJavaLangClassDriver();
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
@@ -54,23 +67,14 @@ public class ClassScraperAPIController {
             preparedStatement.setString(2, core);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                CoreClassInformation c;
-                c = new CoreClassInformation(resultSet.getString("Department"),
-                        resultSet.getString("Department_crn"),
-                        resultSet.getString("class_description"),
-                        resultSet.getString("class_title"),
-                        resultSet.getInt("credit_hours"),
-                        resultSet.getString("core"),
-                        resultSet.getInt("core_id"),
-                        resultSet.getString("core_title"),
-                        resultSet.getInt("hours_required"));
+                CoreClassInformation c = getCoreClassFromResultSet(resultSet);
                 allClassInformation.add(c);
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return allClassInformation;
+        return new ResponseEntity<>(allClassInformation, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
@@ -86,7 +90,7 @@ public class ClassScraperAPIController {
                 throw new InvalidArgumentException("Term");
             }
             catch (InvalidArgumentException e) {
-                ErrorMessage errorMessage = new ErrorMessage("Invalid Term", "Terms must be an integer starting from 1970 and incrementing by 10.", HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value());
+                ErrorMessage errorMessage = new ErrorMessage("Term");
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
         }
@@ -100,6 +104,8 @@ public class ClassScraperAPIController {
                 ClassInformation c = getClassEntryFromResultSet(resultSet);
                 allClassInformation.add(c);
             }
+            resultSet.last();
+            System.out.println("Returned " + resultSet.getRow());
         } catch (SQLException e) {
             e.printStackTrace();
         }
