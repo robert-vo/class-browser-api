@@ -3,10 +3,19 @@ package com.scraper.main;
 import org.springframework.http.HttpStatus;
 
 public class ErrorMessage {
+
     private String error;
     private String errorMessage;
     private HttpStatus httpStatus;
     private int errorCode;
+
+    public ErrorMessage(String invalidParameter) {
+        ErrorMessageConstant errorMessageConstant = ErrorMessageConstant.valueOf(invalidParameter.toUpperCase());
+        this.error = errorMessageConstant.name();
+        this.errorMessage = errorMessageConstant.getMessage();
+        this.httpStatus = HttpStatus.BAD_REQUEST;
+        this.errorCode = HttpStatus.BAD_REQUEST.value();
+    }
 
     public ErrorMessage(String error, String errorMessage, HttpStatus httpStatus, int errorCode) {
         this.error = error;
