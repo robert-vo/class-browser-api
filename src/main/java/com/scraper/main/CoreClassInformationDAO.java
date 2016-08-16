@@ -4,9 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class CoreClassInformationDAO implements InterfaceDAO {
 
@@ -73,6 +71,16 @@ public class CoreClassInformationDAO implements InterfaceDAO {
                 "where (core = ? or core like ? or core like ?) " +
                 "and ? = core.core_id";
         return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
+    }
+
+    public ResponseInformation getFromDatabaseAndResponseInfo(String core) throws SQLException {
+        List<CoreClassInformation> allCoreClasses = selectAllCoreClass(core);
+        int numberOfRows = allCoreClasses.size();
+        Map<String, String> params = new HashMap<>();
+        params.put("Core", core);
+        ResponseInformation responseInformation = new ResponseInformation(numberOfRows, params, allCoreClasses);
+
+        return responseInformation;
     }
 
 }
