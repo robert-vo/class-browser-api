@@ -4,7 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 public class CoreClassInformationDAO implements InterfaceDAO {
 
@@ -17,6 +19,7 @@ public class CoreClassInformationDAO implements InterfaceDAO {
 
     CoreClassInformationDAO() throws IOException {
         setDatabaseInformation();
+        handleJavaLangClassDriver();
     }
 
     @Override
@@ -31,7 +34,16 @@ public class CoreClassInformationDAO implements InterfaceDAO {
     }
 
     @Override
-    public Object retrieveFromResultSet(ResultSet rs) throws SQLException {
+    public void handleJavaLangClassDriver() {
+        try {
+            java.lang.Class.forName(jdbcDriver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<CoreClassInformation> allCoreClassInformation = new LinkedList<>();
         while(rs.next()) {
             CoreClassInformation c = CoreClassInformation.getCoreClassFromResultSet(rs);
@@ -41,12 +53,14 @@ public class CoreClassInformationDAO implements InterfaceDAO {
     }
 
     @Override
-    public ResultSet processStringQuery(String sqlQuery, String param) throws SQLException {
+    public List<CoreClassInformation> processStringQuery(String sqlQuery, String param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
             preparedStatement.setString(1, param);
-            preparedStatement.setString(2, param);
-            return preparedStatement.executeQuery();
+            preparedStatement.setString(2, param + ",%");
+            preparedStatement.setString(3, "%, " + param);
+            preparedStatement.setString(4, param);
+            return retrieveFromResultSet(preparedStatement.executeQuery());
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -54,20 +68,11 @@ public class CoreClassInformationDAO implements InterfaceDAO {
         return null;
     }
 
-    @Override
-    public void handleJavaLangClassDriver() {
-        try {
-            java.lang.Class.forName(jdbcDriver);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
         final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
-                "where (core = ? or core like '?,%' or core like '%, ?') " +
+                "where (core = ? or core like ? or core like ?) " +
                 "and ? = core.core_id";
-
-        return (List<CoreClassInformation>) retrieveFromResultSet(processStringQuery(SQL_QUERY_CORE_CLASSES, core));
+        return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
     }
+
 }
