@@ -9,10 +9,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import static com.scraper.main.ClassInformation.getClassEntryFromResultSet;
-import static com.scraper.main.CoreClassInformation.getCoreClassFromResultSet;
 
 @RestController
 @RequestMapping("/api")
@@ -41,11 +43,11 @@ public class ClassScraperAPIController {
 
     @RequestMapping(value = "/core={core}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) {
+    public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) throws SQLException, IOException {
         List<CoreClassInformation> allClassInformation = new LinkedList<>();
-        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
-                "where (core = ? or core like '?,%' or core like '%, ?') " +
-                "and ? = core.core_id";
+//        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
+//                "where (core = ? or core like '?,%' or core like '%, ?') " +
+//                "and ? = core.core_id";
 
         try {
             int numericCore = Integer.parseInt(core);
@@ -58,22 +60,24 @@ public class ClassScraperAPIController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-        handleJavaLangClassDriver();
+//        handleJavaLangClassDriver();
+//
+//        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
+//            PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
+//            preparedStatement.setString(1, core);
+//            preparedStatement.setString(2, core);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                CoreClassInformation c = getCoreClassFromResultSet(resultSet);
+//                allClassInformation.add(c);
+//            }
+//        }
+//        catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
-        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-            PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
-            preparedStatement.setString(1, core);
-            preparedStatement.setString(2, core);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                CoreClassInformation c = getCoreClassFromResultSet(resultSet);
-                allClassInformation.add(c);
-            }
-        }
-        catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(allClassInformation, HttpStatus.OK);
+        CoreClassInformationDAO coreClassInformationDAO = new CoreClassInformationDAO();
+        return new ResponseEntity<>(coreClassInformationDAO.selectAllCoreClass(core), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
