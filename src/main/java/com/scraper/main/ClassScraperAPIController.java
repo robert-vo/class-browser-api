@@ -44,14 +44,8 @@ public class ClassScraperAPIController {
     @RequestMapping(value = "/core={core}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) throws SQLException, IOException {
-        List<CoreClassInformation> allClassInformation = new LinkedList<>();
-//        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
-//                "where (core = ? or core like '?,%' or core like '%, ?') " +
-//                "and ? = core.core_id";
-
         try {
-            int numericCore = Integer.parseInt(core);
-            if(!(numericCore > 0 && numericCore < 11)) {
+            if(ClassInformation.isNotValidCore(core)) {
                 throw new InvalidArgumentException("Core");
             }
         }
@@ -61,7 +55,7 @@ public class ClassScraperAPIController {
         }
 
         CoreClassInformationDAO coreClassInformationDAO = new CoreClassInformationDAO();
-        return new ResponseEntity<>(coreClassInformationDAO.selectAllCoreClass(core), HttpStatus.OK);
+        return new ResponseEntity<>(coreClassInformationDAO.getFromDatabaseAndResponseInfo(core), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
@@ -72,7 +66,7 @@ public class ClassScraperAPIController {
         List<ClassInformation> allClassInformation = new LinkedList<>();
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(params);
 
-        if(term.length() != 4 || term.matches("[a-z]|[A-Z]")) {
+        if(ClassInformation.isNotValidTerm(term)) {
             try {
                 throw new InvalidArgumentException("Term");
             }
@@ -96,7 +90,7 @@ public class ClassScraperAPIController {
 
             resultSet.last();
             params.put("term", term);
-            responseInformation = new ResponseInformation(resultSet.getRow(), params);
+            responseInformation = new ResponseInformation(resultSet.getRow(), params, allClassInformation);
         } catch (SQLException e) {
             e.printStackTrace();
         }
