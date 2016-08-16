@@ -16,4 +16,3 @@ public interface InterfaceDAO<T> {
 
     T getFromDatabaseAndResponseInfo(Map allParams) throws SQLException;
 }
-
