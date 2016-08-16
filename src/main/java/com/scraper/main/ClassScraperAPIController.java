@@ -1,11 +1,12 @@
 package com.scraper.main;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.scraper.main.util.ResponseEntityUtility.*;
 
 @RestController
 @RequestMapping("/api")
@@ -20,7 +21,7 @@ public class ClassScraperAPIController {
             }
         }
         catch (NumberFormatException | InvalidArgumentException e) {
-            return generateErrorMessage("Core");
+            return generateErrorMessageResponseEntity("Core");
         }
 
         CoreClassInformationDAO coreClassInformationDAO = new CoreClassInformationDAO();
@@ -44,7 +45,7 @@ public class ClassScraperAPIController {
             }
         }
         catch (Exception e) {
-            return generateErrorMessage(e);
+            return generateErrorMessageResponseEntity(e);
         }
 
         ClassInformationDAO classInformationDAO = new ClassInformationDAO();
@@ -53,36 +54,4 @@ public class ClassScraperAPIController {
         return attemptDatabaseOperation(classInformationDAO, params);
     }
 
-    private ResponseEntity attemptDatabaseOperation(Object DAO, Map params) {
-        try {
-            if (DAO instanceof ClassInformationDAO) {
-                final ClassInformationDAO classInformationDAO = (ClassInformationDAO) DAO;
-                return new ResponseEntity<>(classInformationDAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else if (DAO instanceof CoreClassInformationDAO) {
-                final CoreClassInformationDAO coreClassInformationDAO = (CoreClassInformationDAO) DAO;
-                return new ResponseEntity<>(coreClassInformationDAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else {
-                throw new Exception("Invalid Operation on DAO " + DAO.getClass());
-            }
-        }
-        catch (Exception e) {
-            return generateErrorMessage(e);
-        }
-    }
-
-    private ResponseEntity generateErrorMessage(Object param) {
-        ErrorMessage errorMessage;
-        if(param instanceof Exception) {
-            errorMessage = new ErrorMessage((Exception) param);
-        }
-        else if (param instanceof String) {
-            errorMessage = new ErrorMessage((String) param);
-        }
-        else {
-            errorMessage = new ErrorMessage(new Exception("Invalid Object"));
-        }
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-    }
 }
