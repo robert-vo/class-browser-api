@@ -66,6 +66,13 @@ public class CoreClassInformationDAO implements InterfaceDAO {
         return null;
     }
 
+    @Override
+    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws SQLException {
+        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) allParams.get("Core"));
+        int numberOfRows = allCoreClasses.size();
+        return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
+    }
+
     public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
         final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
                 "where (core = ? or core like ? or core like ?) " +
@@ -73,14 +80,5 @@ public class CoreClassInformationDAO implements InterfaceDAO {
         return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
     }
 
-    public ResponseInformation getFromDatabaseAndResponseInfo(String core) throws SQLException {
-        List<CoreClassInformation> allCoreClasses = selectAllCoreClass(core);
-        int numberOfRows = allCoreClasses.size();
-        Map<String, String> params = new HashMap<>();
-        params.put("Core", core);
-        ResponseInformation responseInformation = new ResponseInformation(numberOfRows, params, allCoreClasses);
-
-        return responseInformation;
-    }
 
 }
