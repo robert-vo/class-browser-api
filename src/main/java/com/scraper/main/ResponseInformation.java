@@ -2,13 +2,15 @@ package com.scraper.main;
 
 import java.util.Map;
 
-public class ResponseInformation {
+public class ResponseInformation<T> {
     private int numberOfRows;
     private Map<String, String> parameters;
+    private T result;
 
-    public ResponseInformation(int numberOfRows, Map<String, String> parameters) {
+    public ResponseInformation(int numberOfRows, Map<String, String> parameters, T result) {
         this.numberOfRows = numberOfRows;
         this.parameters = parameters;
+        this.result = result;
     }
 
     public int getNumberOfRows() {
@@ -25,5 +27,13 @@ public class ResponseInformation {
 
     public void setParameters(Map<String, String> parameters) {
         this.parameters = parameters;
+    }
+
+    public T getResult() {
+        return result;
+    }
+
+    public void setResult(T result) {
+        this.result = result;
     }
 }
