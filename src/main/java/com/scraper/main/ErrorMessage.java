@@ -17,6 +17,13 @@ public class ErrorMessage {
         this.errorCode = HttpStatus.BAD_REQUEST.value();
     }
 
+    public ErrorMessage(Exception e) {
+        this.error = "Java Exception thrown";
+        this.errorMessage = e.getMessage();
+        this.httpStatus = HttpStatus.BAD_REQUEST;
+        this.errorCode = HttpStatus.BAD_REQUEST.value();
+    }
+
     public ErrorMessage(String error, String errorMessage, HttpStatus httpStatus, int errorCode) {
         this.error = error;
         this.errorMessage = errorMessage;
