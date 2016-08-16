@@ -67,7 +67,7 @@ public class CoreClassInformationDAO implements InterfaceDAO {
     }
 
     @Override
-    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws SQLException {
+    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
         List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) allParams.get("Core"));
         int numberOfRows = allCoreClasses.size();
         return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
