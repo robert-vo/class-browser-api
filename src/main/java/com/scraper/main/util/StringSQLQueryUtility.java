@@ -116,7 +116,7 @@ public class StringSQLQueryUtility {
         else if (paramValue.matches(falseValues)) {
             return createStringFromColumnConditionValue(columnName, NOT_EQUALS, param);
         }
-        throw new Exception("Invalid parameter value for " + param);
+        throw new Exception("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only). ");
     }
 
     private static String createStringFromColumnConditionValue(String column, String condition, String paramValue) {
