@@ -14,5 +14,5 @@ public interface InterfaceDAO<T> {
 
     T processStringQuery(String sqlQuery, String param) throws SQLException;
 
-    T getFromDatabaseAndResponseInfo(Map allParams) throws SQLException;
+    T getFromDatabaseAndResponseInfo(Map allParams) throws Exception;
 }
