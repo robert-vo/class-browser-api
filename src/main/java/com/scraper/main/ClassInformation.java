@@ -269,4 +269,13 @@ public class ClassInformation {
                 rs.getString("last_updated_at"));
         return c;
     }
+
+    public static boolean isNotValidCore(String core) {
+        int numericCore = Integer.parseInt(core);
+        return !(numericCore > 0 && numericCore < 11);
+    }
+
+    public static boolean isNotValidTerm(String term) {
+        return term.length() != 4 || term.matches("[a-z]|[A-Z]");
+    }
 }
