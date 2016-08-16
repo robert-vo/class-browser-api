@@ -28,7 +28,7 @@ public class ResponseEntityUtility {
         }
     }
 
-    public static ResponseEntity generateErrorMessageResponseEntity(Object param) {
+        public static ResponseEntity generateErrorMessageResponseEntity(Object param) {
         ErrorMessage errorMessage;
         if(param instanceof Exception) {
             errorMessage = new ErrorMessage((Exception) param);
