@@ -60,22 +60,6 @@ public class ClassScraperAPIController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-//        handleJavaLangClassDriver();
-//
-//        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-//            PreparedStatement preparedStatement = conn.prepareStatement(SQL_QUERY_CORE_CLASSES);
-//            preparedStatement.setString(1, core);
-//            preparedStatement.setString(2, core);
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                CoreClassInformation c = getCoreClassFromResultSet(resultSet);
-//                allClassInformation.add(c);
-//            }
-//        }
-//        catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-
         CoreClassInformationDAO coreClassInformationDAO = new CoreClassInformationDAO();
         return new ResponseEntity<>(coreClassInformationDAO.selectAllCoreClass(core), HttpStatus.OK);
     }
