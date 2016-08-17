@@ -220,4 +220,88 @@ public class StringSQLQueryUtilityTest {
         paramMap.put("credit_hours", "2");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec' AND class.format = 'HYBRID' AND class.location = 'ABC' AND credit_hours = '2'");
     }
+
+    @Test
+    public void testBuildSqlQueryForMondayTrue() throws Exception {
+        paramMap.put("monday", "true");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForTuesdayTrue() throws Exception {
+        paramMap.put("Tuesday", "true");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForWednesdayTrue() throws Exception {
+        paramMap.put("Wednesday", "true");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForThursdayTrue() throws Exception {
+        paramMap.put("Thursday", "true");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForFridayTrue() throws Exception {
+        paramMap.put("Friday", "truE");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForSaturdayTrue() throws Exception {
+        paramMap.put("Saturday", "trUe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForSundayTrue() throws Exception {
+        paramMap.put("Sunday", "1");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForMondayFalse() throws Exception {
+        paramMap.put("mondAY", "fAlSe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForTuesdayFalse() throws Exception {
+        paramMap.put("TuesdAy", "fAlSe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForWednesdayFalse() throws Exception {
+        paramMap.put("WednesdAy", "fAlSe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForThursdayFalse() throws Exception {
+        paramMap.put("ThursdAy", "fAlSe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForFridayFalse() throws Exception {
+        paramMap.put("FridAy", "fAlse");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForSaturdayFalse() throws Exception {
+        paramMap.put("SaturdAy", "fAlSe");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForSundayFalse() throws Exception {
+        paramMap.put("Sunday", "no");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday <> '1'");
+    }
 }
