@@ -24,7 +24,19 @@ public class ScheduleScraper {
         Optional<String> envVariable = Optional.ofNullable(System.getenv("pageLimit"));
         classScraper.setPageLimit(envVariable.isPresent() ? Integer.parseInt(envVariable.get()) : 1);
         classScraper.startScraperForMultipleTerms();
-        DatabaseOperations.setPropertiesFileLocation("config/config.properties");
+
+        DatabaseOperations.jdbcDriver = System.getProperty("jdbcDriver");
+        DatabaseOperations.databaseTable = System.getProperty("databaseTable");
+        DatabaseOperations.databaseURL = System.getProperty("databaseURL") + DatabaseOperations.databaseTable;
+        DatabaseOperations.userName = System.getProperty("databaseUserName");
+        DatabaseOperations.passWord = System.getProperty("databasePassWord");
+
+//        DatabaseOperations.jdbcDriver      = "com.mysql.jdbc.Driver";
+//        DatabaseOperations.databaseTable   = "class";
+//        DatabaseOperations.databaseURL     = "jdbc:mysql://mydbinstance.cnotb9fanxgq.us-west-2.rds.amazonaws.com" +  "/" + DatabaseOperations.databaseTable;
+//        DatabaseOperations.userName        = "awsuser";
+//        DatabaseOperations.passWord        = "tJFsKo2SSR8V";
+
         DatabaseOperations.performDatabaseActions(classScraper.getAllClasses());
     }
 
