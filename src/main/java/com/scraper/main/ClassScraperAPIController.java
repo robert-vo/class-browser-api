@@ -1,12 +1,16 @@
 package com.scraper.main;
 
+import com.scraper.main.commons.exception.InvalidArgumentException;
+import com.scraper.main.dao.ClassInformationDAO;
+import com.scraper.main.dao.CoreClassInformationDAO;
+import com.scraper.main.pojo.ClassInformation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.scraper.main.util.ResponseEntityUtility.*;
+import static com.scraper.main.commons.util.ResponseEntityUtility.*;
 
 @RestController
 @RequestMapping("/api")
