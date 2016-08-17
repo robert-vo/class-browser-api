@@ -1,11 +1,14 @@
 package com.scraper.main.util;
 
+import org.springframework.stereotype.Component;
+
 /**
  * IntegerClassUtility includes a method that will help create retrieve
  * class hours from a String literal.
  *
  * @author Robert Vo
  */
+@Component
 public class IntegerClassUtility {
     /**
      * @param classNumber, the String literal version of the class number in the format of 1234.
