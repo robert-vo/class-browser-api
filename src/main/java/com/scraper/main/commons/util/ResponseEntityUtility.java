@@ -1,8 +1,8 @@
 package com.scraper.main.util;
 
-import com.scraper.main.ClassInformationDAO;
-import com.scraper.main.CoreClassInformationDAO;
-import com.scraper.main.ErrorMessage;
+import com.scraper.main.dao.ClassInformationDAO;
+import com.scraper.main.dao.CoreClassInformationDAO;
+import com.scraper.main.pojo.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
