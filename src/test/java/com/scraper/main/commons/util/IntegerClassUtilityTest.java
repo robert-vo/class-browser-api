@@ -1,5 +1,6 @@
-package com.scraper.main.util;
+package com.scraper.main.commons.util;
 
+import com.scraper.main.util.IntegerClassUtility;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
