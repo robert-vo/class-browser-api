@@ -276,6 +276,7 @@ public class ClassInformation {
     }
 
     public static boolean isNotValidTerm(String term) {
-        return term.length() != 4 || term.matches("[a-z]|[A-Z]");
+        int numericTerm = Integer.parseInt(term);
+        return numericTerm % 10 == 0 && numericTerm > 1950;
     }
 }
