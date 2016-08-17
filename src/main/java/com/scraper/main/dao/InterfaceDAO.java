@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.dao;
 
 import java.io.IOException;
 import java.sql.ResultSet;
