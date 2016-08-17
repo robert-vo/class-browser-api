@@ -1,4 +1,4 @@
-package com.scraper.main.util;
+package com.scraper.main.commons.util;
 
 import com.scraper.main.dao.ClassInformationDAO;
 import com.scraper.main.dao.CoreClassInformationDAO;
