@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.commons.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
