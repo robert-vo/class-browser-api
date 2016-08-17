@@ -5,8 +5,8 @@ import java.util.Map;
 public class StringSQLQueryUtility {
 
 
-    final static String TRUE_VALUES                 = "1|true|yes(?i)";
-    final static String FALSE_VALUES                = "0|false|no(?i)";
+    final static String TRUE_VALUES                 = "(?i)1|true|yes";
+    final static String FALSE_VALUES                = "(?i)0|false|no";
     final static String NOT_EQUALS                  = "<> ";
     final static String EQUALS                      = "= ";
     final static String AND                         = " AND";
@@ -36,6 +36,20 @@ public class StringSQLQueryUtility {
     final static String BUILDING                    = "BUILDING";
     final static String CREDIT_HOURS                = "CREDIT_HOURS";
     final static String CORE                        = "CORE";
+    final static String MONDAY                      = "MONDAY";
+    final static String TUESDAY                     = "TUESDAY";
+    final static String WEDNESDAY                   = "WEDNESDAY";
+    final static String THURSDAY                    = "THURSDAY";
+    final static String FRIDAY                      = "FRIDAY";
+    final static String SATURDAY                    = "SATURDAY";
+    final static String SUNDAY                      = "SUNDAY";
+    final static String MONDAY_COLUMN               = " CLASS.Monday ";
+    final static String TUESDAY_COLUMN              = " CLASS.Tuesday ";
+    final static String WEDNESDAY_COLUMN            = " CLASS.Wednesday ";
+    final static String THURSDAY_COLUMN             = " CLASS.Thursday ";
+    final static String FRIDAY_COLUMN               = " CLASS.Friday ";
+    final static String SATURDAY_COLUMN             = " CLASS.Saturday ";
+    final static String SUNDAY_COLUMN               = " CLASS.Sunday ";
     final static String REGULAR_ACADEMIC_SESSION    = "Regular Academic Session";
     final static String MINI_SESSION                = "MIN";
     final static String SQL_QUERY_FOR_ALL_TERMS     = "SELECT * FROM class, building, department, terms, class_information " +
@@ -93,6 +107,27 @@ public class StringSQLQueryUtility {
                     break;
                 case CORE:
                     sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
+                    break;
+                case MONDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, MONDAY_COLUMN, "1"));
+                    break;
+                case TUESDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, TUESDAY_COLUMN, "1"));
+                    break;
+                case WEDNESDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, WEDNESDAY_COLUMN, "1"));
+                    break;
+                case THURSDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, THURSDAY_COLUMN, "1"));
+                    break;
+                case FRIDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FRIDAY_COLUMN, "1"));
+                    break;
+                case SATURDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, SATURDAY_COLUMN, "1"));
+                    break;
+                case SUNDAY:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, SUNDAY_COLUMN, "1"));
                     break;
                 default:
                     break;
