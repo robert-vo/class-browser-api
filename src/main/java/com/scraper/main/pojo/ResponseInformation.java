@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.pojo;
 
 import java.util.Map;
 
@@ -9,9 +9,15 @@ public class ResponseInformation<T> {
     private Map<String, String> parameters;
     private T result;
 
-    public ResponseInformation(int statusCode, String message, int numberOfRows, Map<String, String> parameters, T result) {
-        this.statusCode = statusCode;
-        this.message = message;
+    public ResponseInformation(int numberOfRows, Map<String, String> parameters, T result) {
+        if(numberOfRows <= 0) {
+            this.statusCode = ResponseStatusCodeEnumConstant.ERROR.getStatusCode();
+            this.message = ResponseStatusCodeEnumConstant.ERROR.getMessage();
+        }
+        else {
+            this.statusCode = ResponseStatusCodeEnumConstant.SUCCESS.getStatusCode();
+            this.message = ResponseStatusCodeEnumConstant.SUCCESS.getMessage();
+        }
         this.numberOfRows = numberOfRows;
         this.parameters = parameters;
         this.result = result;
