@@ -1,9 +1,4 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
-package com.scraper.main;
+package com.scraper.main.pojo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -277,6 +272,6 @@ public class ClassInformation {
 
     public static boolean isNotValidTerm(String term) {
         int numericTerm = Integer.parseInt(term);
-        return numericTerm % 10 == 0 && numericTerm > 1950;
+        return numericTerm % 10 != 0 && numericTerm > 1950;
     }
 }
