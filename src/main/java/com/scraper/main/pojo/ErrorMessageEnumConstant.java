@@ -1,12 +1,12 @@
-package com.scraper.main;
+package com.scraper.main.pojo;
 
-public enum ErrorMessageConstant {
+public enum ErrorMessageEnumConstant {
     CORE ("Core must be a numeric value between 1 and 10, inclusive."),
     TERM ("Terms must be an integer starting from 1970 and incrementing by 10.");
 
     private final String message;
 
-    ErrorMessageConstant(String message) {
+    ErrorMessageEnumConstant(String message) {
         this.message = message;
     }
 

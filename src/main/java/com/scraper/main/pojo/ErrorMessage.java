@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.pojo;
 
 import org.springframework.http.HttpStatus;
 
@@ -10,9 +10,9 @@ public class ErrorMessage {
     private int errorCode;
 
     public ErrorMessage(String invalidParameter) {
-        ErrorMessageConstant errorMessageConstant = ErrorMessageConstant.valueOf(invalidParameter.toUpperCase());
-        this.error = errorMessageConstant.name();
-        this.errorMessage = errorMessageConstant.getMessage();
+        ErrorMessageEnumConstant errorMessageEnumConstant = ErrorMessageEnumConstant.valueOf(invalidParameter.toUpperCase());
+        this.error = errorMessageEnumConstant.name();
+        this.errorMessage = errorMessageEnumConstant.getMessage();
         this.httpStatus = HttpStatus.BAD_REQUEST;
         this.errorCode = HttpStatus.BAD_REQUEST.value();
     }

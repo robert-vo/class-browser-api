@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.pojo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
