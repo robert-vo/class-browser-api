@@ -1,5 +1,6 @@
 package com.scraper.main.util;
 
+import com.scraper.main.commons.util.ResponseEntityUtility;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
