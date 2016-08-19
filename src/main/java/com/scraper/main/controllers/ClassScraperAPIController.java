@@ -49,7 +49,7 @@ public class ClassScraperAPIController {
             }
         }
         catch (Exception e) {
-            return generateErrorMessageResponseEntity(e);
+            return generateErrorMessageResponseEntity("Term");
         }
 
         ClassInformationDAO classInformationDAO = new ClassInformationDAO();
