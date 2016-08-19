@@ -3,4 +3,7 @@
 # About
 
 ## URL Scheme
-/api/classes?{term}={termValue}
+/api/core={coreID}
+
+/api/term={termID}?{param}={paramValue}
+
