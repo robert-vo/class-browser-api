@@ -1,8 +1,9 @@
-package com.scraper.main;
+package com.scraper.main.dao;
 
-import java.io.FileInputStream;
+import com.scraper.main.pojo.CoreClassInformation;
+import com.scraper.main.pojo.ResponseInformation;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.*;
 
@@ -15,20 +16,31 @@ public class CoreClassInformationDAO implements InterfaceDAO {
     static String userName;
     static String passWord;
 
-    CoreClassInformationDAO() throws IOException {
+    public CoreClassInformationDAO() throws IOException {
         setDatabaseInformation();
         handleJavaLangClassDriver();
     }
 
     @Override
-    public void setDatabaseInformation() throws IOException{
-        InputStream input = new FileInputStream("config/config.properties");
-        properties.load(input);
-        jdbcDriver      = properties.getProperty("jdbcDriver");
-        databaseTable   = properties.getProperty("databaseTable");
-        databaseURL     = properties.getProperty("databaseURL") +  "/" + databaseTable;
-        userName        = properties.getProperty("userName");
-        passWord        = properties.getProperty("passWord");
+    public void setDatabaseInformation() throws IOException {
+//        jdbcDriver = System.getProperty("jdbcDriver");
+//        databaseTable = System.getProperty("databaseTable");
+//        databaseURL = System.getProperty("databaseURL") + databaseTable;
+//        userName = System.getProperty("databaseUserName");
+//        passWord = System.getProperty("databasePassWord");
+//
+        Optional<String> jdbcDriverProperty = Optional.ofNullable(System.getProperty("jdbcDriver"));
+        Optional<String> databaseTableProperty = Optional.ofNullable(System.getProperty("databaseTable"));
+        Optional<String> databaseURLProperty = Optional.ofNullable(System.getProperty("databaseURL"));
+        Optional<String> userNameProperty = Optional.ofNullable(System.getProperty("databaseUserName"));
+        Optional<String> passWordProperty = Optional.ofNullable(System.getProperty("databasePassWord"));
+
+        jdbcDriver      = jdbcDriverProperty.isPresent() ? System.getProperty("jdbcDriver") : "com.mysql.jdbc.Driver";
+        databaseTable   = databaseTableProperty.isPresent() ? System.getProperty("databaseTable") : "class";
+        databaseURL     = databaseURLProperty.isPresent() ? System.getProperty("databaseURL") + "/" + databaseTable : "jdbc:mysql://localhost" + "/" + databaseTable;
+        userName        = userNameProperty.isPresent() ? System.getProperty("databaseUserName") : "root";
+        passWord        = passWordProperty.isPresent() ? System.getProperty("databasePassWord") : "password";
+
     }
 
     @Override
