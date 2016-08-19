@@ -1,16 +1,19 @@
 package com.scraper.main.controllers;
 
+import com.scraper.main.ScheduleScraper;
 import com.scraper.main.commons.exception.InvalidArgumentException;
 import com.scraper.main.dao.ClassInformationDAOImpl;
 import com.scraper.main.dao.CoreClassInformationDAOImpl;
 import com.scraper.main.pojo.ClassInformation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.scraper.main.commons.util.ResponseEntityUtility.*;
+import static com.scraper.main.commons.util.ResponseEntityUtility.attemptDatabaseOperation;
+import static com.scraper.main.commons.util.ResponseEntityUtility.generateErrorMessageResponseEntity;
 
 @RestController
 @RequestMapping("/api")
@@ -56,6 +59,23 @@ public class ClassScraperAPIController {
         params.put("Term", term);
 
         return attemptDatabaseOperation(classInformationDAOImpl, params);
+    }
+
+    @RequestMapping(value = "/trigger={trigger}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity triggerClassScraping(@PathVariable(value = "trigger") String trigger) {
+        if (trigger.equals("yes")) {
+            try {
+                ScheduleScraper.updateClasses();
+                return new ResponseEntity<>("Scheduler complete.", HttpStatus.OK);
+            }
+            catch (Exception e) {
+                return generateErrorMessageResponseEntity(e);
+            }
+        }
+        else {
+            return generateErrorMessageResponseEntity("Error");
+        }
     }
 
 }
