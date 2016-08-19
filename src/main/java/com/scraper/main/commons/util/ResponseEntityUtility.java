@@ -1,7 +1,7 @@
 package com.scraper.main.commons.util;
 
-import com.scraper.main.dao.ClassInformationDAO;
-import com.scraper.main.dao.CoreClassInformationDAO;
+import com.scraper.main.dao.ClassInformationDAOImpl;
+import com.scraper.main.dao.CoreClassInformationDAOImpl;
 import com.scraper.main.pojo.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +11,13 @@ import java.util.Map;
 public class ResponseEntityUtility {
     public static ResponseEntity attemptDatabaseOperation(Object DAO, Map params) {
         try {
-            if (DAO instanceof ClassInformationDAO) {
-                final ClassInformationDAO classInformationDAO = (ClassInformationDAO) DAO;
-                return new ResponseEntity<>(classInformationDAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
+            if (DAO instanceof ClassInformationDAOImpl) {
+                final ClassInformationDAOImpl classInformationDAOImpl = (ClassInformationDAOImpl) DAO;
+                return new ResponseEntity<>(classInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
-            else if (DAO instanceof CoreClassInformationDAO) {
-                final CoreClassInformationDAO coreClassInformationDAO = (CoreClassInformationDAO) DAO;
-                return new ResponseEntity<>(coreClassInformationDAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
+            else if (DAO instanceof CoreClassInformationDAOImpl) {
+                final CoreClassInformationDAOImpl coreClassInformationDAOImpl = (CoreClassInformationDAOImpl) DAO;
+                return new ResponseEntity<>(coreClassInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
             else {
                 throw new Exception("Invalid Operation on DAO " + DAO.getClass());

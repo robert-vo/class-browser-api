@@ -1,8 +1,8 @@
 package com.scraper.main.controllers;
 
 import com.scraper.main.commons.exception.InvalidArgumentException;
-import com.scraper.main.dao.ClassInformationDAO;
-import com.scraper.main.dao.CoreClassInformationDAO;
+import com.scraper.main.dao.ClassInformationDAOImpl;
+import com.scraper.main.dao.CoreClassInformationDAOImpl;
 import com.scraper.main.pojo.ClassInformation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +28,11 @@ public class ClassScraperAPIController {
             return generateErrorMessageResponseEntity("Core");
         }
 
-        CoreClassInformationDAO coreClassInformationDAO = new CoreClassInformationDAO();
+        CoreClassInformationDAOImpl coreClassInformationDAOImpl = new CoreClassInformationDAOImpl();
         Map<String, String> params = new HashMap<>();
         params.put("Core", core);
 
-        return attemptDatabaseOperation(coreClassInformationDAO, params);
+        return attemptDatabaseOperation(coreClassInformationDAOImpl, params);
     }
 
     @RequestMapping(value = "/term={term}", method = RequestMethod.GET)
@@ -52,10 +52,10 @@ public class ClassScraperAPIController {
             return generateErrorMessageResponseEntity("Term");
         }
 
-        ClassInformationDAO classInformationDAO = new ClassInformationDAO();
+        ClassInformationDAOImpl classInformationDAOImpl = new ClassInformationDAOImpl();
         params.put("Term", term);
 
-        return attemptDatabaseOperation(classInformationDAO, params);
+        return attemptDatabaseOperation(classInformationDAOImpl, params);
     }
 
 }
