@@ -1,6 +1,6 @@
 package com.scraper.main.controllers;
 
-import com.scraper.main.ScheduleScraper;
+import com.scraper.main.tasks.ScheduleScraper;
 import com.scraper.main.commons.exception.InvalidArgumentException;
 import com.scraper.main.dao.ClassInformationDAOImpl;
 import com.scraper.main.dao.CoreClassInformationDAOImpl;
@@ -64,7 +64,7 @@ public class ClassScraperAPIController {
     @RequestMapping(value = "/trigger={trigger}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity triggerClassScraping(@PathVariable(value = "trigger") String trigger) {
-        if (trigger.equals("yes")) {
+        if (trigger.equals(System.getProperty("triggerKeyword"))) {
             try {
                 ScheduleScraper.updateClasses();
                 return new ResponseEntity<>("Scheduler complete.", HttpStatus.OK);
