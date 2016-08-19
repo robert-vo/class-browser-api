@@ -1,4 +1,4 @@
-package com.scraper.main;
+package com.scraper.main.controllers;
 
 import com.scraper.main.commons.exception.InvalidArgumentException;
 import com.scraper.main.dao.ClassInformationDAO;
