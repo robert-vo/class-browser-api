@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ScheduleScraper {
@@ -19,23 +18,15 @@ public class ScheduleScraper {
 
         System.out.println("Updating classes...");
 
-        List<Term> terms = new ArrayList<>(Arrays.asList(Term.SUMMER_2016, Term.FALL_2016));
+        List<Term> terms = new ArrayList<>(Arrays.asList(Term.SUMMER_2016, Term.FALL_2016, Term.SPRING_2017));
         ClassScraper classScraper = new ClassScraper(terms);
-        Optional<String> envVariable = Optional.ofNullable(System.getenv("pageLimit"));
-        classScraper.setPageLimit(envVariable.isPresent() ? Integer.parseInt(envVariable.get()) : 1);
         classScraper.startScraperForMultipleTerms();
 
-        DatabaseOperations.jdbcDriver = System.getProperty("jdbcDriver");
-        DatabaseOperations.databaseTable = System.getProperty("databaseTable");
-        DatabaseOperations.databaseURL = System.getProperty("databaseURL") + DatabaseOperations.databaseTable;
-        DatabaseOperations.userName = System.getProperty("databaseUserName");
-        DatabaseOperations.passWord = System.getProperty("databasePassWord");
-
-//        DatabaseOperations.jdbcDriver      = "com.mysql.jdbc.Driver";
-//        DatabaseOperations.databaseTable   = "class";
-//        DatabaseOperations.databaseURL     = "jdbc:mysql://mydbinstance.cnotb9fanxgq.us-west-2.rds.amazonaws.com" +  "/" + DatabaseOperations.databaseTable;
-//        DatabaseOperations.userName        = "awsuser";
-//        DatabaseOperations.passWord        = "tJFsKo2SSR8V";
+        DatabaseOperations.setJdbcDriver    (System.getProperty("jdbcDriver"));
+        DatabaseOperations.setDatabaseTable (System.getProperty("databaseTable"));
+        DatabaseOperations.setDatabaseURL   (System.getProperty("databaseURL") + "/" + DatabaseOperations.databaseTable);
+        DatabaseOperations.setUserName      (System.getProperty("databaseUserName"));
+        DatabaseOperations.setPassWord      (System.getProperty("databasePassWord"));
 
         DatabaseOperations.performDatabaseActions(classScraper.getAllClasses());
     }
