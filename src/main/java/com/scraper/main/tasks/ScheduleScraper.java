@@ -1,5 +1,8 @@
-package com.scraper.main;
+package com.scraper.main.tasks;
 
+import com.scraper.main.ClassScraper;
+import com.scraper.main.DatabaseOperations;
+import com.scraper.main.Term;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -34,16 +37,11 @@ public class ScheduleScraper {
     private static void performDatabaseActionsFromScraper(ClassScraper classScraper) {
         DatabaseOperations.setJdbcDriver    (System.getProperty("jdbcDriver"));
         DatabaseOperations.setDatabaseTable (System.getProperty("databaseTable"));
-        DatabaseOperations.setDatabaseURL   (System.getProperty("databaseURL") + "/" + DatabaseOperations.databaseTable);
+        DatabaseOperations.setDatabaseURL   (System.getProperty("databaseURL") + "/" + System.getProperty("databaseTable"));
         DatabaseOperations.setUserName      (System.getProperty("databaseUserName"));
         DatabaseOperations.setPassWord      (System.getProperty("databasePassWord"));
-
-        System.out.println("Driver used is " + DatabaseOperations.jdbcDriver);
-        System.out.println("Table used is " + DatabaseOperations.databaseTable);
-        System.out.println("URL used is " + DatabaseOperations.databaseURL);
-        System.out.println("Username used is " + DatabaseOperations.userName);
-
         DatabaseOperations.performDatabaseActions(classScraper.getAllClasses());
+
         System.out.println("Scheduled task is complete!");
     }
 
