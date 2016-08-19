@@ -272,6 +272,6 @@ public class ClassInformation {
 
     public static boolean isNotValidTerm(String term) {
         int numericTerm = Integer.parseInt(term);
-        return numericTerm % 10 != 0 && numericTerm > 1950;
+        return !(numericTerm >= 1950 && numericTerm % 10 == 0);
     }
 }
