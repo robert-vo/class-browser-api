@@ -54,7 +54,7 @@ public class CustomErrorControllerTest {
 
     @Test
     public void emptyParamTermShouldReturn4xxErrorAndCoreErrorMessage() throws Exception {
-        this.mockMvc.perform(get("/api/term="))
+        this.mockMvc.perform(get("/api/class/term="))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.error").value(ErrorMessageEnumConstant.TERM.toString()))
@@ -64,7 +64,7 @@ public class CustomErrorControllerTest {
 
     @Test
     public void invalidParamTermShouldReturn4xxErrorAndCoreErrorMessage() throws Exception {
-        this.mockMvc.perform(get("/api/term=111"))
+        this.mockMvc.perform(get("/api/class/term=111"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.error").value(ErrorMessageEnumConstant.TERM.toString()))
