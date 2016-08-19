@@ -44,6 +44,7 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
         return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
     }
 
+    @Override
     public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
         final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
                 "where (core = ? or core like ? or core like ?) " +

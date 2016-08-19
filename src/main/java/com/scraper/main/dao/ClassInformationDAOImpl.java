@@ -42,8 +42,10 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
         return new ResponseInformation<>(numberOfRows, allParams, allClasses);
     }
 
+    @Override
     public List<ClassInformation> selectAllClasses(Map<String, String> allParams) throws Exception {
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(allParams);
         return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("Term"));
     }
+
 }
