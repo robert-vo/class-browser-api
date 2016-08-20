@@ -17,14 +17,16 @@ public class ResponseEntityUtility {
         try {
             if (DAO instanceof ClassInformationDAOImpl) {
                 final ClassInformationDAOImpl classInformationDAOImpl = (ClassInformationDAOImpl) DAO;
+                log.info("Returning ResponseEntity for ClassInformation.");
                 return new ResponseEntity<>(classInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
             else if (DAO instanceof CoreClassInformationDAOImpl) {
                 final CoreClassInformationDAOImpl coreClassInformationDAOImpl = (CoreClassInformationDAOImpl) DAO;
+                log.info("Returning ResponseEntity for CoreClassInformation.");
                 return new ResponseEntity<>(coreClassInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
             else {
-                log.error("Invalid Operation on DAO " + DAO.getClass());
+                log.warn("Invalid Operation on DAO " + DAO.getClass());
                 throw new Exception("Invalid Operation on DAO " + DAO.getClass());
             }
         }
