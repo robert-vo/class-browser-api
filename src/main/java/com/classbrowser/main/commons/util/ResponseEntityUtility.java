@@ -9,10 +9,22 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Map;
 
+/**
+ * ResponseEntityUtility include methods that will help create response entities
+ * that will be returned in the ClassBrowserAPIController.
+ *
+ * @author Robert Vo
+ */
 public class ResponseEntityUtility {
 
     private static Logger log = Logger.getLogger(ResponseEntityUtility.class);
 
+    /**
+     * @param DAO
+     * @param params
+     * @return A ResponseEntity constructed from the attempted database transaction on a DAO.
+     * If an error occurs, a ResponseEntity contructed from ErrorMessage will be returned.
+     */
     public static ResponseEntity attemptDatabaseOperation(Object DAO, Map params) {
         try {
             if (DAO instanceof ClassInformationDAOImpl) {
@@ -35,7 +47,11 @@ public class ResponseEntityUtility {
         }
     }
 
-        public static ResponseEntity generateErrorMessageResponseEntity(Object param) {
+    /**
+     * @param param
+     * @return ResponseEntity constructed using an ErrorMessage object.
+     */
+    public static ResponseEntity generateErrorMessageResponseEntity(Object param) {
         ErrorMessage errorMessage;
         if(param instanceof Exception) {
             errorMessage = new ErrorMessage((Exception) param);
