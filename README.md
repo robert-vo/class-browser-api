@@ -43,3 +43,5 @@ Parameter Values include:
     * An Integer between 1 and 10, inclusive.
   * Credit_Hours Values
     * An Integer between 1 and 5, inclusive.
+  * Component Values
+    * 'LEC', 'PRA', 'SEM', 'IND', 'LAB', 'PLS', 'PCO', 'THE', 'TUT', 'PRC', 'DST', 'CLN'
