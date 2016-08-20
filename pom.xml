@@ -5,7 +5,7 @@
 
     <groupId>com.robert.classbrowser</groupId>
     <artifactId>ClassBrowser-api</artifactId>
-    <version>1.0</version>
+    <version>1.01</version>
     <packaging>war</packaging>
 
     <parent>
