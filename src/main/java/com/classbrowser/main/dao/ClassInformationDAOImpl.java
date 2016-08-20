@@ -3,6 +3,7 @@ package com.classbrowser.main.dao;
 import com.classbrowser.main.commons.util.StringSQLQueryUtility;
 import com.classbrowser.main.pojo.ClassInformation;
 import com.classbrowser.main.pojo.ResponseInformation;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ClassInformationDAOImpl extends AbstractInformationDAO implements ClassInformationDAO {
+
+    private static Logger log = Logger.getLogger(ClassInformationDAOImpl.class);
 
     @Override
     public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
@@ -26,7 +29,7 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
             preparedStatement.setString(1, param);
-            System.out.println(preparedStatement);
+            log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
         catch (Exception e) {

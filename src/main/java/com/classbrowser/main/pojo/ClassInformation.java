@@ -1,5 +1,7 @@
 package com.classbrowser.main.pojo;
 
+import org.apache.log4j.Logger;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class ClassInformation {
     private String syllabus;
     private String core[];
     private String lastUpdated;
+    private static Logger log = Logger.getLogger(ClassInformation.class);
 
     ClassInformation() {
 
@@ -206,7 +209,6 @@ public class ClassInformation {
     }
 
     public static ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
-
         HashMap<String, String> termInformation = new LinkedHashMap<>();
         termInformation.put("termID",  rs.getString("term_id"));
         termInformation.put("year",     rs.getString("year"));
@@ -266,11 +268,13 @@ public class ClassInformation {
     }
 
     public static boolean isNotValidCore(String core) {
+        log.info("Checking if " + core + " is valid.");
         int numericCore = Integer.parseInt(core);
         return !(numericCore > 0 && numericCore < 11);
     }
 
     public static boolean isNotValidTerm(String term) {
+        log.info("Checking if " + term + " is valid.");
         int numericTerm = Integer.parseInt(term);
         return !(numericTerm >= 1950 && numericTerm % 10 == 0);
     }

@@ -2,6 +2,7 @@ package com.classbrowser.main.dao;
 
 import com.classbrowser.main.pojo.CoreClassInformation;
 import com.classbrowser.main.pojo.ResponseInformation;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CoreClassInformationDAOImpl extends AbstractInformationDAO implements CoreClassInformationDAO {
+
+    private static Logger log = Logger.getLogger(CoreClassInformationDAOImpl.class);
 
     @Override
     public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
@@ -28,7 +31,7 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
             preparedStatement.setString(2, param + ",%");
             preparedStatement.setString(3, "%, " + param);
             preparedStatement.setString(4, param);
-            System.out.println(preparedStatement);
+            log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
         catch (Exception e) {

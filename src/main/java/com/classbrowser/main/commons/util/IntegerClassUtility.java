@@ -1,5 +1,6 @@
 package com.classbrowser.main.commons.util;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,6 +11,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class IntegerClassUtility {
+
+    private static Logger log = Logger.getLogger(IntegerClassUtility.class);
+
     /**
      * @param classNumber, the String literal version of the class number in the format of 1234.
      * @return an integer between 0 and 9, inclusive. If any errors occur, the method should return 0.
@@ -20,6 +24,7 @@ public class IntegerClassUtility {
             return classHours >= '0' && classHours <= '9' ? Character.getNumericValue(classHours) : 0;
         }
         catch (StringIndexOutOfBoundsException | NullPointerException e) {
+            log.error("Invalid Class Number. Returning 0.");
             return 0;
         }
     }

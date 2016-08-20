@@ -1,5 +1,7 @@
 package com.classbrowser.main.pojo;
 
+import org.apache.log4j.Logger;
+
 import java.util.Map;
 
 public class ResponseInformation<T> {
@@ -8,15 +10,19 @@ public class ResponseInformation<T> {
     private int numberOfRows;
     private Map<String, String> parameters;
     private T result;
+    private static Logger log = Logger.getLogger(ResponseInformation.class);
+
 
     public ResponseInformation(int numberOfRows, Map<String, String> parameters, T result) {
         if(numberOfRows <= 0) {
             this.statusCode = ResponseStatusCodeEnumConstant.ERROR.getStatusCode();
             this.message = ResponseStatusCodeEnumConstant.ERROR.getMessage();
+            log.info("Number of rows is less than or equal to zero.");
         }
         else {
             this.statusCode = ResponseStatusCodeEnumConstant.SUCCESS.getStatusCode();
             this.message = ResponseStatusCodeEnumConstant.SUCCESS.getMessage();
+            log.info("Number of rows is greater than zero.");
         }
         this.numberOfRows = numberOfRows;
         this.parameters = parameters;

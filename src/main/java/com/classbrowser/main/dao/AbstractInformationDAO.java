@@ -1,5 +1,7 @@
 package com.classbrowser.main.dao;
 
+import org.apache.log4j.Logger;
+
 import java.util.Optional;
 
 public abstract class AbstractInformationDAO {
@@ -8,6 +10,7 @@ public abstract class AbstractInformationDAO {
     String databaseTable;
     String userName;
     String passWord;
+    private static Logger log = Logger.getLogger(AbstractInformationDAO.class);
 
     AbstractInformationDAO() {
         setDatabaseInformation();
@@ -32,6 +35,7 @@ public abstract class AbstractInformationDAO {
         try {
             java.lang.Class.forName(jdbcDriver);
         } catch (ClassNotFoundException e) {
+            log.error(e);
             e.printStackTrace();
         }
     }

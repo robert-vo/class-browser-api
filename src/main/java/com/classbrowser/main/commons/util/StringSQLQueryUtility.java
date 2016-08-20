@@ -1,10 +1,12 @@
 package com.classbrowser.main.commons.util;
 
+import org.apache.log4j.Logger;
+
 import java.util.Map;
 
 public class StringSQLQueryUtility {
 
-
+    private static Logger log = Logger.getLogger(StringSQLQueryUtility.class);
     final static String TRUE_VALUES                 = "(?i)1|true|yes";
     final static String FALSE_VALUES                = "(?i)0|false|no";
     final static String NOT_EQUALS                  = "<> ";
@@ -61,12 +63,12 @@ public class StringSQLQueryUtility {
             "class.department_crn = class_information.department_crn";
 
     public static String buildSqlQuery(Map<String, String> params) throws Exception {
-
+        log.debug("Building SQL query...");
         StringBuilder sqlQuery = new StringBuilder(SQL_QUERY_FOR_ALL_TERMS);
 
         for (String s : params.keySet()) {
-
             String paramValue = params.get(s);
+            log.debug("Retrieved parameter of " + s + " with value of " + paramValue);
 
             switch (s.toUpperCase()) {
                 case ONLINE:
@@ -130,9 +132,13 @@ public class StringSQLQueryUtility {
                     sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, SUNDAY_COLUMN, "1"));
                     break;
                 default:
+                    if(!s.equalsIgnoreCase("term")) {
+                        log.error("Invalid parameter " + s + " with value " + paramValue);
+                    }
                     break;
             }
         }
+        log.info("SQL Query complete. Retrieved the following query: " + sqlQuery.toString());
         return sqlQuery.toString();
     }
 
@@ -151,6 +157,7 @@ public class StringSQLQueryUtility {
         else if (paramValue.matches(falseValues)) {
             return createStringFromColumnConditionValue(columnName, NOT_EQUALS, param);
         }
+        log.error("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
         throw new Exception("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
     }
 
@@ -171,6 +178,7 @@ public class StringSQLQueryUtility {
             case "6":
                 return createStringFromColumnConditionValue(column, condition, paramValue);
         }
+        log.error("Invalid key for session query.");
         throw new Exception("Invalid key for session query.");
     }
 }
