@@ -11,4 +11,4 @@ Click on the hyperlinks to get more information about each endpoint.
 
 [<code>GET:</code>```/api/core={coreID}```](CORE.md)
 
-[<code>GET:</code>```/api/class/term={termID}?{parameter1}={paramValue1}&...&{parameterN}={paramValueN}```](TERM.md)
+[<code>GET:</code>```/api/class/term={termID}?{parameter1}={paramValue1}& ... &{parameterN}={paramValueN}```](TERM.md)
