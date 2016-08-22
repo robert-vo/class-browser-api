@@ -1,9 +1,10 @@
 package com.classbrowser.main.controllers;
 
 import com.classbrowser.main.commons.exception.InvalidArgumentException;
-import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
+import com.classbrowser.main.dao.ClassInformationDaoImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
 import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
+import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
 import com.classbrowser.main.pojo.OfferedClassInformation;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.classbrowser.main.commons.util.ResponseEntityUtility.attemptDatabaseOperation;
 import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateErrorMessageResponseEntity;
@@ -23,7 +25,7 @@ public class ClassBrowserAPIController {
     private final String REQUEST_MAPPING_URL_DEPARTMENT     = "/department";
     private final String REQUEST_MAPPING_URL_CORE           = "/core={core}";
     private final String REQUEST_MAPPING_URL_TERM           = "/classes/term={term}";
-    private final String REQUEST_MAPPING_URL_INFORMATION    = "/information?department={department}&credit_hours={credit_hours}&core={core}";
+    private final String REQUEST_MAPPING_URL_INFORMATION    = "/information";
 
     @RequestMapping(value = REQUEST_MAPPING_URL_CORE, method = RequestMethod.GET)
     @ResponseBody
@@ -82,9 +84,42 @@ public class ClassBrowserAPIController {
 
     @RequestMapping(value = REQUEST_MAPPING_URL_INFORMATION, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getClassInformation() throws Exception {
-        return null;
-    }
-    ///api/information?department={department}&credit_hours={credit_hours}&core={core}
+    public ResponseEntity getClassInformation(@RequestParam(value = "department", required = false) Optional<String> department,
+                                              @RequestParam(value = "credit_hours", required = false) Optional<String> creditHours,
+                                              @RequestParam(value = "core", required = false) Optional<String> core) throws Exception {
+        log.info("User accessing /api/information with parameters: ");
+        if(department.isPresent()) {
+            log.info("department = " + department.get());
+        }
+        if(creditHours.isPresent()) {
+            log.info("credit_hours = " + creditHours.get());
+        }
+        if(core.isPresent()) {
+            log.info("core = " + core.get());
+        }
 
+        try {
+            if (creditHours.isPresent() && OfferedClassInformation.isNotValidCreditHours(creditHours.get())) {
+                throw new InvalidArgumentException("CREDIT_HOUR");
+            }
+            else if (core.isPresent() && OfferedClassInformation.isNotValidCore(core.get()))
+                throw new InvalidArgumentException("Core");
+        }
+        catch (Exception e) {
+            return generateErrorMessageResponseEntity("Error");
+        }
+
+        ClassInformationDaoImpl classInformationDAOImpl = new ClassInformationDaoImpl();
+        Map<String, String> params = new HashMap<>();
+        if(department.isPresent()) {
+            params.put("department", department.get());
+        }
+        if(creditHours.isPresent()) {
+            params.put("credit_hours", creditHours.get());
+        }
+        if(core.isPresent()) {
+            params.put("Core", core.get());
+        }
+        return attemptDatabaseOperation(classInformationDAOImpl, params);
+    }
 }
