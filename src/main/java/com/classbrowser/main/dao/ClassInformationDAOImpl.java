@@ -33,7 +33,8 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
         catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error processing SQL Query");
+            log.error(e);
         }
         return null;
     }
@@ -42,6 +43,7 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     public ResponseInformation<List<ClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
         List<ClassInformation> allClasses = selectAllClasses(allParams);
         int numberOfRows = allClasses.size();
+        log.info("Retrieved " + numberOfRows + ".");
         return new ResponseInformation<>(numberOfRows, allParams, allClasses);
     }
 

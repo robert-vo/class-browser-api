@@ -35,7 +35,8 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
         catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error processing SQL Query.");
+            log.error(e);
         }
         return null;
     }
@@ -44,6 +45,7 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
         List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) allParams.get("Core"));
         int numberOfRows = allCoreClasses.size();
+        log.info("Retrieved " + numberOfRows + ".");
         return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
     }
 
