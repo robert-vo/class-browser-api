@@ -16,3 +16,6 @@ Click on the hyperlinks to get more information about each endpoint.
 
 ### Class Offerings
 [<code>GET:</code>```/api/classes/term={termID}?{parameter1}={paramValue1}& ... &{parameterN}={paramValueN}```](TERM.md)
+
+### Work In Progress
+[<code>GET:</code>```/api/information?department={department}&credit_hours={credit_hours}&core={core}```](CLASS_INFORMATION.md)
