@@ -1,8 +1,9 @@
 package com.classbrowser.main.commons.util;
 
-import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
+import com.classbrowser.main.dao.ClassInformationDaoImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
 import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
+import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
 import com.classbrowser.main.pojo.ErrorMessage;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,11 @@ public class ResponseEntityUtility {
                 final DepartmentInformationDaoImpl departmentInformationDaoImpl = (DepartmentInformationDaoImpl) DAO;
                 log.info("Returning ResponseEntity for DepartmentInformation.");
                 return new ResponseEntity<>(departmentInformationDaoImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
+            }
+            else if (DAO instanceof ClassInformationDaoImpl) {
+                final ClassInformationDaoImpl classInformationDaoImpl = (ClassInformationDaoImpl) DAO;
+                log.info("Returning ResponseEntity for ClassInformation.");
+                return new ResponseEntity<>(classInformationDaoImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
             else {
                 log.warn("Invalid Operation on DAO " + DAO.getClass());
