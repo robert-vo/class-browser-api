@@ -68,7 +68,9 @@ public class StringSQLQueryUtility {
             "department.department_abbreviation = class.department AND " +
             "terms.term_id = class.term_id AND " +
             "class.department_crn = class_information.department_crn";
+    final static String SQL_QUERY_FOR_ALL_INFORMATION = "SELECT * FROM CLASS_INFORMATION";
 
+    //TODO change parameter to take in a String, the initial SQL Query
     public static String buildSqlQuery(Map<String, String> params) throws Exception {
         log.debug("Building SQL query...");
         StringBuilder sqlQuery = new StringBuilder(SQL_QUERY_FOR_ALL_TERMS);
@@ -200,5 +202,17 @@ public class StringSQLQueryUtility {
         }
         log.error("Invalid key for session query.");
         throw new Exception("Invalid key for session query.");
+    }
+
+    public static String buildSqlQueryForInformation(Map<String, String> allParams) throws Exception {
+        if(allParams.size() == 0) {
+            return SQL_QUERY_FOR_ALL_INFORMATION;
+        }
+        else {
+            StringBuilder sb = new StringBuilder(SQL_QUERY_FOR_ALL_INFORMATION);
+            sb.append(" WHERE ");
+            sb.append(buildSqlQuery(allParams));
+            return sb.toString();
+        }
     }
 }
