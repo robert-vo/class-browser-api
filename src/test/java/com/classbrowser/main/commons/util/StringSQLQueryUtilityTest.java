@@ -16,7 +16,7 @@ public class StringSQLQueryUtilityTest {
             "department.department_abbreviation = class.department AND " +
             "terms.term_id = class.term_id AND " +
             "class.department_crn = class_information.department_crn";
-
+    final static String SQL_QUERY_FOR_ALL_INFORMATION = "SELECT * FROM CLASS_INFORMATION";
     Map<String, String> paramMap;
 
     @Before
@@ -334,6 +334,17 @@ public class StringSQLQueryUtilityTest {
     public void testBuildSqlQueryForWeekendUFalse() throws Exception {
         paramMap.put("weekendu", "false");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%Weekend U%'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForAllInformation() throws Exception {
+        assertEquals(StringSQLQueryUtility.buildSqlQueryForInformation(paramMap), SQL_QUERY_FOR_ALL_INFORMATION);
+    }
+
+    @Test
+    public void testBuildSqlQueryForInformationDepartmentAAS() throws Exception {
+        paramMap.put("department", "aas");
+        assertEquals(StringSQLQueryUtility.buildSqlQueryForInformation(paramMap), SQL_QUERY_FOR_ALL_INFORMATION + " WHERE department = aas");
     }
 
 }
