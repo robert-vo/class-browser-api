@@ -323,4 +323,17 @@ public class StringSQLQueryUtilityTest {
         paramMap.put("isCore", "no");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1' AND class.attributes not like '%core%'");
     }
+
+    @Test
+    public void testBuildSqlQueryForWeekendUYes() throws Exception {
+        paramMap.put("weekendu", "yes");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%Weekend U%'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForWeekendUFalse() throws Exception {
+        paramMap.put("weekendu", "false");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%Weekend U%'");
+    }
+
 }
