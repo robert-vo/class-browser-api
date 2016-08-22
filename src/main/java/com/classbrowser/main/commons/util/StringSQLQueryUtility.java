@@ -10,7 +10,9 @@ public class StringSQLQueryUtility {
     final static String TRUE_VALUES                 = "(?i)1|true|yes";
     final static String FALSE_VALUES                = "(?i)0|false|no";
     final static String NOT_EQUALS                  = "<> ";
+    final static String NOT_LIKE                    = "not like ";
     final static String EQUALS                      = "= ";
+    final static String LIKE                        = "like ";
     final static String AND                         = " AND";
     final static String OR                          = " OR ";
     final static String FORMAT_COLUMN               = " class.format ";
@@ -23,6 +25,7 @@ public class StringSQLQueryUtility {
     final static String BUILDING_COLUMN             = " building_abbreviation ";
     final static String CREDIT_HOURS_COLUMN         = " credit_hours ";
     final static String CORE_COLUMN                 = "core";
+    final static String ATTRIBUTES_COLUMN           = " class.attributes ";
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
     final static String FACE_TO_FACE_PARAM          = "FACETOFACE";
@@ -37,7 +40,8 @@ public class StringSQLQueryUtility {
     final static String COMPONENT                   = "COMPONENT";
     final static String BUILDING                    = "BUILDING";
     final static String CREDIT_HOURS                = "CREDIT_HOURS";
-    final static String CORE                        = "CORE";
+    final static String CORE_ID                     = "CORE";
+    final static String IS_CORE                     = "ISCORE";
     final static String MONDAY                      = "MONDAY";
     final static String TUESDAY                     = "TUESDAY";
     final static String WEDNESDAY                   = "WEDNESDAY";
@@ -107,7 +111,10 @@ public class StringSQLQueryUtility {
                 case CREDIT_HOURS:
                     sqlQuery.append(createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue));
                     break;
-                case CORE:
+                case IS_CORE:
+                    sqlQuery.append(createLikeStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN, "%" + CORE_COLUMN + "%"));
+                    break;
+                case CORE_ID:
                     sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
                     break;
                 case MONDAY:
@@ -142,6 +149,17 @@ public class StringSQLQueryUtility {
         return sqlQuery.toString();
     }
 
+    private static String createLikeStringFromMatchingTrueFalseValues(String paramValue, String trueValues, String falseValues, String equals, String notEquals, String columnName, String param) throws Exception{
+        if (paramValue.matches(trueValues)) {
+            return createStringFromColumnConditionValue(columnName, equals, param);
+        }
+        else if (paramValue.matches(falseValues)) {
+            return createStringFromColumnConditionValue(columnName, notEquals, param);
+        }
+        log.error("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
+        throw new Exception("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
+    }
+
     private static String createStringMatchLikeEquals(String paramValue, String column) {
         final String LIKE = " like ";
         return AND + " (" + column + " = " +
@@ -151,10 +169,10 @@ public class StringSQLQueryUtility {
     }
 
     private static String createStringFromMatchingTrueFalseValues(String paramValue, String trueValues, String falseValues, String columnName, String param) throws Exception {
-        if (paramValue.matches(trueValues)) {
+        if (param.matches(trueValues)) {
             return createStringFromColumnConditionValue(columnName, EQUALS, param);
         }
-        else if (paramValue.matches(falseValues)) {
+        else if (param.matches(falseValues)) {
             return createStringFromColumnConditionValue(columnName, NOT_EQUALS, param);
         }
         log.error("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");

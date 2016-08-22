@@ -1,6 +1,5 @@
 package com.classbrowser.main.commons.util;
 
-import com.classbrowser.main.commons.util.StringSQLQueryUtility;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -304,5 +303,24 @@ public class StringSQLQueryUtilityTest {
     public void testBuildSqlQueryForSundayFalse() throws Exception {
         paramMap.put("Sunday", "no");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday <> '1'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForIsCoreYes() throws Exception {
+        paramMap.put("isCore", "yes");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%core%'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForIsCoreNo() throws Exception {
+        paramMap.put("isCore", "no");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%core%'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForSundayYesIsCoreNo() throws Exception {
+        paramMap.put("sunday", "yes");
+        paramMap.put("isCore", "no");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1' AND class.attributes not like '%core%'");
     }
 }
