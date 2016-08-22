@@ -1,10 +1,10 @@
 package com.classbrowser.main.controllers;
 
 import com.classbrowser.main.commons.exception.InvalidArgumentException;
-import com.classbrowser.main.dao.ClassInformationDAOImpl;
+import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
 import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
-import com.classbrowser.main.pojo.ClassInformation;
+import com.classbrowser.main.pojo.OfferedClassInformation;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +20,17 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
 public class ClassBrowserAPIController {
 
     private static Logger log = Logger.getLogger(ClassBrowserAPIController.class);
-    private final String REQUEST_MAPPING_URL_DEPARTMENT = "/department";
-    private final String REQUEST_MAPPING_URL_CORE       = "/core={core}";
-    private final String REQUEST_MAPPING_URL_TERM       = "/classes/term={term}";
+    private final String REQUEST_MAPPING_URL_DEPARTMENT     = "/department";
+    private final String REQUEST_MAPPING_URL_CORE           = "/core={core}";
+    private final String REQUEST_MAPPING_URL_TERM           = "/classes/term={term}";
+    private final String REQUEST_MAPPING_URL_INFORMATION    = "/information?department={department}&credit_hours={credit_hours}&core={core}";
 
     @RequestMapping(value = REQUEST_MAPPING_URL_CORE, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) throws Exception {
         log.info("User accessing /api/core=" + core);
         try {
-            if(ClassInformation.isNotValidCore(core)) {
+            if(OfferedClassInformation.isNotValidCore(core)) {
                 throw new InvalidArgumentException("Core");
             }
         }
@@ -54,7 +55,7 @@ public class ClassBrowserAPIController {
             if (term.isEmpty()) {
                 throw new Exception("Term is required.");
             }
-            else if (ClassInformation.isNotValidTerm(term)) {
+            else if (OfferedClassInformation.isNotValidTerm(term)) {
                 throw new InvalidArgumentException("Term");
             }
         }
@@ -62,10 +63,10 @@ public class ClassBrowserAPIController {
             return generateErrorMessageResponseEntity("Term");
         }
 
-        ClassInformationDAOImpl classInformationDAOImpl = new ClassInformationDAOImpl();
+        OfferedClassInformationDAOImpl offeredClassInformationDAOImpl = new OfferedClassInformationDAOImpl();
         params.put("Term", term);
 
-        return attemptDatabaseOperation(classInformationDAOImpl, params);
+        return attemptDatabaseOperation(offeredClassInformationDAOImpl, params);
     }
 
     @RequestMapping(value = REQUEST_MAPPING_URL_DEPARTMENT, method = RequestMethod.GET)
@@ -78,5 +79,12 @@ public class ClassBrowserAPIController {
 
         return attemptDatabaseOperation(departmentInformationDao, params);
     }
+
+    @RequestMapping(value = REQUEST_MAPPING_URL_INFORMATION, method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getClassInformation() throws Exception {
+        return null;
+    }
+    ///api/information?department={department}&credit_hours={credit_hours}&core={core}
 
 }

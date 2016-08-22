@@ -1,6 +1,6 @@
 package com.classbrowser.main.commons.util;
 
-import com.classbrowser.main.dao.ClassInformationDAOImpl;
+import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
 import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
 import com.classbrowser.main.pojo.ErrorMessage;
@@ -28,9 +28,9 @@ public class ResponseEntityUtility {
      */
     public static ResponseEntity attemptDatabaseOperation(Object DAO, Map params) {
         try {
-            if (DAO instanceof ClassInformationDAOImpl) {
-                final ClassInformationDAOImpl classInformationDAOImpl = (ClassInformationDAOImpl) DAO;
-                log.info("Returning ResponseEntity for ClassInformation.");
+            if (DAO instanceof OfferedClassInformationDAOImpl) {
+                final OfferedClassInformationDAOImpl classInformationDAOImpl = (OfferedClassInformationDAOImpl) DAO;
+                log.info("Returning ResponseEntity for OfferedClassInformation.");
                 return new ResponseEntity<>(classInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
             }
             else if (DAO instanceof CoreClassInformationDAOImpl) {

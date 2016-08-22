@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-public class ClassInformation {
+public class OfferedClassInformation {
     private HashMap<String, String> termInformation;
     private String classTitle;
     private HashMap<String, String> departmentInformation;
@@ -28,13 +28,13 @@ public class ClassInformation {
     private String syllabus;
     private String core[];
     private String lastUpdated;
-    private static Logger log = Logger.getLogger(ClassInformation.class);
+    private static Logger log = Logger.getLogger(OfferedClassInformation.class);
 
-    ClassInformation() {
+    OfferedClassInformation() {
 
     }
 
-    public ClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
+    public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
         this.termInformation = termInformation;
         this.classTitle = classTitle;
         this.departmentInformation = departmentInformation;
@@ -208,7 +208,7 @@ public class ClassInformation {
         this.lastUpdated = lastUpdated;
     }
 
-    public static ClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
+    public static OfferedClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
         HashMap<String, String> termInformation = new LinkedHashMap<>();
         termInformation.put("termID",  rs.getString("term_id"));
         termInformation.put("year",     rs.getString("year"));
@@ -254,7 +254,7 @@ public class ClassInformation {
             core = possibleCoreClasses.get().split(",");
         }
 
-        ClassInformation c = new ClassInformation(termInformation,
+        OfferedClassInformation c = new OfferedClassInformation(termInformation,
                 rs.getString("CLASS_TITLE"), departmentInformation,
                 rs.getString("Status"), rs.getString("crn"),
                 seatInformation, dateTimeInformation, rs.getString("attributes"),
