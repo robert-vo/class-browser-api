@@ -9,6 +9,11 @@ The project includes a cron task which scrapes and updates the classes, at midni
 ## Endpoints
 Click on the hyperlinks to get more information about each endpoint. 
 
+### Information about Classes
 [<code>GET:</code>```/api/core={coreID}```](CORE.md)
 
-[<code>GET:</code>```/api/class/term={termID}?{parameter1}={paramValue1}& ... &{parameterN}={paramValueN}```](TERM.md)
+### Class Offerings
+[<code>GET:</code>```/api/classes/term={termID}?{parameter1}={paramValue1}& ... &{parameterN}={paramValueN}```](TERM.md)
+
+### Work in Progress
+[<code>GET:</code>```/api/department={departmentName}```](CORE.md)
