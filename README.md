@@ -11,6 +11,7 @@ Click on the hyperlinks to get more information about each endpoint.
 
 ### Information about Classes
 [<code>GET:</code>```/api/core={coreID}```](CORE.md)
+
 [<code>GET:</code>```/api/department```](DEPARTMENT.md)
 
 ### Class Offerings
