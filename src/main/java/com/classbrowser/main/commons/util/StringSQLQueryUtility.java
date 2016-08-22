@@ -25,7 +25,8 @@ public class StringSQLQueryUtility {
     final static String BUILDING_COLUMN             = " building_abbreviation ";
     final static String CREDIT_HOURS_COLUMN         = " credit_hours ";
     final static String CORE_COLUMN                 = "core";
-    final static String LIKE_CORE_COLUMN            = "%core%";
+    final static String LIKE_CORE                   = "%core%";
+    final static String LIKE_WEEKEND_U              = "%Weekend U%";
     final static String ATTRIBUTES_COLUMN           = " class.attributes ";
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
@@ -50,6 +51,7 @@ public class StringSQLQueryUtility {
     final static String FRIDAY                      = "FRIDAY";
     final static String SATURDAY                    = "SATURDAY";
     final static String SUNDAY                      = "SUNDAY";
+    final static String WEEKEND_U                   = "WEEKENDU";
     final static String MONDAY_COLUMN               = " CLASS.Monday ";
     final static String TUESDAY_COLUMN              = " CLASS.Tuesday ";
     final static String WEDNESDAY_COLUMN            = " CLASS.Wednesday ";
@@ -113,7 +115,10 @@ public class StringSQLQueryUtility {
                     sqlQuery.append(createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue));
                     break;
                 case IS_CORE:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_CORE_COLUMN, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_CORE, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
+                    break;
+                case WEEKEND_U:
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_WEEKEND_U, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
                     break;
                 case CORE_ID:
                     sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
@@ -170,7 +175,7 @@ public class StringSQLQueryUtility {
         }
 
         final String errorMessage = "Parameter " + param + " was given invalid value of " + paramValue +
-                ". True values include: 1, true, yes, open (status only)." +
+                ". True values for include: 1, true, yes, open (status only)." +
                 " False values include: 0, false, no, closed (status only).";
         log.error(errorMessage);
         throw new Exception(errorMessage);
