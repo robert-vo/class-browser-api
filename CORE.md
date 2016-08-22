@@ -25,15 +25,15 @@ Returned is a JSON object with keys:
 * message - A string message indicating success or failure.
 * numberOfRows - The number of elements in the result value.
 * parameters - The parameter(s) passed through the request and their value(s).
-* result - An array holding the requested core classes.
-  * department
-  * department_crn
-  * class_description
-  * class_title
-  * credit_hours
-  * core_id
-  * core_title
-  * hours_required
+* result - An object array holding the requested core class information.
+  * department - The department which the class resides in.
+  * department_crn - The 4 digit course number for the class.
+  * class_description - The description of the class.
+  * class_title - The title of the class.
+  * credit_hours - The number of credit hours a class fulfils.
+  * core_id - An integer that corresponds to a core category.
+  * core_title - The name of the category the core falls under.
+  * hours_required - The number of hours required to fulfill the core category.
 
 ## Example
 
