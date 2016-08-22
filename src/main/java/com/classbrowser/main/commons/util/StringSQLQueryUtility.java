@@ -25,6 +25,7 @@ public class StringSQLQueryUtility {
     final static String BUILDING_COLUMN             = " building_abbreviation ";
     final static String CREDIT_HOURS_COLUMN         = " credit_hours ";
     final static String CORE_COLUMN                 = "core";
+    final static String LIKE_CORE_COLUMN            = "%core%";
     final static String ATTRIBUTES_COLUMN           = " class.attributes ";
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
@@ -76,19 +77,19 @@ public class StringSQLQueryUtility {
 
             switch (s.toUpperCase()) {
                 case ONLINE:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, ONLINE));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(ONLINE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
                     break;
                 case HYBRID:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, HYBRID));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(HYBRID, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
                     break;
                 case FACE_TO_FACE_PARAM:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FORMAT_COLUMN, FACE_TO_FACE_VALUE));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(FACE_TO_FACE_VALUE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
                     break;
                 case STATUS:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue,
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(OPEN, paramValue,
                             TRUE_VALUES + "|" + OPEN,
                             FALSE_VALUES + "|" + CLOSED,
-                            STATUS_COLUMN, OPEN));
+                            EQUALS, NOT_EQUALS, STATUS_COLUMN));
                     break;
                 case SESSION:
                     sqlQuery.append(getStringForSessionQuery(SESSION_COLUMN, EQUALS, paramValue));
@@ -112,31 +113,31 @@ public class StringSQLQueryUtility {
                     sqlQuery.append(createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue));
                     break;
                 case IS_CORE:
-                    sqlQuery.append(createLikeStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN, "%" + CORE_COLUMN + "%"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_CORE_COLUMN, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
                     break;
                 case CORE_ID:
                     sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
                     break;
                 case MONDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, MONDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, MONDAY_COLUMN));
                     break;
                 case TUESDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, TUESDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, TUESDAY_COLUMN));
                     break;
                 case WEDNESDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, WEDNESDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, WEDNESDAY_COLUMN));
                     break;
                 case THURSDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, THURSDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, THURSDAY_COLUMN));
                     break;
                 case FRIDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, FRIDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FRIDAY_COLUMN));
                     break;
                 case SATURDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, SATURDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SATURDAY_COLUMN));
                     break;
                 case SUNDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(paramValue, TRUE_VALUES, FALSE_VALUES, SUNDAY_COLUMN, "1"));
+                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SUNDAY_COLUMN));
                     break;
                 default:
                     if(!s.equalsIgnoreCase("term")) {
@@ -149,17 +150,6 @@ public class StringSQLQueryUtility {
         return sqlQuery.toString();
     }
 
-    private static String createLikeStringFromMatchingTrueFalseValues(String paramValue, String trueValues, String falseValues, String equals, String notEquals, String columnName, String param) throws Exception{
-        if (paramValue.matches(trueValues)) {
-            return createStringFromColumnConditionValue(columnName, equals, param);
-        }
-        else if (paramValue.matches(falseValues)) {
-            return createStringFromColumnConditionValue(columnName, notEquals, param);
-        }
-        log.error("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
-        throw new Exception("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
-    }
-
     private static String createStringMatchLikeEquals(String paramValue, String column) {
         final String LIKE = " like ";
         return AND + " (" + column + " = " +
@@ -168,15 +158,22 @@ public class StringSQLQueryUtility {
                 paramValue + "')";
     }
 
-    private static String createStringFromMatchingTrueFalseValues(String paramValue, String trueValues, String falseValues, String columnName, String param) throws Exception {
-        if (param.matches(trueValues)) {
-            return createStringFromColumnConditionValue(columnName, EQUALS, param);
+    private static String createStringFromMatchingTrueFalseValues(String param, String paramValue,
+                                                                  String trueValues, String falseValues,
+                                                                  String equals, String notEquals,
+                                                                  String columnName) throws Exception {
+        if (paramValue.matches(trueValues)) {
+            return createStringFromColumnConditionValue(columnName, equals, param);
         }
-        else if (param.matches(falseValues)) {
-            return createStringFromColumnConditionValue(columnName, NOT_EQUALS, param);
+        else if (paramValue.matches(falseValues)) {
+            return createStringFromColumnConditionValue(columnName, notEquals, param);
         }
-        log.error("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
-        throw new Exception("Parameter " + param + " was given invalid value of " + paramValue + ". True values include: 1, true, yes, open (status only). False values include: 0, false, no, closed (status only).");
+
+        final String errorMessage = "Parameter " + param + " was given invalid value of " + paramValue +
+                ". True values include: 1, true, yes, open (status only)." +
+                " False values include: 0, false, no, closed (status only).";
+        log.error(errorMessage);
+        throw new Exception(errorMessage);
     }
 
     private static String createStringFromColumnConditionValue(String column, String condition, String paramValue) {
