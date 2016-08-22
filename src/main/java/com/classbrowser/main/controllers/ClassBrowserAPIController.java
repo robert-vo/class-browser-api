@@ -3,6 +3,7 @@ package com.classbrowser.main.controllers;
 import com.classbrowser.main.commons.exception.InvalidArgumentException;
 import com.classbrowser.main.dao.ClassInformationDAOImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
+import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
 import com.classbrowser.main.pojo.ClassInformation;
 import org.apache.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,9 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
 public class ClassBrowserAPIController {
 
     private static Logger log = Logger.getLogger(ClassBrowserAPIController.class);
-    private final String REQUEST_MAPPING_URL_CORE = "/core={core}";
-    private final String REQUEST_MAPPING_URL_TERM = "/classes/term={term}";
+    private final String REQUEST_MAPPING_URL_DEPARTMENT = "/department";
+    private final String REQUEST_MAPPING_URL_CORE       = "/core={core}";
+    private final String REQUEST_MAPPING_URL_TERM       = "/classes/term={term}";
 
     @RequestMapping(value = REQUEST_MAPPING_URL_CORE, method = RequestMethod.GET)
     @ResponseBody
@@ -64,6 +66,17 @@ public class ClassBrowserAPIController {
         params.put("Term", term);
 
         return attemptDatabaseOperation(classInformationDAOImpl, params);
+    }
+
+    @RequestMapping(value = REQUEST_MAPPING_URL_DEPARTMENT, method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getAllDepartments() throws Exception {
+        log.info("User accessing /api/department");
+
+        DepartmentInformationDaoImpl departmentInformationDao = new DepartmentInformationDaoImpl();
+        Map<String, String> params = new HashMap<>();
+
+        return attemptDatabaseOperation(departmentInformationDao, params);
     }
 
 }
