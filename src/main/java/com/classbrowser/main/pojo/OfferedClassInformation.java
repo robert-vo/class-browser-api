@@ -278,4 +278,10 @@ public class OfferedClassInformation {
         int numericTerm = Integer.parseInt(term);
         return !(numericTerm >= 1950 && numericTerm % 10 == 0);
     }
+
+    public static boolean isNotValidCreditHours(String creditHours) {
+        log.info("Checking if " + creditHours + " is valid.");
+        int numericCreditHours = Integer.parseInt(creditHours);
+        return numericCreditHours < 0 || numericCreditHours > 9;
+    }
 }
