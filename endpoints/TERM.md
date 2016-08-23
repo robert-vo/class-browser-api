@@ -82,11 +82,50 @@ Returned is a JSON object with keys:
 * numberOfRows - The number of elements in the result value.
 * parameters - The parameter(s) passed through the request and their value(s).
 * result - An object array holding the requested class information.
-  * one
-  * two
-  * three
-    * nest
-    * nest
+  * termInformation -
+    * termID -
+    * year -
+    * semester -
+  * classTitle -
+  * departmentInformation -
+    * department -
+    * departmentName -
+  * classStatus -
+  * courseNumber -
+  * seatInformation -
+    * seatsTaken -
+    * seatsAvailable -
+    * seatsTotal -
+  * dateTimeInformation -
+    * startDate -
+    * endDate -
+    * startTime -
+    * endTime -
+  * attributes -
+  * classDays -
+    * monday -
+    * tuesday -
+    * wednesday -
+    * thursday -
+    * friday -
+    * saturday -
+    * sunday -
+  * instructorInformation -
+    * instructor -
+    * instructorEmail -
+  * locationInformation -
+    * location -
+    * buildingID -
+    * buildingAbbreviation -
+    * buildingName -
+  * format -
+  * description -
+  * duration -
+  * session -
+  * component -
+  * syllabus -
+  * core -
+  * lastUpdated -
     
 ## Example
 
