@@ -26,6 +26,9 @@ Returned is a JSON object with keys:
 ```GET /api/department```
 
 **JSON Response**
+
+The following JSON response has been shortened.
+
 ```
 {
   "statusCode" : 1,
