@@ -23,9 +23,9 @@ Returns an array of offered classes for a given term.
 The optional parameters can be used to filter the results to your needs.
 
 #### Possible True/False Parameter Values
-  * True Values
+  * True Values (case insensitive)
     * 1, true, yes, open (status only)
-  * False Values
+  * False Values (case insensitive)
     * 0, false, no, closed (status only)
 
 * online - Use one of the True Values to indicate an online class, False Values for classes that are not online.
