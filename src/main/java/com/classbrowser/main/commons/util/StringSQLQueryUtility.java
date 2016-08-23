@@ -70,91 +70,78 @@ public class StringSQLQueryUtility {
             "class.department_crn = class_information.department_crn";
     final static String SQL_QUERY_FOR_ALL_INFORMATION = "SELECT * FROM CLASS_INFORMATION";
 
-    //TODO change parameter to take in a String, the initial SQL Query
-    public static String buildSqlQuery(Map<String, String> params) throws Exception {
+    public static String buildSqlQuery(Map<String, String> params, String sqlQuery) throws Exception {
         log.debug("Building SQL query...");
-        StringBuilder sqlQuery = new StringBuilder(SQL_QUERY_FOR_ALL_TERMS);
+        StringBuilder sqlQueryToBuild = new StringBuilder(sqlQuery);
 
+        boolean canReplaceAnd = !sqlQuery.contains(" AND ");
         for (String s : params.keySet()) {
             String paramValue = params.get(s);
             log.debug("Retrieved parameter of " + s + " with value of " + paramValue);
-
-            switch (s.toUpperCase()) {
-                case ONLINE:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(ONLINE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
-                    break;
-                case HYBRID:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(HYBRID, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
-                    break;
-                case FACE_TO_FACE_PARAM:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(FACE_TO_FACE_VALUE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN));
-                    break;
-                case STATUS:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(OPEN, paramValue,
-                            TRUE_VALUES + "|" + OPEN,
-                            FALSE_VALUES + "|" + CLOSED,
-                            EQUALS, NOT_EQUALS, STATUS_COLUMN));
-                    break;
-                case SESSION:
-                    sqlQuery.append(getStringForSessionQuery(SESSION_COLUMN, EQUALS, paramValue));
-                    break;
-                case DEPARTMENT:
-                    sqlQuery.append(createStringFromColumnConditionValue(DEPARTMENT_COLUMN, EQUALS, paramValue));
-                    break;
-                case DEPARTMENT_CRN:
-                    sqlQuery.append(createStringFromColumnConditionValue(DEPARTMENT_CRN_COLUMN, EQUALS, paramValue));
-                    break;
-                case LOCATION:
-                    sqlQuery.append(createStringFromColumnConditionValue(LOCATION_COLUMN, EQUALS, paramValue));
-                    break;
-                case COMPONENT:
-                    sqlQuery.append(createStringFromColumnConditionValue(COMPONENT_COLUMN, EQUALS, paramValue));
-                    break;
-                case BUILDING:
-                    sqlQuery.append(createStringFromColumnConditionValue(BUILDING_COLUMN, EQUALS, paramValue));
-                    break;
-                case CREDIT_HOURS:
-                    sqlQuery.append(createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue));
-                    break;
-                case IS_CORE:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_CORE, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
-                    break;
-                case WEEKEND_U:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues(LIKE_WEEKEND_U, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN));
-                    break;
-                case CORE_ID:
-                    sqlQuery.append(createStringMatchLikeEquals(paramValue, CORE_COLUMN));
-                    break;
-                case MONDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, MONDAY_COLUMN));
-                    break;
-                case TUESDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, TUESDAY_COLUMN));
-                    break;
-                case WEDNESDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, WEDNESDAY_COLUMN));
-                    break;
-                case THURSDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, THURSDAY_COLUMN));
-                    break;
-                case FRIDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FRIDAY_COLUMN));
-                    break;
-                case SATURDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SATURDAY_COLUMN));
-                    break;
-                case SUNDAY:
-                    sqlQuery.append(createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SUNDAY_COLUMN));
-                    break;
-                default:
-                    if(!s.equalsIgnoreCase("term")) {
-                        log.error("Invalid parameter " + s + " with value " + paramValue);
-                    }
-                    break;
+            String stringToAppend = getStringToAppendForParameter(s, paramValue);
+            if(canReplaceAnd) {
+                stringToAppend = stringToAppend.replace("AND", "");
+                canReplaceAnd = false;
             }
+            sqlQueryToBuild.append(stringToAppend);
         }
-        log.info("SQL Query complete. Retrieved the following query: " + sqlQuery.toString());
-        return sqlQuery.toString();
+        log.info("SQL Query complete. Retrieved the following query: " + sqlQueryToBuild.toString());
+        return sqlQueryToBuild.toString();
+    }
+    
+    private static String getStringToAppendForParameter(String parameter, String paramValue) throws Exception {
+        switch (parameter.toUpperCase()) {
+            case ONLINE:
+                return createStringFromMatchingTrueFalseValues(ONLINE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN);
+            case HYBRID:
+                return createStringFromMatchingTrueFalseValues(HYBRID, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN);
+            case FACE_TO_FACE_PARAM:
+                return createStringFromMatchingTrueFalseValues(FACE_TO_FACE_VALUE, paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FORMAT_COLUMN);
+            case STATUS:
+                return createStringFromMatchingTrueFalseValues(OPEN, paramValue,
+                        TRUE_VALUES + "|" + OPEN,
+                        FALSE_VALUES + "|" + CLOSED,
+                        EQUALS, NOT_EQUALS, STATUS_COLUMN);
+            case SESSION:
+                return getStringForSessionQuery(SESSION_COLUMN, EQUALS, paramValue);
+            case DEPARTMENT:
+                return createStringFromColumnConditionValue(DEPARTMENT_COLUMN, EQUALS, paramValue);
+            case DEPARTMENT_CRN:
+                return createStringFromColumnConditionValue(DEPARTMENT_CRN_COLUMN, EQUALS, paramValue);
+            case LOCATION:
+                return createStringFromColumnConditionValue(LOCATION_COLUMN, EQUALS, paramValue);
+            case COMPONENT:
+                return createStringFromColumnConditionValue(COMPONENT_COLUMN, EQUALS, paramValue);
+            case BUILDING:
+                return createStringFromColumnConditionValue(BUILDING_COLUMN, EQUALS, paramValue);
+            case CREDIT_HOURS:
+                return createStringFromColumnConditionValue(CREDIT_HOURS_COLUMN, EQUALS, paramValue);
+            case IS_CORE:
+                return createStringFromMatchingTrueFalseValues(LIKE_CORE, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN);
+            case WEEKEND_U:
+                return createStringFromMatchingTrueFalseValues(LIKE_WEEKEND_U, paramValue, TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, ATTRIBUTES_COLUMN);
+            case CORE_ID:
+                return createStringMatchLikeEquals(paramValue, CORE_COLUMN);
+            case MONDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, MONDAY_COLUMN);
+            case TUESDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, TUESDAY_COLUMN);
+            case WEDNESDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, WEDNESDAY_COLUMN);
+            case THURSDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, THURSDAY_COLUMN);
+            case FRIDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, FRIDAY_COLUMN);
+            case SATURDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SATURDAY_COLUMN);
+            case SUNDAY:
+                return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, SUNDAY_COLUMN);
+            default:
+                if(!parameter.equalsIgnoreCase("term")) {
+                    log.error("Invalid parameter " + parameter + " with value " + paramValue);
+                }
+        }
+        return "";
     }
 
     private static String createStringMatchLikeEquals(String paramValue, String column) {
@@ -209,10 +196,7 @@ public class StringSQLQueryUtility {
             return SQL_QUERY_FOR_ALL_INFORMATION;
         }
         else {
-            StringBuilder sb = new StringBuilder(SQL_QUERY_FOR_ALL_INFORMATION);
-            sb.append(" WHERE ");
-            sb.append(buildSqlQuery(allParams));
-            return sb.toString();
+            return buildSqlQuery(allParams, SQL_QUERY_FOR_ALL_INFORMATION + " WHERE");
         }
     }
 }

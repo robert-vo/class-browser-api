@@ -26,182 +26,182 @@ public class StringSQLQueryUtilityTest {
 
     @Test
     public void testBuildSqlQueryForEmptyMap() throws Exception {
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS);
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS);
     }
 
     @Test
     public void testBuildSqlQueryForOnlineFilterTrue() throws Exception {
         paramMap.put("online", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'ONLINE'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'ONLINE'");
     }
 
     @Test
     public void testBuildSqlQueryForOnlineFilterFalse() throws Exception {
         paramMap.put("online", "false");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'ONLINE'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'ONLINE'");
     }
 
     @Test
     public void testBuildSqlQueryForHybridFilterTrue() throws Exception {
         paramMap.put("HyBriD", "yes");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'HYBRID'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'HYBRID'");
     }
 
     @Test
     public void testBuildSqlQueryForHybridFilterFalse() throws Exception {
         paramMap.put("HYBRID", "false");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'HYBRID'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'HYBRID'");
     }
 
     @Test
     public void testBuildSqlQueryForFaceToFaceFilterTrue() throws Exception {
         paramMap.put("facetoface", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'Face To Face'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format = 'Face To Face'");
     }
 
     @Test
     public void testBuildSqlQueryForFaceToFaceFilterFalse() throws Exception {
         paramMap.put("FaceTOFACE", "false");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'Face To Face'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.format <> 'Face To Face'");
     }
 
     @Test
     public void testBuildSqlQueryForStatusFilterOpen1() throws Exception {
         paramMap.put("status", "OPEN");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Open'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Open'");
     }
 
     @Test
     public void testBuildSqlQueryForStatusFilterOpen2() throws Exception {
         paramMap.put("status", "true");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Open'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.status = 'Open'");
     }
 
     @Test
     public void testBuildSqlQueryForStatusFilterClosed1() throws Exception {
         paramMap.put("status", "closed");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
     }
 
     @Test
     public void testBuildSqlQueryForStatusFilterClosed2() throws Exception {
         paramMap.put("status", "0");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.status <> 'Open'");
     }
 
     @Test
     public void testBuildSqlQueryForSession1() throws Exception {
         paramMap.put("session", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'Regular Academic Session'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'Regular Academic Session'");
     }
 
     @Test
     public void testBuildSqlQueryForSession2() throws Exception {
         paramMap.put("session", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '2'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '2'");
     }
 
     @Test
     public void testBuildSqlQueryForSession3() throws Exception {
         paramMap.put("session", "3");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '3'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '3'");
     }
 
     @Test
     public void testBuildSqlQueryForSession4() throws Exception {
         paramMap.put("session", "4");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '4'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '4'");
     }
 
     @Test
     public void testBuildSqlQueryForSession5() throws Exception {
         paramMap.put("session", "5");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '5'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '5'");
     }
 
     @Test
     public void testBuildSqlQueryForSession6() throws Exception {
         paramMap.put("session", "6");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '6'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = '6'");
     }
 
     @Test
     public void testBuildSqlQueryForSessionMIN() throws Exception {
         paramMap.put("session", "MIN");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'MIN'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'MIN'");
     }
 
     @Test
     public void testBuildSqlQueryForDepartmentCOSC() throws Exception {
         paramMap.put("department", "COSC");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.department = 'COSC'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.department = 'COSC'");
     }
 
     @Test
     public void testBuildSqlQueryForDepartmentCRN1234() throws Exception {
         paramMap.put("department_crn", "1234");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.department_crn = '1234'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.department_crn = '1234'");
     }
 
     @Test
     public void testBuildSqlQueryForLocationUH() throws Exception {
         paramMap.put("location", "UH");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.location = 'UH'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.location = 'UH'");
     }
 
     @Test
     public void testBuildSqlQueryForComponentLAB() throws Exception {
         paramMap.put("component", "lab");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lab'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lab'");
     }
 
     @Test
     public void testBuildSqlQueryForComponentLEC() throws Exception {
         paramMap.put("component", "lec");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec'");
     }
 
     @Test
     public void testBuildSqlQueryForBuildingSEC() throws Exception {
         paramMap.put("building", "SEC");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND building_abbreviation = 'SEC'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND building_abbreviation = 'SEC'");
     }
 
     @Test
     public void testBuildSqlQueryForBuildingAH() throws Exception {
         paramMap.put("building", "AH");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND building_abbreviation = 'AH'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND building_abbreviation = 'AH'");
     }
 
     @Test
     public void testBuildSqlQueryForOneCreditHour() throws Exception {
         paramMap.put("credit_hours", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForTwoCreditHours() throws Exception {
         paramMap.put("credit_hours", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '2'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '2'");
     }
 
     @Test
     public void testBuildSqlQueryForEnglishCore() throws Exception {
         paramMap.put("core", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 1 OR core like '1,%' OR core like '%,1')");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 1 OR core like '1,%' OR core like '%,1')");
     }
 
     @Test
     public void testBuildSqlQueryForMathCore() throws Exception {
         paramMap.put("core", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2')");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2')");
     }
 
     @Test
     public void testBuildSqlQueryForOnlineTrueAndSession1() throws Exception {
         paramMap.put("online", "true");
         paramMap.put("session", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'Regular Academic Session' AND class.format = 'ONLINE'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.session = 'Regular Academic Session' AND class.format = 'ONLINE'");
     }
 
     @Test
@@ -209,7 +209,7 @@ public class StringSQLQueryUtilityTest {
         paramMap.put("status", "open");
         paramMap.put("department", "cosc");
         paramMap.put("core", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2') AND class.department = 'cosc' AND class.status = 'Open'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND (core = 2 OR core like '2,%' OR core like '%,2') AND class.department = 'cosc' AND class.status = 'Open'");
     }
 
     @Test
@@ -218,122 +218,122 @@ public class StringSQLQueryUtilityTest {
         paramMap.put("component", "lec");
         paramMap.put("hybrid", "true");
         paramMap.put("credit_hours", "2");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec' AND class.format = 'HYBRID' AND class.location = 'ABC' AND credit_hours = '2'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.component = 'lec' AND class.format = 'HYBRID' AND class.location = 'ABC' AND credit_hours = '2'");
     }
 
     @Test
     public void testBuildSqlQueryForMondayTrue() throws Exception {
         paramMap.put("monday", "true");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForTuesdayTrue() throws Exception {
         paramMap.put("Tuesday", "true");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForWednesdayTrue() throws Exception {
         paramMap.put("Wednesday", "true");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForThursdayTrue() throws Exception {
         paramMap.put("Thursday", "true");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForFridayTrue() throws Exception {
         paramMap.put("Friday", "truE");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForSaturdayTrue() throws Exception {
         paramMap.put("Saturday", "trUe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForSundayTrue() throws Exception {
         paramMap.put("Sunday", "1");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForMondayFalse() throws Exception {
         paramMap.put("mondAY", "fAlSe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Monday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForTuesdayFalse() throws Exception {
         paramMap.put("TuesdAy", "fAlSe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Tuesday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForWednesdayFalse() throws Exception {
         paramMap.put("WednesdAy", "fAlSe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Wednesday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForThursdayFalse() throws Exception {
         paramMap.put("ThursdAy", "fAlSe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Thursday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForFridayFalse() throws Exception {
         paramMap.put("FridAy", "fAlse");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Friday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForSaturdayFalse() throws Exception {
         paramMap.put("SaturdAy", "fAlSe");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Saturday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForSundayFalse() throws Exception {
         paramMap.put("Sunday", "no");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday <> '1'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday <> '1'");
     }
 
     @Test
     public void testBuildSqlQueryForIsCoreYes() throws Exception {
         paramMap.put("isCore", "yes");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%core%'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%core%'");
     }
 
     @Test
     public void testBuildSqlQueryForIsCoreNo() throws Exception {
         paramMap.put("isCore", "no");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%core%'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%core%'");
     }
 
     @Test
     public void testBuildSqlQueryForSundayYesIsCoreNo() throws Exception {
         paramMap.put("sunday", "yes");
         paramMap.put("isCore", "no");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1' AND class.attributes not like '%core%'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1' AND class.attributes not like '%core%'");
     }
 
     @Test
     public void testBuildSqlQueryForWeekendUYes() throws Exception {
         paramMap.put("weekendu", "yes");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%Weekend U%'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes like '%Weekend U%'");
     }
 
     @Test
     public void testBuildSqlQueryForWeekendUFalse() throws Exception {
         paramMap.put("weekendu", "false");
-        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%Weekend U%'");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND class.attributes not like '%Weekend U%'");
     }
 
     @Test
@@ -344,7 +344,7 @@ public class StringSQLQueryUtilityTest {
     @Test
     public void testBuildSqlQueryForInformationDepartmentAAS() throws Exception {
         paramMap.put("department", "aas");
-        assertEquals(StringSQLQueryUtility.buildSqlQueryForInformation(paramMap), SQL_QUERY_FOR_ALL_INFORMATION + " WHERE department = aas");
+        assertEquals(StringSQLQueryUtility.buildSqlQueryForInformation(paramMap), SQL_QUERY_FOR_ALL_INFORMATION + " WHERE  class.department = 'aas'");
     }
 
 }
