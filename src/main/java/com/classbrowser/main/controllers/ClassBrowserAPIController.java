@@ -84,9 +84,9 @@ public class ClassBrowserAPIController {
 
     @RequestMapping(value = REQUEST_MAPPING_URL_INFORMATION, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getClassInformation(@RequestParam(value = "department", required = false) Optional<String> department,
-                                              @RequestParam(value = "credit_hours", required = false) Optional<String> creditHours,
-                                              @RequestParam(value = "core", required = false) Optional<String> core) throws Exception {
+    public ResponseEntity getClassInformation(@RequestParam(value = "department", required = false)     Optional<String> department,
+                                              @RequestParam(value = "credit_hours", required = false)   Optional<String> creditHours,
+                                              @RequestParam(value = "core", required = false)           Optional<String> core) throws Exception {
         log.info("User accessing /api/information with parameters: ");
         if(department.isPresent()) {
             log.info("department = " + department.get());
