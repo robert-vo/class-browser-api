@@ -20,7 +20,7 @@ Returns an array of offered classes for a given term.
   * "2040" returns classes for the Spring 2018 term.
 
 ### Optional Parameters
-The optional parameters can be used to filter the results to your needs.
+The optional parameters can be used to filter the results to your needs. True/False Values are given after this section.
 
 * online - Use one of the True Values to indicate an online class, False Values for classes that are not online.
 * hybrid - Use one of the True Values to indicate a hybrid class, False Values for classes that are not hybrid.
