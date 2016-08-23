@@ -37,13 +37,6 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
         return null;
     }
 
-//    @Override
-//    public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
-//        List<DepartmentInformation> allCoreClasses = selectAllDepartments("");
-//        int numberOfRows = allCoreClasses.size();
-//        log.info("Retrieved " + numberOfRows + " items.");
-//        return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
-//    }
 
     @Override
     public List<DepartmentInformation> selectAllDepartments(String departmentName) throws SQLException {
