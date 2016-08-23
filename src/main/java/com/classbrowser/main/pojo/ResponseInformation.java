@@ -14,10 +14,15 @@ public class ResponseInformation<T> {
 
 
     public ResponseInformation(int numberOfRows, Map<String, String> parameters, T result) {
-        if(numberOfRows <= 0) {
+        if(numberOfRows < 0) {
             this.statusCode = ResponseStatusCodeEnumConstant.ERROR.getStatusCode();
             this.message = ResponseStatusCodeEnumConstant.ERROR.getMessage();
-            log.info("Number of rows is less than or equal to zero.");
+            log.info("Number of rows is less than to zero.");
+        }
+        else if(numberOfRows == 0) {
+            this.statusCode = ResponseStatusCodeEnumConstant.NOTHING.getStatusCode();
+            this.message = ResponseStatusCodeEnumConstant.NOTHING.getMessage();
+            log.info("Number of rows is equal to zero.");
         }
         else {
             this.statusCode = ResponseStatusCodeEnumConstant.SUCCESS.getStatusCode();

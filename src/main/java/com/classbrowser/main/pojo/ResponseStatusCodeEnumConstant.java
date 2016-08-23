@@ -2,6 +2,7 @@ package com.classbrowser.main.pojo;
 
 public enum ResponseStatusCodeEnumConstant {
     SUCCESS (1, "Successful"),
+    NOTHING (0, "No data fetched"),
     ERROR (-1, "Error");
 
     private int statusCode;
