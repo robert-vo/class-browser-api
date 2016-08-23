@@ -2,9 +2,10 @@ package com.classbrowser.main.dao;
 
 import org.apache.log4j.Logger;
 
+import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractInformationDAO {
+public abstract class AbstractInformationDAO<T> {
     String jdbcDriver;
     String databaseURL;
     String databaseTable;
@@ -17,7 +18,7 @@ public abstract class AbstractInformationDAO {
         handleJavaLangClassDriver();
     }
 
-    public void setDatabaseInformation() {
+    private void setDatabaseInformation() {
         Optional<String> jdbcDriverProperty = Optional.ofNullable(System.getProperty("jdbcDriver"));
         Optional<String> databaseTableProperty = Optional.ofNullable(System.getProperty("databaseTable"));
         Optional<String> databaseURLProperty = Optional.ofNullable(System.getProperty("databaseURL"));
@@ -31,7 +32,7 @@ public abstract class AbstractInformationDAO {
         passWord        = passWordProperty.isPresent() ? System.getProperty("databasePassWord") : "password";
     }
 
-    public void handleJavaLangClassDriver() {
+    private void handleJavaLangClassDriver() {
         try {
             java.lang.Class.forName(jdbcDriver);
         } catch (ClassNotFoundException e) {
@@ -39,4 +40,7 @@ public abstract class AbstractInformationDAO {
             e.printStackTrace();
         }
     }
+
+    public abstract T getFromDatabaseAndResponseInfo(Map params) throws Exception;
+
 }
