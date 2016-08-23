@@ -347,4 +347,16 @@ public class StringSQLQueryUtilityTest {
         assertEquals(StringSQLQueryUtility.buildSqlQueryForInformation(paramMap), SQL_QUERY_FOR_ALL_INFORMATION + " WHERE  CLASS_INFORMATION.department = 'aas'");
     }
 
+    @Test
+    public void testBuildSqlQueryForUnavailableSyllabus() throws Exception {
+        paramMap.put("syllabus", "no");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.SYLLABUS = 'Unavailable'");
+    }
+
+    @Test
+    public void testBuildSqlQueryForAvailableSyllabus() throws Exception {
+        paramMap.put("syllabus", "yes");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.SYLLABUS <> 'Unavailable'");
+    }
+
 }

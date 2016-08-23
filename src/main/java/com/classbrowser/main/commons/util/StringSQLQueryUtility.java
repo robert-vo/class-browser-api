@@ -36,6 +36,7 @@ public class StringSQLQueryUtility {
     final static String FACE_TO_FACE_VALUE          = "Face To Face";
     final static String STATUS                      = "STATUS";
     final static String SESSION                     = "SESSION";
+    final static String SYLLABUS                    = "SYLLABUS";
     final static String OPEN                        = "Open";
     final static String CLOSED                      = "Closed";
     final static String DEPARTMENT                  = "DEPARTMENT";
@@ -131,6 +132,8 @@ public class StringSQLQueryUtility {
                 return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, CLASS_TABLE, SATURDAY_COLUMN);
             case SUNDAY:
                 return createStringFromMatchingTrueFalseValues("1", paramValue, TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, CLASS_TABLE, SUNDAY_COLUMN);
+            case SYLLABUS:
+                return createStringFromMatchingTrueFalseValues("Unavailable", paramValue, FALSE_VALUES, TRUE_VALUES, EQUALS, NOT_EQUALS, CLASS_TABLE, SYLLABUS);
             default:
                 if(!parameter.equalsIgnoreCase("term")) {
                     log.error("Invalid parameter " + parameter + " with value " + paramValue);
