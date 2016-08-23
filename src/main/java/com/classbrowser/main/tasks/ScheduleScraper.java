@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ScheduleScraper {
@@ -26,11 +25,20 @@ public class ScheduleScraper {
         log.info("Starting scraper...");
 
         ClassScraper classScraper = new ClassScraper(terms);
-        Optional<Integer> pageLimit = Optional.ofNullable(Integer.parseInt(System.getProperty("pageLimit")));
 
-        if (pageLimit.isPresent() && pageLimit.get() != 0) {
-            log.info("Found page limit. Setting page limit of " + pageLimit.get());
-            classScraper.setPageLimit(pageLimit.get());
+        int pageLimit = 0;
+        if(!System.getProperty("pageLimit").isEmpty()) {
+            try {
+                pageLimit = Integer.parseInt(System.getProperty("pageLimit"));
+            }
+            catch (NumberFormatException ex) {
+                log.error("Error for page limit of value: " + System.getProperty("pageLimit"));
+                log.error(ex);
+            }
+        }
+        if (pageLimit > 0) {
+            log.info("Found page limit. Setting page limit of " + pageLimit);
+            classScraper.setPageLimit(pageLimit);
         }
 
         log.info("Scraper started!");
