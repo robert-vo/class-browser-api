@@ -100,13 +100,21 @@ public class ClassBrowserAPIController {
 
         try {
             if (creditHours.isPresent() && OfferedClassInformation.isNotValidCreditHours(creditHours.get())) {
+                log.error("The credit_hour parameter is invalid with value: " + creditHours.get());
                 throw new InvalidArgumentException("CREDIT_HOUR");
             }
-            else if (core.isPresent() && OfferedClassInformation.isNotValidCore(core.get()))
+            else if (core.isPresent() && OfferedClassInformation.isNotValidCore(core.get())) {
+                log.error("The core parameter is invalid with value: " + core.get());
                 throw new InvalidArgumentException("Core");
+            }
         }
         catch (Exception e) {
-            return generateErrorMessageResponseEntity("Error");
+            if(e.getMessage().contains("CREDIT_HOUR")) {
+                return generateErrorMessageResponseEntity("CREDIT_HOUR");
+            }
+            else {
+                return generateErrorMessageResponseEntity("CORE");
+            }
         }
 
         ClassInformationDaoImpl classInformationDAOImpl = new ClassInformationDaoImpl();
