@@ -11,7 +11,7 @@ public class ResponseEntityUtilityTest {
 
     @Test
     public void attemptDatabaseOperationReturnsBadRequest() {
-        assertTrue(ResponseEntityUtility.attemptDatabaseOperation("", new HashMap<>()).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        assertTrue(ResponseEntityUtility.attemptDatabaseOperation(null, new HashMap<>()).getStatusCode().equals(HttpStatus.BAD_REQUEST));
     }
 
     @Test
