@@ -18,7 +18,7 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     public List<OfferedClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<OfferedClassInformation> allOfferedClassInformation = new LinkedList<>();
         while(rs.next()) {
-            OfferedClassInformation c = OfferedClassInformation.getClassEntryFromResultSet(rs);
+            OfferedClassInformation c = OfferedClassInformation.getPojoFromResultSet(rs);
             allOfferedClassInformation.add(c);
         }
         return allOfferedClassInformation;
@@ -40,22 +40,22 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     }
 
     @Override
-    public ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
-        List<OfferedClassInformation> allClasses = selectAllClasses(allParams);
+    public ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<OfferedClassInformation> allClasses = selectAllClasses(params);
         int numberOfRows = allClasses.size();
-        log.info("Retrieved " + numberOfRows + ".");
-        return new ResponseInformation<>(numberOfRows, allParams, allClasses);
+        log.info("Retrieved " + numberOfRows + " items.");
+        return new ResponseInformation<>(numberOfRows, params, allClasses);
     }
 
     @Override
     public List<OfferedClassInformation> selectAllClasses(Map<String, String> allParams) throws Exception {
-        final String SQL_QUERY = "\"SELECT * FROM class, building, department, terms, class_information \" +\n" +
-                "            \"WHERE class.TERM_ID = ? AND \" +\n" +
-                "            \"class.department = class_information.department AND \" +\n" +
-                "            \"building.building_abbreviation = class.building_abbv AND \" +\n" +
-                "            \"department.department_abbreviation = class.department AND \" +\n" +
-                "            \"terms.term_id = class.term_id AND \" +\n" +
-                "            \"class.department_crn = class_information.department_crn\"";
+        final String SQL_QUERY = "SELECT * FROM class, building, department, terms, class_information " +
+                " WHERE class.TERM_ID = ? AND" +
+                " class.department = class_information.department AND" +
+                " building.building_abbreviation = class.building_abbv AND" +
+                " department.department_abbreviation = class.department AND" +
+                " terms.term_id = class.term_id AND" +
+                " class.department_crn = class_information.department_crn ";
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(allParams, SQL_QUERY);
         return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("Term"));
     }
