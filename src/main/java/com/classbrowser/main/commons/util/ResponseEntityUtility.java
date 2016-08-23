@@ -32,7 +32,7 @@ public class ResponseEntityUtility {
             return new ResponseEntity<>(DAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
         }
         catch (Exception e) {
-            log.warn("Invalid Operation on DAO " + DAO.getClass());
+            log.warn("Invalid Operation on DAO " + DAO);
             return generateErrorMessageResponseEntity(e);
         }
     }
