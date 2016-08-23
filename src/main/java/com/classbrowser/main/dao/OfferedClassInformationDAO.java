@@ -1,7 +1,6 @@
 package com.classbrowser.main.dao;
 
 import com.classbrowser.main.pojo.OfferedClassInformation;
-import com.classbrowser.main.pojo.ResponseInformation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +13,6 @@ public interface OfferedClassInformationDAO extends InterfaceInformationDAO {
 
     @Override
     List<OfferedClassInformation> processStringQuery(String sqlQuery, String param) throws SQLException;
-
-    @Override
-    ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception;
 
     List<OfferedClassInformation> selectAllClasses(Map<String, String> allParams) throws Exception;
 }
