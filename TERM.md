@@ -43,6 +43,7 @@ Returns an array of classes for a given term and specified optional parameters.
 * friday
 * saturday
 * sunday
+* syllabus
 
 Parameter Values include: 
   * True Values
