@@ -10,11 +10,11 @@ The project includes a cron task which scrapes and updates the classes, at midni
 Click on the hyperlinks to get more information about each endpoint. 
 
 ### Information about Classes
-[<code>GET:</code>```/api/core={coreID}```](CORE.md)
+[<code>GET:</code>```/api/core={coreID}```](endpoints/CORE.md)
 
-[<code>GET:</code>```/api/department```](DEPARTMENT.md)
+[<code>GET:</code>```/api/department```](endpoints/DEPARTMENT.md)
 
-[<code>GET:</code>```/api/information```](CLASS_INFORMATION.md)
+[<code>GET:</code>```/api/information```](endpoints/CLASS_INFORMATION.md)
 
 ### Class Offerings
-[<code>GET:</code>```/api/classes/term={termID}```](TERM.md)
+[<code>GET:</code>```/api/classes/term={termID}```](endpoints/TERM.md)
