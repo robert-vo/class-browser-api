@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 
 public abstract class AbstractInformationDAO<T> {
-    String jdbcDriver;
-    String databaseURL;
-    String databaseTable;
-    String userName;
-    String passWord;
+    String jdbcDriver = "com.mysql.jdbc.Driver";
+    String databaseURL = "jdbc:mysql://localhost/class";
+    String databaseTable = "class";
+    String userName = "root";
+    String passWord = "password";
     private static Logger log = Logger.getLogger(AbstractInformationDAO.class);
 
     AbstractInformationDAO() {
@@ -19,20 +19,34 @@ public abstract class AbstractInformationDAO<T> {
     }
 
     private void setDatabaseInformation() {
+        log.info("Setting up database information.");
         Optional<String> jdbcDriverProperty = Optional.ofNullable(System.getProperty("jdbcDriver"));
         Optional<String> databaseTableProperty = Optional.ofNullable(System.getProperty("databaseTable"));
         Optional<String> databaseURLProperty = Optional.ofNullable(System.getProperty("databaseURL"));
         Optional<String> userNameProperty = Optional.ofNullable(System.getProperty("databaseUserName"));
         Optional<String> passWordProperty = Optional.ofNullable(System.getProperty("databasePassWord"));
 
-        jdbcDriver      = jdbcDriverProperty.isPresent() ? System.getProperty("jdbcDriver") : "com.mysql.jdbc.Driver";
-        databaseTable   = databaseTableProperty.isPresent() ? System.getProperty("databaseTable") : "class";
-        databaseURL     = databaseURLProperty.isPresent() ? System.getProperty("databaseURL") + "/" + databaseTable : "jdbc:mysql://localhost" + "/" + databaseTable;
-        userName        = userNameProperty.isPresent() ? System.getProperty("databaseUserName") : "root";
-        passWord        = passWordProperty.isPresent() ? System.getProperty("databasePassWord") : "password";
+        if(jdbcDriverProperty.isPresent()) {
+            jdbcDriver = jdbcDriverProperty.get();
+        }
+
+        if(databaseTableProperty.isPresent()) {
+            databaseTable = databaseTableProperty.get();
+        }
+
+        if (databaseURLProperty.isPresent()) {
+            databaseURL = databaseURLProperty.get();
+        }
+        if (userNameProperty.isPresent()) {
+            userName = userNameProperty.get();
+        }
+        if (passWordProperty.isPresent()) {
+            passWord = passWordProperty.get();
+        }
     }
 
     private void handleJavaLangClassDriver() {
+        log.info("Attempting to handle the java jdbcDriver.");
         try {
             java.lang.Class.forName(jdbcDriver);
         } catch (ClassNotFoundException e) {
