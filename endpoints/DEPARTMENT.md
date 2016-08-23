@@ -11,7 +11,7 @@ No parameters are used for this endpoint.
 
 ## Return Format
 Returned is a JSON object with keys: 
-* statusCode - An integer that indicates success (1) or failure (0).
+* statusCode - An integer that indicates success (1), empty response (0), failure (-1).
 * message - A string message indicating success or failure.
 * numberOfRows - The number of elements in the result value.
 * parameters - The parameter(s) passed through the request and their value(s).
@@ -44,11 +44,13 @@ The following JSON response has been shortened for readability.
   }, {
     "departmentName" : "AFSC",
     "departmentFullName" : "Air Force Science"
-  },
+  }, {
    
-   ...
+   .
+   .
+   .
    
-   , {
+  }, {
     "departmentName" : "WGSS",
     "departmentFullName" : "WomenGendSexualitySt"
   } ]
