@@ -14,8 +14,7 @@ Click on the hyperlinks to get more information about each endpoint.
 
 [<code>GET:</code>```/api/department```](DEPARTMENT.md)
 
+[<code>GET:</code>```/api/information```](CLASS_INFORMATION.md)
+
 ### Class Offerings
 [<code>GET:</code>```/api/classes/term={termID}```](TERM.md)
-
-### Work In Progress
-[<code>GET:</code>```/api/information```](CLASS_INFORMATION.md)
