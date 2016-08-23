@@ -1,9 +1,6 @@
 package com.classbrowser.main.commons.util;
 
-import com.classbrowser.main.dao.ClassInformationDaoImpl;
-import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
-import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
-import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
+import com.classbrowser.main.dao.*;
 import com.classbrowser.main.pojo.ErrorMessage;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -22,39 +19,20 @@ public class ResponseEntityUtility {
     private static Logger log = Logger.getLogger(ResponseEntityUtility.class);
 
     /**
+     * Performs database transactions on a given data access object (DAO).
+     *
      * @param DAO
      * @param params
      * @return A ResponseEntity constructed from the attempted database transaction on a DAO.
      * If an error occurs, a ResponseEntity contructed from ErrorMessage will be returned.
      */
-    public static ResponseEntity attemptDatabaseOperation(Object DAO, Map params) {
+    public static ResponseEntity attemptDatabaseOperation(AbstractInformationDAO DAO, Map params) {
         try {
-            if (DAO instanceof OfferedClassInformationDAOImpl) {
-                final OfferedClassInformationDAOImpl classInformationDAOImpl = (OfferedClassInformationDAOImpl) DAO;
-                log.info("Returning ResponseEntity for OfferedClassInformation.");
-                return new ResponseEntity<>(classInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else if (DAO instanceof CoreClassInformationDAOImpl) {
-                final CoreClassInformationDAOImpl coreClassInformationDAOImpl = (CoreClassInformationDAOImpl) DAO;
-                log.info("Returning ResponseEntity for CoreClassInformation.");
-                return new ResponseEntity<>(coreClassInformationDAOImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else if (DAO instanceof DepartmentInformationDaoImpl) {
-                final DepartmentInformationDaoImpl departmentInformationDaoImpl = (DepartmentInformationDaoImpl) DAO;
-                log.info("Returning ResponseEntity for DepartmentInformation.");
-                return new ResponseEntity<>(departmentInformationDaoImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else if (DAO instanceof ClassInformationDaoImpl) {
-                final ClassInformationDaoImpl classInformationDaoImpl = (ClassInformationDaoImpl) DAO;
-                log.info("Returning ResponseEntity for ClassInformation.");
-                return new ResponseEntity<>(classInformationDaoImpl.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
-            }
-            else {
-                log.warn("Invalid Operation on DAO " + DAO.getClass());
-                throw new Exception("Invalid Operation on DAO " + DAO.getClass());
-            }
+            log.info("Returning ResponseEntity for " + DAO.getClass().toString());
+            return new ResponseEntity<>(DAO.getFromDatabaseAndResponseInfo(params), HttpStatus.OK);
         }
         catch (Exception e) {
+            log.warn("Invalid Operation on DAO " + DAO.getClass());
             return generateErrorMessageResponseEntity(e);
         }
     }
