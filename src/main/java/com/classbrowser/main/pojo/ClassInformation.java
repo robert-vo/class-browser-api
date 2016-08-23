@@ -9,9 +9,9 @@ public class ClassInformation {
     public String class_description;
     public String class_title;
     public int credit_hours;
-    public int core_id;
+    public String core_id;
 
-    public ClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, int core_id) {
+    public ClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, String core_id) {
         this.department = department;
         this.department_crn = department_crn;
         this.class_description = class_description;
@@ -60,11 +60,11 @@ public class ClassInformation {
         this.credit_hours = credit_hours;
     }
 
-    public int getCore_id() {
+    public String getCore_id() {
         return core_id;
     }
 
-    public void setCore_id(int core_id) {
+    public void setCore_id(String core_id) {
         this.core_id = core_id;
     }
 
@@ -74,6 +74,6 @@ public class ClassInformation {
                     rs.getString("class_description"),
                     rs.getString("class_title"),
                     rs.getInt("credit_hours"),
-                    rs.getInt("core"));
+                    rs.getString("core"));
     }
 }
