@@ -4,10 +4,10 @@
 GET /api/department
 ```
 ## Description
-Returns an array containing the abbreviation and names of all departments.
+Returns an array containing the abbreviation and names of all departments at the University of Houston.
 
 ## Parameters
-No parameters.
+No parameters are used for this endpoint.
 
 ## Return Format
 Returned is a JSON object with keys: 
@@ -27,7 +27,7 @@ Returned is a JSON object with keys:
 
 **JSON Response**
 
-The following JSON response has been shortened.
+The following JSON response has been shortened for readability.
 
 ```
 {
