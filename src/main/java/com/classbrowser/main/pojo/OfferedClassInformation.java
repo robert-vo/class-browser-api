@@ -208,7 +208,7 @@ public class OfferedClassInformation {
         this.lastUpdated = lastUpdated;
     }
 
-    public static OfferedClassInformation getClassEntryFromResultSet(ResultSet rs) throws SQLException {
+    public static OfferedClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         HashMap<String, String> termInformation = new LinkedHashMap<>();
         termInformation.put("termID",  rs.getString("term_id"));
         termInformation.put("year",     rs.getString("year"));

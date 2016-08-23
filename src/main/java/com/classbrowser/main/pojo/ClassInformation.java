@@ -68,12 +68,12 @@ public class ClassInformation {
         this.core_id = core_id;
     }
 
-    public static ClassInformation getCoreClassFromResultSet(ResultSet rs) throws SQLException {
-            return new ClassInformation(rs.getString("Department"),
-                    rs.getString("Department_crn"),
-                    rs.getString("class_description"),
-                    rs.getString("class_title"),
-                    rs.getInt("credit_hours"),
-                    rs.getString("core"));
+    public static ClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
+        return new ClassInformation(rs.getString("Department"),
+                rs.getString("Department_crn"),
+                rs.getString("class_description"),
+                rs.getString("class_title"),
+                rs.getInt("credit_hours"),
+                rs.getString("core"));
     }
 }

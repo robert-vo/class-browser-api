@@ -88,7 +88,7 @@ public class CoreClassInformation {
         this.hours_required = hours_required;
     }
 
-    public static CoreClassInformation getCoreClassFromResultSet(ResultSet rs) throws SQLException {
+    public static CoreClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new CoreClassInformation(rs.getString("Department"),
                 rs.getString("Department_crn"),
                 rs.getString("class_description"),

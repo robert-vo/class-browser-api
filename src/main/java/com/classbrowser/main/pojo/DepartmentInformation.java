@@ -29,8 +29,7 @@ public class DepartmentInformation {
         this.departmentFullName = departmentFullName;
     }
 
-    public static DepartmentInformation getCoreClassFromResultSet(ResultSet rs) throws SQLException {
+    public static DepartmentInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new DepartmentInformation(rs.getString("DEPARTMENT_ABBREVIATION"), rs.getString("DEPARTMENT_NAME"));
     }
-
 }
