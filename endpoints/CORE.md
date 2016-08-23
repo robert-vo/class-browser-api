@@ -21,7 +21,7 @@ Returns an array of classes that fall under the requested core category.
 
 ## Return Format
 Returned is a JSON object with keys: 
-* statusCode - An integer that indicates success (1) or failure (0).
+* statusCode - An integer that indicates success (1), empty response (0), failure (-1).
 * message - A string message indicating success or failure.
 * numberOfRows - The number of elements in the result value.
 * parameters - The parameter(s) passed through the request and their value(s).
@@ -30,7 +30,7 @@ Returned is a JSON object with keys:
   * department_crn - The 4 digit course number for the class.
   * class_description - The description of the class.
   * class_title - The title of the class.
-  * credit_hours - The number of credit hours a class fulfils.
+  * credit_hours - The number of credit hours a class fulfills.
   * core_id - An integer that corresponds to a core category.
   * core_title - The name of the category the core falls under.
   * hours_required - The number of hours required to fulfill the core category.
