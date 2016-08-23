@@ -22,12 +22,6 @@ Returns an array of offered classes for a given term.
 ### Optional Parameters
 The optional parameters can be used to filter the results to your needs.
 
-#### Possible True/False Parameter Values
-  * True Values (case insensitive)
-    * 1, true, yes, open (status only)
-  * False Values (case insensitive)
-    * 0, false, no, closed (status only)
-
 * online - Use one of the True Values to indicate an online class, False Values for classes that are not online.
 * hybrid - Use one of the True Values to indicate a hybrid class, False Values for classes that are not hybrid.
 * facetoface - Use one of the True Values to indicate a face to face class, False Values for classes that are not face to face.
@@ -75,6 +69,11 @@ The optional parameters can be used to filter the results to your needs.
 * sunday - Use one of the True Values to indicate that the class meets on Sunday. Using a False Value indicates otherwise.
 * syllabus - Use one of the True Values to indicate that the class has a syllabus. Using a False Value indicates otherwise.
 
+#### Possible True/False Parameter Values
+  * True Values (case insensitive)
+    * 1, true, yes, open (status only)
+  * False Values (case insensitive)
+    * 0, false, no, closed (status only)
 
 ## Return Format
 Returned is a JSON object with keys: 
