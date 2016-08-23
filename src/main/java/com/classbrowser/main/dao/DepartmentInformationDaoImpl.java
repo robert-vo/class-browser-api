@@ -9,15 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class DepartmentInformationDaoImpl extends AbstractInformationDAO implements DepartmentInformationDao {
+public class DepartmentInformationDAOImpl extends AbstractInformationDAO implements DepartmentInformationDAO {
 
-    private static Logger log = Logger.getLogger(DepartmentInformationDaoImpl.class);
+    private static Logger log = Logger.getLogger(DepartmentInformationDAOImpl.class);
 
     @Override
     public List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<DepartmentInformation> allDepartmentInformation = new LinkedList<>();
         while(rs.next()) {
-            DepartmentInformation d = DepartmentInformation.getCoreClassFromResultSet(rs);
+            DepartmentInformation d = DepartmentInformation.getPojoFromResultSet(rs);
             allDepartmentInformation.add(d);
         }
         return allDepartmentInformation;
@@ -37,17 +37,25 @@ public class DepartmentInformationDaoImpl extends AbstractInformationDAO impleme
         return null;
     }
 
-    @Override
-    public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
-        List<DepartmentInformation> allCoreClasses = selectAllDepartments("");
-        int numberOfRows = allCoreClasses.size();
-        log.info("Retrieved " + numberOfRows + ".");
-        return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
-    }
+//    @Override
+//    public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
+//        List<DepartmentInformation> allCoreClasses = selectAllDepartments("");
+//        int numberOfRows = allCoreClasses.size();
+//        log.info("Retrieved " + numberOfRows + " items.");
+//        return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
+//    }
 
     @Override
     public List<DepartmentInformation> selectAllDepartments(String departmentName) throws SQLException {
         final String SQL_QUERY_CORE_CLASSES = "select * from department;";
         return processStringQuery(SQL_QUERY_CORE_CLASSES, departmentName);
+    }
+
+    @Override
+    public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<DepartmentInformation> allCoreClasses = selectAllDepartments("");
+        int numberOfRows = allCoreClasses.size();
+        log.info("Retrieved " + numberOfRows + " items.");
+        return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
     }
 }

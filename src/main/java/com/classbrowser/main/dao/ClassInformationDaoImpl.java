@@ -10,15 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ClassInformationDaoImpl extends AbstractInformationDAO implements ClassInformationDAO {
+public class ClassInformationDAOImpl extends AbstractInformationDAO implements ClassInformationDAO {
 
-    private static Logger log = Logger.getLogger(ClassInformationDaoImpl.class);
+    private static Logger log = Logger.getLogger(ClassInformationDAOImpl.class);
 
     @Override
     public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<ClassInformation> allClassInformation = new LinkedList<>();
         while(rs.next()) {
-            ClassInformation c = ClassInformation.getCoreClassFromResultSet(rs);
+            ClassInformation c = ClassInformation.getPojoFromResultSet(rs);
             allClassInformation.add(c);
         }
         return allClassInformation;
@@ -39,11 +39,11 @@ public class ClassInformationDaoImpl extends AbstractInformationDAO implements C
     }
 
     @Override
-    public ResponseInformation<List<ClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
-        List<ClassInformation> allClasses = selectAllClassInformation(allParams);
+    public ResponseInformation<List<ClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<ClassInformation> allClasses = selectAllClassInformation(params);
         int numberOfRows = allClasses.size();
         log.info("Retrieved " + numberOfRows + ".");
-        return new ResponseInformation<>(numberOfRows, allParams, allClasses);
+        return new ResponseInformation<>(numberOfRows, params, allClasses);
     }
 
     @Override
@@ -51,4 +51,5 @@ public class ClassInformationDaoImpl extends AbstractInformationDAO implements C
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQueryForInformation(allParams);
         return processStringQuery(SQL_QUERY_ALL_CLASSES, "");
     }
+
 }

@@ -17,7 +17,7 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<CoreClassInformation> allCoreClassInformation = new LinkedList<>();
         while(rs.next()) {
-            CoreClassInformation c = CoreClassInformation.getCoreClassFromResultSet(rs);
+            CoreClassInformation c = CoreClassInformation.getPojoFromResultSet(rs);
             allCoreClassInformation.add(c);
         }
         return allCoreClassInformation;
@@ -42,11 +42,11 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     }
 
     @Override
-    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map allParams) throws Exception {
-        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) allParams.get("Core"));
+    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) params.get("Core"));
         int numberOfRows = allCoreClasses.size();
-        log.info("Retrieved " + numberOfRows + ".");
-        return new ResponseInformation<>(numberOfRows, allParams, allCoreClasses);
+        log.info("Retrieved " + numberOfRows + " items.");
+        return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
     }
 
     @Override
@@ -56,6 +56,5 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
                 "and ? = core.core_id";
         return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
     }
-
 
 }
