@@ -35,20 +35,25 @@ public abstract class AbstractInformationDAO<T> {
         }
 
         if (databaseURLProperty.isPresent()) {
-            databaseURL = databaseURLProperty.get();
+            databaseURL = databaseURLProperty.get() + "/" + databaseTable;
         }
+
         if (userNameProperty.isPresent()) {
             userName = userNameProperty.get();
         }
+
         if (passWordProperty.isPresent()) {
             passWord = passWordProperty.get();
         }
+
+        log.info("Set up database information with the following credentials: ");
     }
 
     private void handleJavaLangClassDriver() {
         log.info("Attempting to handle the java jdbcDriver.");
         try {
             java.lang.Class.forName(jdbcDriver);
+            log.info("Handled jdbcDriver of driver: " + jdbcDriver);
         } catch (ClassNotFoundException e) {
             log.error(e);
             e.printStackTrace();
