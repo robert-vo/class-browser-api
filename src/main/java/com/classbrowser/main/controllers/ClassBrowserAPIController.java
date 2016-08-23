@@ -1,9 +1,9 @@
 package com.classbrowser.main.controllers;
 
 import com.classbrowser.main.commons.exception.InvalidArgumentException;
-import com.classbrowser.main.dao.ClassInformationDaoImpl;
+import com.classbrowser.main.dao.ClassInformationDAOImpl;
 import com.classbrowser.main.dao.CoreClassInformationDAOImpl;
-import com.classbrowser.main.dao.DepartmentInformationDaoImpl;
+import com.classbrowser.main.dao.DepartmentInformationDAOImpl;
 import com.classbrowser.main.dao.OfferedClassInformationDAOImpl;
 import com.classbrowser.main.pojo.OfferedClassInformation;
 import org.apache.log4j.Logger;
@@ -76,7 +76,7 @@ public class ClassBrowserAPIController {
     public ResponseEntity getAllDepartments() throws Exception {
         log.info("User accessing /api/department");
 
-        DepartmentInformationDaoImpl departmentInformationDao = new DepartmentInformationDaoImpl();
+        DepartmentInformationDAOImpl departmentInformationDao = new DepartmentInformationDAOImpl();
         Map<String, String> params = new HashMap<>();
 
         return attemptDatabaseOperation(departmentInformationDao, params);
@@ -117,7 +117,7 @@ public class ClassBrowserAPIController {
             }
         }
 
-        ClassInformationDaoImpl classInformationDAOImpl = new ClassInformationDaoImpl();
+        ClassInformationDAOImpl classInformationDAOImpl = new ClassInformationDAOImpl();
         Map<String, String> params = new HashMap<>();
         if(department.isPresent()) {
             params.put("department", department.get());
