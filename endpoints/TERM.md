@@ -78,54 +78,54 @@ The optional parameters can be used to filter the results to your needs. True/Fa
 ## Return Format
 Returned is a JSON object with keys: 
 * statusCode - An integer that indicates success (1), empty response (0), failure (-1).
-* message - A string message indicating success or failure.
+* message - A String message indicating success or failure.
 * numberOfRows - The number of elements in the result value.
 * parameters - The parameter(s) passed through the request and their value(s).
-* result - An object array holding the requested class information.
-  * termInformation -
-    * termID -
-    * year -
-    * semester -
-  * classTitle -
-  * departmentInformation -
-    * department -
-    * departmentName -
-  * classStatus -
-  * courseNumber -
-  * seatInformation -
-    * seatsTaken -
-    * seatsAvailable -
-    * seatsTotal -
-  * dateTimeInformation -
-    * startDate -
-    * endDate -
-    * startTime -
-    * endTime -
-  * attributes -
-  * classDays -
-    * monday -
-    * tuesday -
-    * wednesday -
-    * thursday -
-    * friday -
-    * saturday -
-    * sunday -
-  * instructorInformation -
-    * instructor -
-    * instructorEmail -
-  * locationInformation -
-    * location -
-    * buildingID -
-    * buildingAbbreviation -
-    * buildingName -
-  * format -
-  * description -
-  * duration -
-  * session -
-  * component -
-  * syllabus -
-  * core -
-  * lastUpdated -
+* result - An object array holding the requested class information with the following structure.
+  * termInformation - An object containing information about the term.
+    * termID - A 4 digit number representing the year and semester.
+    * year - The year which the class is offered.
+    * semester - The semester which the semester is offered.
+  * classTitle - The title of the class.
+  * departmentInformation - An object containing information about the department of the class.
+    * department - The department in which the class is in.
+    * departmentName - The full name of the department in which the class is in.
+  * classStatus - Denotes whether a class is open or closed to registration.
+  * courseNumber - The 5-digit unique identifier for a class.
+  * seatInformation - An object containing information about the seats of a class.
+    * seatsTaken - The number of seats taken in the class.
+    * seatsAvailable - The number of seats available in the class.
+    * seatsTotal - The total number of seats in the class.
+  * dateTimeInformation - An object containing information about the class start/end time and date.
+    * startDate - The start date, in the format of YYYY-MM-DD, of the class.
+    * endDate - The end date, in the format of YYYY-MM-DD, of the class.
+    * startTime - The time, in the format of the 24-hour clock, when the class starts.
+    * endTime - The time, in the format of the 24-hour clock, when the class ends.
+  * attributes - Additional features of the class. Attributes can include 'Core', 'WeekendU', 'Distance Education', or any combination of the three.
+  * classDays - An object containing information whether the class takes place on a day or not.
+    * monday - Indicates if a class meets up on Monday, or not.
+    * tuesday - Indicates if a class meets up on Tuesday, or not.
+    * wednesday - Indicates if a class meets up on Wednesday, or not.
+    * thursday - Indicates if a class meets up on Thursday, or not.
+    * friday - Indicates if a class meets up on Friday, or not.
+    * saturday - Indicates if a class meets up on Saturday, or not.
+    * sunday - Indicates if a class meets up on Sunday, or not.
+  * instructorInformation - An object containing information about the instructor of the class.
+    * instructor - The name of the instructor.
+    * instructorEmail - The instructor's email address.
+  * locationInformation - An object containing information about the location of the class.
+    * location - The campus where the class takes place.
+    * buildingID - Unique number to identify a building.
+    * buildingAbbreviation - The abbreviation of a building.
+    * buildingName - The full name of the building where the class takes place at.
+  * format - Indicates how the content of the class will be delivered. Examples include: Face to Face, Hybrid and Online.
+  * description - The full class description.
+  * duration - The length, in weeks, of the class.
+  * session - The portion of the term a class will take place under. For example, Regular Academic Session takes up the entire term while Session 6 takes up the last 5 weeks of a term.
+  * component - The type of delivery of content the class has. Examples include: LEC (lecture), LAB (laboratory) and IND (Independent Studies).
+  * syllabus - If a syllabus exists, this will be a URL that contains the syllabus, usually in a PDF or DOCX format. If a syllabus does not exist, the value will be "Unavailable".
+  * core - An array that holds all of the core requirements this class fulfills.
+  * lastUpdated - The date, in the format of YYYY-MM-DD HH:MM:SS, of the last time the last was updated/inserted. A class would usually update to reflect seat count changes.
     
 ## Example
 
