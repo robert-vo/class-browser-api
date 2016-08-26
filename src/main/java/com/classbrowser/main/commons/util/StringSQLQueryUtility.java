@@ -106,6 +106,7 @@ public class StringSQLQueryUtility {
     /**
      * Gets a string, which will be appended to the SQL Query, based on the parameter and paramValue.
      * The format of the string is: AND {columnName} {equals/not equals} {paramValue}
+     *
      * @param parameter The parameter, or column, in the database.
      * @param paramValue - The value to be filtered in the database select expression.
      * @return A String that will be added to a String SQL Query.

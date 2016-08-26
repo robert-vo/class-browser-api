@@ -8,12 +8,22 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateErrorMessageResponseEntity;
 
+/**
+ * RESTful API for triggering the class scraper on demand.
+ */
 @RestController
 @RequestMapping("/")
 public class TriggerScraperController {
 
     private static Logger log = Logger.getLogger(TriggerScraperController.class);
 
+    /**
+     * Triggers the class scraper.
+     *
+     * @param trigger The keyword necessary to run the scraper.
+     *                The keyword is stored in the system properties under "triggerKeyword".
+     * @return A ResponseEntity indicating if the scraping is successful or not.
+     */
     @RequestMapping(value = "/trigger={trigger}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity triggerClassScraping(@PathVariable(value = "trigger") String trigger) {

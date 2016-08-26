@@ -6,12 +6,20 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * RESTful API for handling the error message.
+ */
 @RestController
 public class CustomErrorController implements ErrorController {
 
     private static Logger log = Logger.getLogger(CustomErrorController.class);
     private static final String PATH = "/error";
 
+    /**
+     * Used to generate the appropriate ErrorMessage for an invalid response.
+     *
+     * @return An ErrorMessage object with a message.
+     */
     @RequestMapping(value = PATH)
     ErrorMessage error() {
         log.error("User entered invalid page and/or parameters.");

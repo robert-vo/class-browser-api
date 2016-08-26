@@ -17,22 +17,35 @@ import java.util.Optional;
 import static com.classbrowser.main.commons.util.ResponseEntityUtility.attemptDatabaseOperation;
 import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateErrorMessageResponseEntity;
 
+/**
+ * RESTful API for viewing core class information, general class information,
+ * department information and information about offered classes at the University of Houston, Main Campus.
+ */
 @RestController
 @RequestMapping("/api")
 public class ClassBrowserAPIController {
 
     private static Logger log = Logger.getLogger(ClassBrowserAPIController.class);
     private final String REQUEST_MAPPING_URL_DEPARTMENT     = "/department";
-    private final String REQUEST_MAPPING_URL_CORE           = "/core={core}";
+    private final String REQUEST_MAPPING_URL_CORE           = "/core={coreID}";
     private final String REQUEST_MAPPING_URL_TERM           = "/classes/term={term}";
     private final String REQUEST_MAPPING_URL_INFORMATION    = "/information";
 
+    /**
+     * Endpoint for viewing information about core classes.
+     *
+     * @param coreID - The core ID, an integer from 1 to 10, that corresponds to the core class category.
+     * @return A ResponseEntity with information about core classes, or an error message if anything went wrong.
+     * Visit the following link for more information.
+     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CORE.md
+     * @throws Exception
+     */
     @RequestMapping(value = REQUEST_MAPPING_URL_CORE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getAllCoreCourses(@PathVariable(value = "core") String core) throws Exception {
-        log.info("User accessing /api/core=" + core);
+    public ResponseEntity getAllCoreCourses(@PathVariable(value = "coreID") String coreID) throws Exception {
+        log.info("User accessing /api/core=" + coreID);
         try {
-            if(OfferedClassInformation.isNotValidCore(core)) {
+            if(OfferedClassInformation.isNotValidCore(coreID)) {
                 throw new InvalidArgumentException("Core");
             }
         }
@@ -42,11 +55,21 @@ public class ClassBrowserAPIController {
 
         CoreClassInformationDAOImpl coreClassInformationDAOImpl = new CoreClassInformationDAOImpl();
         Map<String, String> params = new HashMap<>();
-        params.put("Core", core);
+        params.put("Core", coreID);
 
         return attemptDatabaseOperation(coreClassInformationDAOImpl, params);
     }
 
+    /**
+     * Endpoint for viewing information about offered classes for a given term.
+     *
+     * @param term - The term number that corresponds to the year/semester.
+     * @param params - Other parameters to filter out data from the result.
+     * @return A ResponseEntity with information about offered classes for a given term, or an error message if anything went wrong.
+     * Visit the following link for more information.
+     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/TERM.md
+     * @throws Exception
+     */
     @RequestMapping(value = REQUEST_MAPPING_URL_TERM, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAllClassesFromTerm(@PathVariable(value = "term") String term,
@@ -71,6 +94,14 @@ public class ClassBrowserAPIController {
         return attemptDatabaseOperation(offeredClassInformationDAOImpl, params);
     }
 
+    /**
+     * Endpoint for viewing information about departments.
+     *
+     * @return A ResponseEntity with information about all of the departments.
+     * Visit the following link for more information.
+     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/DEPARTMENT.md
+     * @throws Exception
+     */
     @RequestMapping(value = REQUEST_MAPPING_URL_DEPARTMENT, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getAllDepartments() throws Exception {
@@ -82,6 +113,17 @@ public class ClassBrowserAPIController {
         return attemptDatabaseOperation(departmentInformationDao, params);
     }
 
+    /**
+     * Endpoint for viewing information about all classes, regardless if they are offered for the current term.
+     *
+     * @param department - The department where the class resides in.
+     * @param creditHours - The number of credit hours the class fulfills, usually a number between 1 and 5, inclusive.
+     * @param core - The core ID, an integer from 1 to 10, that corresponds to the core class category.
+     * @return
+     * Visit the following link for more information.
+     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CLASS_INFORMATION.md
+     * @throws Exception
+     */
     @RequestMapping(value = REQUEST_MAPPING_URL_INFORMATION, method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity getClassInformation(@RequestParam(value = "department", required = false)     Optional<String> department,
