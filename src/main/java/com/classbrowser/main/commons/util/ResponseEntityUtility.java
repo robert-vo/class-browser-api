@@ -21,8 +21,8 @@ public class ResponseEntityUtility {
     /**
      * Performs database transactions on a given data access object (DAO).
      *
-     * @param DAO
-     * @param params
+     * @param DAO - The Data Access Object that will be used to return database objects.
+     * @param params - The parameters, passed in through the URL, that will filter the database objects.
      * @return A ResponseEntity constructed from the attempted database transaction on a DAO.
      * If an error occurs, a ResponseEntity contructed from ErrorMessage will be returned.
      */
@@ -38,7 +38,9 @@ public class ResponseEntityUtility {
     }
 
     /**
-     * @param param
+     * Generates an ErrorMessage object based off of the parameter.
+     *
+     * @param param - the exception or string with an error message.
      * @return ResponseEntity constructed using an ErrorMessage object.
      */
     public static ResponseEntity generateErrorMessageResponseEntity(Object param) {

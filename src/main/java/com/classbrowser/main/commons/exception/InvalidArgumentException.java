@@ -18,7 +18,8 @@ public class InvalidArgumentException extends Exception {
 
     /**
      * Calls the parent class, Exception, with a pre-defined message.
-     * @param parameter
+     *
+     * @param parameter - The invalid parameter that was passed through the URL.
      */
     public InvalidArgumentException(String parameter){
         super("InvalidArgumentException with parameter of: " + parameter);

@@ -15,7 +15,9 @@ public class IntegerClassUtility {
     private static Logger log = Logger.getLogger(IntegerClassUtility.class);
 
     /**
-     * @param classNumber, the String literal version of the class number in the format of 1234.
+     * This method returns the number of credit hours for a class for a given class number.
+     *
+     * @param classNumber - The String literal version of the class number in the format of 1234.
      * @return an integer between 0 and 9, inclusive. If any errors occur, the method should return 0.
      */
     public static int getClassHours(String classNumber) {
