@@ -5,12 +5,18 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ *
+ * @param <T>
+ */
 public abstract class AbstractInformationDAO<T> {
+
     String jdbcDriver = "com.mysql.jdbc.Driver";
     String databaseURL = "jdbc:mysql://localhost/class";
     String databaseTable = "class";
     String userName = "root";
     String passWord = "password";
+
     private static Logger log = Logger.getLogger(AbstractInformationDAO.class);
 
     AbstractInformationDAO() {
@@ -18,6 +24,10 @@ public abstract class AbstractInformationDAO<T> {
         handleJavaLangClassDriver();
     }
 
+    /**
+     * Sets up the jdbc driver, database URL, database table, username, and password
+     * needed to establish a connection with a database.
+     */
     private void setDatabaseInformation() {
         log.info("Setting up database information.");
         Optional<String> jdbcDriverProperty = Optional.ofNullable(System.getProperty("jdbcDriver"));
@@ -49,6 +59,9 @@ public abstract class AbstractInformationDAO<T> {
         log.info("Set up database information with the following credentials: ");
     }
 
+    /**
+     * Attempts to handle the jdbcDriver.
+     */
     private void handleJavaLangClassDriver() {
         log.info("Attempting to handle the java jdbcDriver.");
         try {
@@ -60,6 +73,13 @@ public abstract class AbstractInformationDAO<T> {
         }
     }
 
+    /**
+     * Retrieves data from the database and returns it as a ResponseEntity holding a List of a given POJO.
+     *
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A type, T, which is implemented as a ResponseEntity<List<POJO>>.
+     * @throws Exception
+     */
     public abstract T getFromDatabaseAndResponseInfo(Map params) throws Exception;
 
 }

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A component of the class browser api that updates the database on a schedule.
+ */
 @Component
 public class ScheduleScraper {
 
@@ -18,7 +21,7 @@ public class ScheduleScraper {
     private static Logger log = Logger.getLogger(ScheduleScraper.class);
 
     /**
-     * Runs Scraper for Summer 2016 and Fall 2016 classes at midnight.
+     * Runs Scraper for the given terms at midnight, CST.
      */
     @Scheduled(cron = "0 0 0 * * *", zone="America/Chicago")
     public static void updateClasses() {
@@ -48,6 +51,11 @@ public class ScheduleScraper {
         log.info("Scheduled task is complete!");
     }
 
+    /**
+     * Adds or updates class entries in the database.
+     *
+     * @param classScraper - The result from the scraping that stores a List of Classes.
+     */
     private static void performDatabaseActionsFromScraper(ClassScraper classScraper) {
         log.info("Starting database actions for scraper with size of: " + classScraper.getAllClasses().size());
         DatabaseOperations.setJdbcDriver    (System.getProperty("jdbcDriver"));
@@ -56,7 +64,7 @@ public class ScheduleScraper {
         DatabaseOperations.setUserName      (System.getProperty("databaseUserName"));
         DatabaseOperations.setPassWord      (System.getProperty("databasePassWord"));
 
-        log.info("Insert into the database...");
+        log.info("Updating the database...");
         DatabaseOperations.performDatabaseActions(classScraper.getAllClasses());
         log.info("Database operations complete.");
     }

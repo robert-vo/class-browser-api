@@ -14,6 +14,13 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
 
     private static Logger log = Logger.getLogger(OfferedClassInformationDAOImpl.class);
 
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of OfferedClassInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of OfferedClassInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
     @Override
     public List<OfferedClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<OfferedClassInformation> allOfferedClassInformation = new LinkedList<>();

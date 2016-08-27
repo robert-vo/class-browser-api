@@ -13,6 +13,13 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
 
     private static Logger log = Logger.getLogger(CoreClassInformationDAOImpl.class);
 
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of CoreClassInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of CoreClassInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
     @Override
     public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<CoreClassInformation> allCoreClassInformation = new LinkedList<>();

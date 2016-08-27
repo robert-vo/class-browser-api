@@ -13,6 +13,13 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
 
     private static Logger log = Logger.getLogger(DepartmentInformationDAOImpl.class);
 
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of DepartmentInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of DepartmentInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
     @Override
     public List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<DepartmentInformation> allDepartmentInformation = new LinkedList<>();

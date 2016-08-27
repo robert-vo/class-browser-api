@@ -14,6 +14,13 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
 
     private static Logger log = Logger.getLogger(ClassInformationDAOImpl.class);
 
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of ClassInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of ClassInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
     @Override
     public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
         List<ClassInformation> allClassInformation = new LinkedList<>();
