@@ -4,6 +4,11 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Java POJO to represent the department information.
+ *
+ * @author Robert Vo
+ */
 public class DepartmentInformation {
     public String departmentName;
     public String departmentFullName;
@@ -29,6 +34,13 @@ public class DepartmentInformation {
         this.departmentFullName = departmentFullName;
     }
 
+    /**
+     * Gets a DepartmentInformation from a ResultSet.
+     *
+     * @param rs The ResultSet that is of a single row from a table result.
+     * @return A DepartmentInformation Object from the row in the ResultSet.
+     * @throws SQLException
+     */
     public static DepartmentInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new DepartmentInformation(rs.getString("DEPARTMENT_ABBREVIATION"), rs.getString("DEPARTMENT_NAME"));
     }

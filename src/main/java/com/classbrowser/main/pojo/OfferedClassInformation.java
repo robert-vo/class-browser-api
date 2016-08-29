@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
+/**
+ * Java POJO to represent a class that is being offered for a particular term.
+ *
+ * @author Robert Vo
+ */
 public class OfferedClassInformation {
     private HashMap<String, String> termInformation;
     private String classTitle;
@@ -29,10 +34,6 @@ public class OfferedClassInformation {
     private String core[];
     private String lastUpdated;
     private static Logger log = Logger.getLogger(OfferedClassInformation.class);
-
-    OfferedClassInformation() {
-
-    }
 
     public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
         this.termInformation = termInformation;
@@ -208,6 +209,13 @@ public class OfferedClassInformation {
         this.lastUpdated = lastUpdated;
     }
 
+    /**
+     * Gets a OfferedClassInformation from a ResultSet.
+     *
+     * @param rs The ResultSet that is of a single row from a table result.
+     * @return A OfferedClassInformation Object from the row in the ResultSet.
+     * @throws SQLException
+     */
     public static OfferedClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         HashMap<String, String> termInformation = new LinkedHashMap<>();
         termInformation.put("termID",  rs.getString("term_id"));
@@ -254,31 +262,49 @@ public class OfferedClassInformation {
             core = possibleCoreClasses.get().split(",");
         }
 
-        OfferedClassInformation c = new OfferedClassInformation(termInformation,
+        return new OfferedClassInformation(termInformation,
                 rs.getString("CLASS_TITLE"), departmentInformation,
                 rs.getString("Status"), rs.getString("crn"),
-                seatInformation, dateTimeInformation, rs.getString("attributes"),
+                seatInformation, dateTimeInformation,
+                rs.getString("attributes"),
                 classDays, instructorInformation, locationInformation,
                 rs.getString("format"), rs.getString("CLASS_DESCRIPTION"),
                 rs.getString("duration"), rs.getString("session"),
                 rs.getString("component"), rs.getString("syllabus"),
                 core,
                 rs.getString("last_updated_at"));
-        return c;
     }
 
+    /**
+     * Determines the validity of the string representation for the core category.
+     *
+     * @param core The string representation of the core category.
+     * @return Returns true if the core is NOT valid, false if the core is valid.
+     */
     public static boolean isNotValidCore(String core) {
         log.info("Checking if " + core + " is valid.");
         int numericCore = Integer.parseInt(core);
         return !(numericCore > 0 && numericCore < 11);
     }
 
+    /**
+     * Determines the validity of the string representation for the term.
+     *
+     * @param term The string representation of the term.
+     * @return Returns true if the term is NOT valid, false if the term is valid.
+     */
     public static boolean isNotValidTerm(String term) {
         log.info("Checking if " + term + " is valid.");
         int numericTerm = Integer.parseInt(term);
         return !(numericTerm >= 1950 && numericTerm % 10 == 0);
     }
 
+    /**
+     * Determines the validity of the string representation for the credit hours.
+     *
+     * @param creditHours The string representation of the credit hours.
+     * @return Returns true if the credit hours is NOT valid, false if the credit hours is valid.
+     */
     public static boolean isNotValidCreditHours(String creditHours) {
         log.info("Checking if " + creditHours + " is valid.");
         int numericCreditHours = Integer.parseInt(creditHours);

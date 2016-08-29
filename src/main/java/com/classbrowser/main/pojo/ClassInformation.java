@@ -3,6 +3,12 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Java POJO to represent class information.
+ * This includes classes that have been offered at one point in time.
+ *
+ * @author Robert Vo
+ */
 public class ClassInformation {
     public String department;
     public String department_crn;
@@ -68,6 +74,13 @@ public class ClassInformation {
         this.core_id = core_id;
     }
 
+    /**
+     * Gets a ClassInformation from a ResultSet.
+     *
+     * @param rs The ResultSet that is of a single row from a table result.
+     * @return A ClassInformation Object from the row in the ResultSet.
+     * @throws SQLException
+     */
     public static ClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new ClassInformation(rs.getString("Department"),
                 rs.getString("Department_crn"),

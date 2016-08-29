@@ -3,6 +3,11 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Java POJO to represent a class that falls under one of the core categories.
+ *
+ * @author Robert Vo
+ */
 public class CoreClassInformation {
     public String department;
     public String department_crn;
@@ -88,6 +93,13 @@ public class CoreClassInformation {
         this.hours_required = hours_required;
     }
 
+    /**
+     * Gets a CoreClassInformation from a ResultSet.
+     *
+     * @param rs The ResultSet that is of a single row from a table result.
+     * @return A CoreClassInformation Object from the row in the ResultSet.
+     * @throws SQLException
+     */
     public static CoreClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new CoreClassInformation(rs.getString("Department"),
                 rs.getString("Department_crn"),

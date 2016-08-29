@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * A component of the class browser api that updates the database on a schedule.
+ *
+ * @author Robert Vo
  */
 @Component
 public class ScheduleScraper {

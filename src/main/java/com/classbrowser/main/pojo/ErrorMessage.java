@@ -2,6 +2,11 @@ package com.classbrowser.main.pojo;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Java POJO to represent an error message.
+ *
+ * @author Robert Vo
+ */
 public class ErrorMessage {
 
     private String error;
@@ -61,5 +66,10 @@ public class ErrorMessage {
 
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
+    }
+
+    @Override
+    public String toString() {
+        return errorMessage;
     }
 }

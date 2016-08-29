@@ -1,5 +1,10 @@
 package com.classbrowser.main.pojo;
 
+/**
+ * Stores the messages for the response status codes.
+ *
+ * @author Robert Vo
+ */
 public enum ResponseStatusCodeEnumConstant {
     SUCCESS (1, "Successful"),
     NOTHING (0, "No data fetched"),

@@ -54,7 +54,7 @@ public class ResponseEntityUtility {
         else {
             errorMessage = new ErrorMessage(new Exception("Invalid Object"));
         }
-        log.error("Error for " + param.toString() + " with message " + errorMessage.toString());
+        log.error("The object " + param.getClass() + " errored with message: " + errorMessage.toString());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 }

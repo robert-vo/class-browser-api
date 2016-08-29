@@ -1,5 +1,10 @@
 package com.classbrowser.main.pojo;
 
+/**
+ * Stores the messages for a particular type of error.
+ *
+ * @author Robert Vo
+ */
 public enum ErrorMessageEnumConstant {
     CORE ("Core must be a numeric value between 1 and 10, inclusive."),
     TERM ("Terms must be an integer starting from 1970 and incrementing by 10."),
