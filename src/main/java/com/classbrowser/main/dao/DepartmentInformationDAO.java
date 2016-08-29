@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Data Access Object interface for the DepartmentInformation POJO.
+ */
 public interface DepartmentInformationDAO extends InterfaceInformationDAO {
     @Override
     List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;

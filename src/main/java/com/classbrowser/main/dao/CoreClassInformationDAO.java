@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * Data Access Object interface for the CoreClassInformation POJO.
+ */
 public interface CoreClassInformationDAO extends InterfaceInformationDAO {
     @Override
     List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;

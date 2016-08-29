@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Access Object interface for the ClassInformation POJO.
+ */
 public interface ClassInformationDAO extends InterfaceInformationDAO {
     @Override
     List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;
