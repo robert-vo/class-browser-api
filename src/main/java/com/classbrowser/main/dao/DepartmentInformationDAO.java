@@ -14,7 +14,7 @@ public interface DepartmentInformationDAO extends InterfaceInformationDAO {
     List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;
 
     @Override
-    List<DepartmentInformation> processStringQuery(String sqlQuery, String param) throws SQLException;
+    List<DepartmentInformation> processStringQuery(String sqlQuery, String... param) throws SQLException;
 
-    List<DepartmentInformation> selectAllDepartments(String departmentName) throws SQLException;
+    List<DepartmentInformation> selectAllDepartments() throws SQLException;
 }

@@ -15,7 +15,7 @@ public interface ClassInformationDAO extends InterfaceInformationDAO {
     List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;
 
     @Override
-    List<ClassInformation> processStringQuery(String sqlQuery, String param) throws SQLException;
+    List<ClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException;
 
     List<ClassInformation> selectAllClassInformation(Map allParams) throws Exception;
 }

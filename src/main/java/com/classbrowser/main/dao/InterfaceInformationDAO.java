@@ -24,5 +24,5 @@ public interface InterfaceInformationDAO<T> {
      * @return
      * @throws SQLException
      */
-    T processStringQuery(String sqlQuery, String param) throws SQLException;
+    T processStringQuery(String sqlQuery, String... param) throws SQLException;
 }

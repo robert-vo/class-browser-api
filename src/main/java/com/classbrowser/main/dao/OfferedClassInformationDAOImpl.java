@@ -45,10 +45,11 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
      * @throws SQLException
      */
     @Override
-    public List<OfferedClassInformation> processStringQuery(String sqlQuery, String param) throws SQLException {
+    public List<OfferedClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
+            final String termParam = param[0];
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, param);
+            preparedStatement.setString(1, termParam);
             log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
@@ -74,6 +75,12 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
         return new ResponseInformation<>(numberOfRows, params, allClasses);
     }
 
+    /**
+     *
+     * @param allParams
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<OfferedClassInformation> selectAllClasses(Map<String, String> allParams) throws Exception {
         final String SQL_QUERY = "SELECT * FROM class, building, department, terms, class_information " +
