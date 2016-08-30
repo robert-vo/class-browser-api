@@ -20,20 +20,38 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     private static Logger log = Logger.getLogger(OfferedClassInformationDAOImpl.class);
 
     /**
-     * Iterates through the result of the sql query and stores each row into a List of OfferedClassInformation.
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of OfferedClassInformation.
      *
-     * @param rs - The result of the sql query.
-     * @return A List of OfferedClassInformation where each entry in the list represents a row in the ResultSet.
-     * @throws SQLException
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of OfferedClassInformation to be returned to the URL request.
+     * @throws Exception
      */
     @Override
-    public List<OfferedClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
-        List<OfferedClassInformation> allOfferedClassInformation = new LinkedList<>();
-        while(rs.next()) {
-            OfferedClassInformation c = OfferedClassInformation.getPojoFromResultSet(rs);
-            allOfferedClassInformation.add(c);
-        }
-        return allOfferedClassInformation;
+    public ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<OfferedClassInformation> allClasses = selectAllOfferedClasses(params);
+        int numberOfRows = allClasses.size();
+        log.info("Retrieved " + numberOfRows + " items.");
+        return new ResponseInformation<>(numberOfRows, params, allClasses);
+    }
+
+    /**
+     * Gets all offered class information from the database with respect to the parameters.
+     *
+     * @param allParams Parameters used to specify which data will be retrieved.
+     * @return A List of OfferedClassInformation where each entry in the List represents a row in the database query.
+     * @throws Exception
+     */
+    @Override
+    public List<OfferedClassInformation> selectAllOfferedClasses(Map<String, String> allParams) throws Exception {
+        final String SQL_QUERY = "SELECT * FROM class, building, department, terms, class_information " +
+                " WHERE class.TERM_ID = ? AND" +
+                " class.department = class_information.department AND" +
+                " building.building_abbreviation = class.building_abbv AND" +
+                " department.department_abbreviation = class.department AND" +
+                " terms.term_id = class.term_id AND" +
+                " class.department_crn = class_information.department_crn ";
+        final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(allParams, SQL_QUERY);
+        return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("Term"));
     }
 
     /**
@@ -61,38 +79,20 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     }
 
     /**
-     * Retrieves data from the database and returns it as a ResponseInformation holding a List of OfferedClassInformation.
+     * Iterates through the result of the sql query and stores each row into a List of OfferedClassInformation.
      *
-     * @param params - Parameters passed through the URL, used to filter out unwanted data.
-     * @return A ResponseInformation holding a List of OfferedClassInformation to be returned to the URL request.
-     * @throws Exception
+     * @param rs - The result of the sql query.
+     * @return A List of OfferedClassInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
      */
     @Override
-    public ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
-        List<OfferedClassInformation> allClasses = selectAllClasses(params);
-        int numberOfRows = allClasses.size();
-        log.info("Retrieved " + numberOfRows + " items.");
-        return new ResponseInformation<>(numberOfRows, params, allClasses);
-    }
-
-    /**
-     * Gets all offered class information from the database with respect to the parameters.
-     *
-     * @param allParams Parameters used to specify which data will be retrieved.
-     * @return A List of OfferedClassInformation where each entry in the List represents a row in the database query.
-     * @throws Exception
-     */
-    @Override
-    public List<OfferedClassInformation> selectAllClasses(Map<String, String> allParams) throws Exception {
-        final String SQL_QUERY = "SELECT * FROM class, building, department, terms, class_information " +
-                " WHERE class.TERM_ID = ? AND" +
-                " class.department = class_information.department AND" +
-                " building.building_abbreviation = class.building_abbv AND" +
-                " department.department_abbreviation = class.department AND" +
-                " terms.term_id = class.term_id AND" +
-                " class.department_crn = class_information.department_crn ";
-        final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(allParams, SQL_QUERY);
-        return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("Term"));
+    public List<OfferedClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
+        List<OfferedClassInformation> allOfferedClassInformation = new LinkedList<>();
+        while(rs.next()) {
+            OfferedClassInformation c = OfferedClassInformation.getPojoFromResultSet(rs);
+            allOfferedClassInformation.add(c);
+        }
+        return allOfferedClassInformation;
     }
 
 }
