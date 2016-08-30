@@ -14,6 +14,11 @@ public class ErrorMessage {
     private HttpStatus httpStatus;
     private int errorCode;
 
+    /**
+     * Generates an ErrorMessage from a String parameter.
+     *
+     * @param invalidParameter The string representation of one of the ErrorMessageEnumConstant values.
+     */
     public ErrorMessage(String invalidParameter) {
         ErrorMessageEnumConstant errorMessageEnumConstant = ErrorMessageEnumConstant.valueOf(invalidParameter.toUpperCase());
         this.error = errorMessageEnumConstant.name();
@@ -22,6 +27,11 @@ public class ErrorMessage {
         this.errorCode = HttpStatus.BAD_REQUEST.value();
     }
 
+    /**
+     * Generates an ErrorMessage from an Exception parameter.
+     *
+     * @param e An exception passed in from a failure somewhere else.
+     */
     public ErrorMessage(Exception e) {
         this.error = "Java Exception thrown";
         this.errorMessage = e.getMessage();

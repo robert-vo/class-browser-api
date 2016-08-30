@@ -10,6 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Access Object implementation for the OfferedClassInformation POJO.
+ *
+ * @author Robert Vo
+ */
 public class OfferedClassInformationDAOImpl extends AbstractInformationDAO implements OfferedClassInformationDAO {
 
     private static Logger log = Logger.getLogger(OfferedClassInformationDAOImpl.class);
@@ -31,6 +36,14 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
         return allOfferedClassInformation;
     }
 
+    /**
+     * Completes and executes the SQL query and returns the result as a List of OfferedClassInformation.
+     *
+     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param param The parameter for the prepared statement.
+     * @return A List of OfferedClassInformation which represents each row in the result of the SQL query.
+     * @throws SQLException
+     */
     @Override
     public List<OfferedClassInformation> processStringQuery(String sqlQuery, String param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
@@ -46,6 +59,13 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
         return null;
     }
 
+    /**
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of OfferedClassInformation.
+     *
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of OfferedClassInformation to be returned to the URL request.
+     * @throws Exception
+     */
     @Override
     public ResponseInformation<List<OfferedClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<OfferedClassInformation> allClasses = selectAllClasses(params);

@@ -6,8 +6,11 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * AbstractInformationDAO implements two methods to set the database credentials and the jdbc driver.
+ * AbstractInformationDAO also has an abstract method which will be implemented to retrieve data from the database
+ * by the classes that extend it.
  *
- * @param <T>
+ * @param <T> The type of the rows returned from the database (usually a ResponseEntity with a List of a POJO).
  */
 public abstract class AbstractInformationDAO<T> {
 
@@ -19,6 +22,9 @@ public abstract class AbstractInformationDAO<T> {
 
     private static Logger log = Logger.getLogger(AbstractInformationDAO.class);
 
+    /**
+     * Default constructor to ensure that the database credentials are set.
+     */
     AbstractInformationDAO() {
         setDatabaseInformation();
         handleJavaLangClassDriver();
@@ -56,7 +62,11 @@ public abstract class AbstractInformationDAO<T> {
             passWord = passWordProperty.get();
         }
 
-        log.info("Set up database information with the following credentials: ");
+        log.info("Set up database information with the following credentials. \n\t\t\t" +
+            "jdbcDriver: " + jdbcDriver + "\n\t\t\t" +
+            "database URL: " + databaseURL + "\n\t\t\t" +
+            "username: " + userName + "\n\t\t\t" +
+            "password: " + passWord);
     }
 
     /**
@@ -74,7 +84,7 @@ public abstract class AbstractInformationDAO<T> {
     }
 
     /**
-     * Retrieves data from the database and returns it as a ResponseEntity holding a List of a given POJO.
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of a given POJO.
      *
      * @param params - Parameters passed through the URL, used to filter out unwanted data.
      * @return A type, T, which is implemented as a ResponseEntity<List<POJO>>.

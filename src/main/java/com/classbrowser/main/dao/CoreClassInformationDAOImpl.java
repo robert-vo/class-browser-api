@@ -9,6 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Access Object implementation for the CoreClassInformation POJO.
+ *
+ * @author Robert Vo
+ */
 public class CoreClassInformationDAOImpl extends AbstractInformationDAO implements CoreClassInformationDAO {
 
     private static Logger log = Logger.getLogger(CoreClassInformationDAOImpl.class);
@@ -48,6 +53,13 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
         return null;
     }
 
+    /**
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of CoreClassInformation.
+     *
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of CoreClassInformation to be returned to the URL request.
+     * @throws Exception
+     */
     @Override
     public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) params.get("Core"));

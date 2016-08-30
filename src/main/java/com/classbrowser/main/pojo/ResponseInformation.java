@@ -18,6 +18,13 @@ public class ResponseInformation<T> {
     private T result;
     private static Logger log = Logger.getLogger(ResponseInformation.class);
 
+    /**
+     * Constructs a ResponseInformation object from the given arguments.
+     *
+     * @param numberOfRows The size of the result.
+     * @param parameters The parameters passed through the URL, if any.
+     * @param result The rows returned by the database operation.
+     */
     public ResponseInformation(int numberOfRows, Map<String, String> parameters, T result) {
         if(numberOfRows < 0) {
             this.statusCode = ResponseStatusCodeEnumConstant.ERROR.getStatusCode();

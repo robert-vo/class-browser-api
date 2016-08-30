@@ -7,8 +7,22 @@ import java.sql.SQLException;
  * Data Access Object interface with the expectation that all concrete POJO DAOs will implement these methods.
  */
 public interface InterfaceInformationDAO<T> {
+    /**
+     * Iterates through the result of the SQL query and stores each row into an object T.
+     *
+     * @param rs - The result of the sql query.
+     * @return A list of object T where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
     T retrieveFromResultSet(ResultSet rs) throws SQLException;
 
+    /**
+     * Constructs a prepared statement from the sql query, sets a parameter in the prepared statement
+     * using {@param} param, executes the sql query and returns the result.
+     * @param sqlQuery
+     * @param param
+     * @return
+     * @throws SQLException
+     */
     T processStringQuery(String sqlQuery, String param) throws SQLException;
-
 }

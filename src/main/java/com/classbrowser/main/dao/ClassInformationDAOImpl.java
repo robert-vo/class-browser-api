@@ -10,6 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Access Object implementation for the ClassInformation POJO.
+ *
+ * @author Robert Vo
+ */
 public class ClassInformationDAOImpl extends AbstractInformationDAO implements ClassInformationDAO {
 
     private static Logger log = Logger.getLogger(ClassInformationDAOImpl.class);
@@ -45,6 +50,13 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
         return null;
     }
 
+    /**
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of ClassInformation.
+     *
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of ClassInformation to be returned to the URL request.
+     * @throws Exception
+     */
     @Override
     public ResponseInformation<List<ClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<ClassInformation> allClasses = selectAllClassInformation(params);
@@ -53,6 +65,12 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
         return new ResponseInformation<>(numberOfRows, params, allClasses);
     }
 
+    /**
+     *
+     * @param allParams
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<ClassInformation> selectAllClassInformation(Map allParams) throws Exception {
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQueryForInformation(allParams);

@@ -9,6 +9,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Data Access Object implementation for the DepartmentInformation POJO.
+ *
+ * @author Robert Vo
+ */
 public class DepartmentInformationDAOImpl extends AbstractInformationDAO implements DepartmentInformationDAO {
 
     private static Logger log = Logger.getLogger(DepartmentInformationDAOImpl.class);
@@ -51,6 +56,13 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
         return processStringQuery(SQL_QUERY_CORE_CLASSES, departmentName);
     }
 
+    /**
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of DepartmentInformation.
+     *
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of DepartmentInformation to be returned to the URL request.
+     * @throws Exception
+     */
     @Override
     public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<DepartmentInformation> allCoreClasses = selectAllDepartments("");
