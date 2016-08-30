@@ -57,13 +57,6 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
         return null;
     }
 
-
-    @Override
-    public List<DepartmentInformation> selectAllDepartments() throws SQLException {
-        final String SQL_QUERY_CORE_CLASSES = "select * from department;";
-        return processStringQuery(SQL_QUERY_CORE_CLASSES);
-    }
-
     /**
      * Retrieves data from the database and returns it as a ResponseInformation holding a List of DepartmentInformation.
      *
@@ -77,5 +70,17 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
         int numberOfRows = allCoreClasses.size();
         log.info("Retrieved " + numberOfRows + " items.");
         return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
+    }
+
+    /**
+     * Gets all departments from the database.
+     *
+     * @return A List of DepartmentInformation where each entry in the List represents a department in the database.
+     * @throws SQLException
+     */
+    @Override
+    public List<DepartmentInformation> selectAllDepartments() throws SQLException {
+        final String SQL_QUERY_CORE_CLASSES = "select * from department;";
+        return processStringQuery(SQL_QUERY_CORE_CLASSES);
     }
 }

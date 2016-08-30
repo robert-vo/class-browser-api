@@ -77,6 +77,13 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
         return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
     }
 
+    /**
+     * Gets all core class information from the database with respect to the parameter, core.
+     *
+     * @param core Parameter used to specify which core category will be retrieved.
+     * @return A List of CoreClassInformation where each entry in the List represents a row in the database query.
+     * @throws SQLException
+     */
     @Override
     public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
         final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +

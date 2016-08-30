@@ -76,9 +76,10 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     }
 
     /**
+     * Gets all offered class information from the database with respect to the parameters.
      *
-     * @param allParams
-     * @return
+     * @param allParams Parameters used to specify which data will be retrieved.
+     * @return A List of OfferedClassInformation where each entry in the List represents a row in the database query.
      * @throws Exception
      */
     @Override

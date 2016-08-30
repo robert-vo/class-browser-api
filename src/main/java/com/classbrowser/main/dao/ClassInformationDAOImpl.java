@@ -74,9 +74,10 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     }
 
     /**
-     * Gets all class information
-     * @param allParams
-     * @return
+     * Gets all class information from the database with respect to the parameters.
+     *
+     * @param allParams Parameters used to specify which data will be retrieved.
+     * @return A List of ClassInformation where each entry in the List represents a row in the database query.
      * @throws Exception
      */
     @Override
