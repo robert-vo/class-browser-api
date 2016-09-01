@@ -39,6 +39,7 @@ public class ScheduleScraper {
             catch (NumberFormatException ex) {
                 log.error("Error for page limit of value: " + System.getProperty("pageLimit"));
                 log.error(ex);
+                log.warn("Continuing class scraper with no page limit.");
             }
         }
         if (pageLimit > 0) {
