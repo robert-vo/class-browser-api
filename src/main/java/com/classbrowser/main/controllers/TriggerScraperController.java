@@ -10,6 +10,8 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
 
 /**
  * RESTful API for triggering the class scraper on demand.
+ *
+ * @author Robert Vo
  */
 @RestController
 @RequestMapping("/")

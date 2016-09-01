@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * RESTful API for handling the error message.
+ *
+ * @author Robert Vo
  */
 @RestController
 public class CustomErrorController implements ErrorController {

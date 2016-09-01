@@ -20,6 +20,8 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
 /**
  * RESTful API for viewing core class information, general class information,
  * department information and information about offered classes at the University of Houston, Main Campus.
+ *
+ * @author Robert Vo
  */
 @RestController
 @RequestMapping("/api")
