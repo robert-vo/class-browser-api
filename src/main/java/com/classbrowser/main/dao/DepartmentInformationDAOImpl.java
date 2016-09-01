@@ -19,45 +19,6 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
     private static Logger log = Logger.getLogger(DepartmentInformationDAOImpl.class);
 
     /**
-     * Iterates through the result of the sql query and stores each row into a List of DepartmentInformation.
-     *
-     * @param rs - The result of the sql query.
-     * @return A List of DepartmentInformation where each entry in the list represents a row in the ResultSet.
-     * @throws SQLException
-     */
-    @Override
-    public List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
-        List<DepartmentInformation> allDepartmentInformation = new LinkedList<>();
-        while(rs.next()) {
-            DepartmentInformation d = DepartmentInformation.getPojoFromResultSet(rs);
-            allDepartmentInformation.add(d);
-        }
-        return allDepartmentInformation;
-    }
-
-    /**
-     * Completes and executes the SQL query and returns the result as a List of DepartmentInformation.
-     *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
-     * @param param The parameter for the prepared statement.
-     * @return A List of DepartmentInformation which represents each row in the result of the SQL query.
-     * @throws SQLException
-     */
-    @Override
-    public List<DepartmentInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
-        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
-            log.info("Executing SQL Query: " + preparedStatement.toString());
-            return retrieveFromResultSet(preparedStatement.executeQuery());
-        }
-        catch (Exception e) {
-            log.error("Error processing SQL Query.");
-            log.error(e);
-        }
-        return null;
-    }
-
-    /**
      * Retrieves data from the database and returns it as a ResponseInformation holding a List of DepartmentInformation.
      *
      * @param params - Parameters passed through the URL, used to filter out unwanted data.
@@ -83,4 +44,44 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
         final String SQL_QUERY_CORE_CLASSES = "select * from department;";
         return processStringQuery(SQL_QUERY_CORE_CLASSES);
     }
+
+    /**
+     * Completes and executes the SQL query and returns the result as a List of DepartmentInformation.
+     *
+     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param param The parameter for the prepared statement.
+     * @return A List of DepartmentInformation which represents each row in the result of the SQL query.
+     * @throws SQLException
+     */
+    @Override
+    public List<DepartmentInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
+            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            log.info("Executing SQL Query: " + preparedStatement.toString());
+            return retrieveFromResultSet(preparedStatement.executeQuery());
+        }
+        catch (Exception e) {
+            log.error("Error processing SQL Query.");
+            log.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of DepartmentInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of DepartmentInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
+    @Override
+    public List<DepartmentInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
+        List<DepartmentInformation> allDepartmentInformation = new LinkedList<>();
+        while(rs.next()) {
+            DepartmentInformation d = DepartmentInformation.getPojoFromResultSet(rs);
+            allDepartmentInformation.add(d);
+        }
+        return allDepartmentInformation;
+    }
+
 }

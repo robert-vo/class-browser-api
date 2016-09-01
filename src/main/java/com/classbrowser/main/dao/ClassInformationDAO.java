@@ -11,11 +11,12 @@ import java.util.Map;
  * Data Access Object interface for the ClassInformation POJO.
  */
 public interface ClassInformationDAO extends InterfaceInformationDAO {
-    @Override
-    List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;
+    List<ClassInformation> selectAllClassInformation(Map allParams) throws Exception;
 
     @Override
     List<ClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException;
 
-    List<ClassInformation> selectAllClassInformation(Map allParams) throws Exception;
+    @Override
+    List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;
+
 }

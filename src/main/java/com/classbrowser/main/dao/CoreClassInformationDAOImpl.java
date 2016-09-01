@@ -19,20 +19,33 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     private static Logger log = Logger.getLogger(CoreClassInformationDAOImpl.class);
 
     /**
-     * Iterates through the result of the sql query and stores each row into a List of CoreClassInformation.
+     * Retrieves data from the database and returns it as a ResponseInformation holding a List of CoreClassInformation.
      *
-     * @param rs - The result of the sql query.
-     * @return A List of CoreClassInformation where each entry in the list represents a row in the ResultSet.
+     * @param params - Parameters passed through the URL, used to filter out unwanted data.
+     * @return A ResponseInformation holding a List of CoreClassInformation to be returned to the URL request.
+     * @throws Exception
+     */
+    @Override
+    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
+        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) params.get("Core"));
+        int numberOfRows = allCoreClasses.size();
+        log.info("Retrieved " + numberOfRows + " items.");
+        return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
+    }
+
+    /**
+     * Gets all core class information from the database with respect to the parameter, core.
+     *
+     * @param core Parameter used to specify which core category will be retrieved.
+     * @return A List of CoreClassInformation where each entry in the List represents a row in the database query.
      * @throws SQLException
      */
     @Override
-    public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
-        List<CoreClassInformation> allCoreClassInformation = new LinkedList<>();
-        while(rs.next()) {
-            CoreClassInformation c = CoreClassInformation.getPojoFromResultSet(rs);
-            allCoreClassInformation.add(c);
-        }
-        return allCoreClassInformation;
+    public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
+        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
+                "where (core = ? or core like ? or core like ?) " +
+                "and ? = core.core_id";
+        return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
     }
 
     /**
@@ -63,33 +76,20 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     }
 
     /**
-     * Retrieves data from the database and returns it as a ResponseInformation holding a List of CoreClassInformation.
+     * Iterates through the result of the sql query and stores each row into a List of CoreClassInformation.
      *
-     * @param params - Parameters passed through the URL, used to filter out unwanted data.
-     * @return A ResponseInformation holding a List of CoreClassInformation to be returned to the URL request.
-     * @throws Exception
-     */
-    @Override
-    public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
-        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) params.get("Core"));
-        int numberOfRows = allCoreClasses.size();
-        log.info("Retrieved " + numberOfRows + " items.");
-        return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
-    }
-
-    /**
-     * Gets all core class information from the database with respect to the parameter, core.
-     *
-     * @param core Parameter used to specify which core category will be retrieved.
-     * @return A List of CoreClassInformation where each entry in the List represents a row in the database query.
+     * @param rs - The result of the sql query.
+     * @return A List of CoreClassInformation where each entry in the list represents a row in the ResultSet.
      * @throws SQLException
      */
     @Override
-    public List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException {
-        final String SQL_QUERY_CORE_CLASSES = "SELECT * FROM class.class_information, class.core " +
-                "where (core = ? or core like ? or core like ?) " +
-                "and ? = core.core_id";
-        return processStringQuery(SQL_QUERY_CORE_CLASSES, core);
+    public List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
+        List<CoreClassInformation> allCoreClassInformation = new LinkedList<>();
+        while(rs.next()) {
+            CoreClassInformation c = CoreClassInformation.getPojoFromResultSet(rs);
+            allCoreClassInformation.add(c);
+        }
+        return allCoreClassInformation;
     }
 
 }

@@ -20,45 +20,6 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     private static Logger log = Logger.getLogger(ClassInformationDAOImpl.class);
 
     /**
-     * Iterates through the result of the sql query and stores each row into a List of ClassInformation.
-     *
-     * @param rs - The result of the sql query.
-     * @return A List of ClassInformation where each entry in the list represents a row in the ResultSet.
-     * @throws SQLException
-     */
-    @Override
-    public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
-        List<ClassInformation> allClassInformation = new LinkedList<>();
-        while(rs.next()) {
-            ClassInformation c = ClassInformation.getPojoFromResultSet(rs);
-            allClassInformation.add(c);
-        }
-        return allClassInformation;
-    }
-
-    /**
-     * Completes and executes the SQL query and returns the result as a List of ClassInformation.
-     *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
-     * @param param The parameter for the prepared statement.
-     * @return A List of ClassInformation which represents each row in the result of the SQL query.
-     * @throws SQLException
-     */
-    @Override
-    public List<ClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
-        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
-            log.info("Executing SQL Query: " + preparedStatement.toString());
-            return retrieveFromResultSet(preparedStatement.executeQuery());
-        }
-        catch (Exception e) {
-            log.error("Error processing SQL Query");
-            log.error(e);
-        }
-        return null;
-    }
-
-    /**
      * Retrieves data from the database and returns it as a ResponseInformation holding a List of ClassInformation.
      *
      * @param params - Parameters passed through the URL, used to filter out unwanted data.
@@ -84,6 +45,45 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     public List<ClassInformation> selectAllClassInformation(Map allParams) throws Exception {
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQueryForInformation(allParams);
         return processStringQuery(SQL_QUERY_ALL_CLASSES);
+    }
+
+    /**
+     * Completes and executes the SQL query and returns the result as a List of ClassInformation.
+     *
+     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param param The parameter for the prepared statement.
+     * @return A List of ClassInformation which represents each row in the result of the SQL query.
+     * @throws SQLException
+     */
+    @Override
+    public List<ClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+        try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
+            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            log.info("Executing SQL Query: " + preparedStatement.toString());
+            return retrieveFromResultSet(preparedStatement.executeQuery());
+        }
+        catch (Exception e) {
+            log.error("Error processing SQL Query");
+            log.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * Iterates through the result of the sql query and stores each row into a List of ClassInformation.
+     *
+     * @param rs - The result of the sql query.
+     * @return A List of ClassInformation where each entry in the list represents a row in the ResultSet.
+     * @throws SQLException
+     */
+    @Override
+    public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
+        List<ClassInformation> allClassInformation = new LinkedList<>();
+        while(rs.next()) {
+            ClassInformation c = ClassInformation.getPojoFromResultSet(rs);
+            allClassInformation.add(c);
+        }
+        return allClassInformation;
     }
 
 }
