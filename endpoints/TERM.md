@@ -91,7 +91,7 @@ Returned is a JSON object with keys:
     * department - The department in which the class is in.
     * departmentName - The full name of the department in which the class is in.
   * classStatus - Denotes whether a class is open or closed to registration.
-  * courseNumber - The 5-digit unique identifier for a class.
+  * courseNumber - The 5-digit unique identifier for a class, also known as the course reference numbers (CRN).
   * seatInformation - An object containing information about the seats of a class.
     * seatsTaken - The number of seats taken in the class.
     * seatsAvailable - The number of seats available in the class.
