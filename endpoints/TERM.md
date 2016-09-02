@@ -30,7 +30,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * MIN - Mini Academic Session
   * 1 - Regular Academic Session
   * 2, 3, 4, 5, 6 - Sections of a Regular Academic Session
-* department - A String that represents the department class(es) belong to.
+* department or subject - A String that represents the department or subject the class(es) belong to.
 * department_crn - The 4 digit number that represents the class in a given department.
 * location - Where the class takes place. Examples include:
   * "UH" - University of Houston
