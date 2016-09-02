@@ -53,7 +53,7 @@ public class StringSQLQueryUtility {
     final static String BUILDING                    = "BUILDING";
     final static String CREDIT_HOURS                = "CREDIT_HOURS";
     final static String CORE_ID                     = "CORE";
-    final static String IS_CORE                     = "ISCORE";
+    final static String IS_CORE                     = "IS_CORE";
     final static String MONDAY                      = "MONDAY";
     final static String TUESDAY                     = "TUESDAY";
     final static String WEDNESDAY                   = "WEDNESDAY";
