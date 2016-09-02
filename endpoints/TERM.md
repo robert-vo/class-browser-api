@@ -31,7 +31,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * 1 - Regular Academic Session
   * 2, 3, 4, 5, 6 - Sections of a Regular Academic Session
 * department - A String that represents the department class(es) belong to.
-* department_crn - The 4 digit course number for the class.
+* department_crn - The 4 digit number that represents the class in a given department.
 * location - Where the class takes place. Examples include:
   * "UH" - University of Houston
   * "UH-Northwest Campus" - University of Houston's Northwest Campus
@@ -91,7 +91,7 @@ Returned is a JSON object with keys:
     * department - The department in which the class is in.
     * departmentName - The full name of the department in which the class is in.
   * classStatus - Denotes whether a class is open or closed to registration.
-  * courseNumber - The 5-digit unique identifier for a class, also known as the course reference numbers (CRN).
+  * classReferenceNumber - The 5-digit unique identifier for a class, also known as the course reference numbers (CRN).
   * seatInformation - An object containing information about the seats of a class.
     * seatsTaken - The number of seats taken in the class.
     * seatsAvailable - The number of seats available in the class.
