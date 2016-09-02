@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class CoreClassInformation {
     public String department;
-    public String department_crn;
+    public int department_crn;
     public String class_description;
     public String class_title;
     public int credit_hours;
@@ -18,7 +18,7 @@ public class CoreClassInformation {
     public String core_title;
     public int hours_required;
 
-    public CoreClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, int core_id, String core_title, int hours_required) {
+    public CoreClassInformation(String department, int department_crn, String class_description, String class_title, int credit_hours, int core_id, String core_title, int hours_required) {
         this.department = department;
         this.department_crn = department_crn;
         this.class_description = class_description;
@@ -37,11 +37,11 @@ public class CoreClassInformation {
         this.department = department;
     }
 
-    public String getDepartment_crn() {
+    public int getDepartment_crn() {
         return department_crn;
     }
 
-    public void setDepartment_crn(String department_crn) {
+    public void setDepartment_crn(int department_crn) {
         this.department_crn = department_crn;
     }
 
@@ -102,7 +102,7 @@ public class CoreClassInformation {
      */
     public static CoreClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         return new CoreClassInformation(rs.getString("Department"),
-                rs.getString("Department_crn"),
+                rs.getInt("Department_crn"),
                 rs.getString("class_description"),
                 rs.getString("class_title"),
                 rs.getInt("credit_hours"),
