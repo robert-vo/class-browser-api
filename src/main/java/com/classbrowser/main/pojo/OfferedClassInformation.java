@@ -252,6 +252,7 @@ public class OfferedClassInformation {
         HashMap<String, String> departmentInformation = new LinkedHashMap<>();
         departmentInformation.put("department",         rs.getString("department"));
         departmentInformation.put("departmentName",     rs.getString("department_name"));
+        departmentInformation.put("departmentCRN",      rs.getString("department_crn"));
 
         HashMap<String, String> locationInformation = new LinkedHashMap<>();
         locationInformation.put("location",               rs.getString("location"));
