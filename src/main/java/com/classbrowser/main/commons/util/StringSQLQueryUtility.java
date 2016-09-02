@@ -42,7 +42,7 @@ public class StringSQLQueryUtility {
     final static String ATTRIBUTES_COLUMN           = "attributes";
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
-    final static String FACE_TO_FACE_PARAM          = "FACETOFACE";
+    final static String FACE_TO_FACE_PARAM          = "FACE-TO-FACE";
     final static String FACE_TO_FACE_VALUE          = "Face To Face";
     final static String STATUS                      = "STATUS";
     final static String SESSION                     = "SESSION";
