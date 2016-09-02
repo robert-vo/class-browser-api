@@ -13,7 +13,7 @@ public interface CoreClassInformationDAO extends InterfaceInformationDAO {
     List<CoreClassInformation> selectAllCoreClass(String core) throws SQLException;
 
     @Override
-    List<CoreClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException;
+    List<CoreClassInformation> processStringQuery(String baseSQLQuery, String... param) throws SQLException;
 
     @Override
     List<CoreClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException;

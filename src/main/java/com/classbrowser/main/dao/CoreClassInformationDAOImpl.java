@@ -51,16 +51,16 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
     /**
      * Completes and executes the SQL query and returns the result as a List of CoreClassInformation.
      *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param baseSQLQuery The base SQL query to be used for the prepared statement and to be executed.
      * @param param The parameter for the prepared statement.
      * @return A List of CoreClassInformation which represents each row in the result of the SQL query.
      * @throws SQLException
      */
     @Override
-    public List<CoreClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+    public List<CoreClassInformation> processStringQuery(String baseSQLQuery, String... param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             final String coreParam = param[0];
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = conn.prepareStatement(baseSQLQuery);
             preparedStatement.setString(1, coreParam);
             preparedStatement.setString(2, coreParam + ",%");
             preparedStatement.setString(3, "%, " + coreParam);

@@ -50,15 +50,15 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     /**
      * Completes and executes the SQL query and returns the result as a List of ClassInformation.
      *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param baseSQLQuery The base SQL query to be used for the prepared statement and to be executed.
      * @param param The parameter for the prepared statement.
      * @return A List of ClassInformation which represents each row in the result of the SQL query.
      * @throws SQLException
      */
     @Override
-    public List<ClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+    public List<ClassInformation> processStringQuery(String baseSQLQuery, String... param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = conn.prepareStatement(baseSQLQuery);
             log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }
@@ -74,7 +74,7 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
      *
      * @param rs - The result of the sql query.
      * @return A List of ClassInformation where each entry in the list represents a row in the ResultSet.
-     * @throws SQLException
+     * @throws SQLException When a problem occurs with retrieving the data from the result set.
      */
     @Override
     public List<ClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {

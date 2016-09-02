@@ -48,15 +48,15 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
     /**
      * Completes and executes the SQL query and returns the result as a List of DepartmentInformation.
      *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param baseSQLQuery The base SQL query to be used for the prepared statement and to be executed.
      * @param param The parameter for the prepared statement.
      * @return A List of DepartmentInformation which represents each row in the result of the SQL query.
      * @throws SQLException
      */
     @Override
-    public List<DepartmentInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+    public List<DepartmentInformation> processStringQuery(String baseSQLQuery, String... param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = conn.prepareStatement(baseSQLQuery);
             log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
         }

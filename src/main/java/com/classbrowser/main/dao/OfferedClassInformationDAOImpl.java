@@ -57,16 +57,16 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
     /**
      * Completes and executes the SQL query and returns the result as a List of OfferedClassInformation.
      *
-     * @param sqlQuery The base SQL query to be used for the prepared statement and to be executed.
+     * @param baseSQLQuery The base SQL query to be used for the prepared statement and to be executed.
      * @param param The parameter for the prepared statement.
      * @return A List of OfferedClassInformation which represents each row in the result of the SQL query.
-     * @throws SQLException
+     * @throws SQLException Either when an invalid connection is set, or when retrieving from the ResultSet fails.
      */
     @Override
-    public List<OfferedClassInformation> processStringQuery(String sqlQuery, String... param) throws SQLException {
+    public List<OfferedClassInformation> processStringQuery(String baseSQLQuery, String... param) throws SQLException {
         try(Connection conn = DriverManager.getConnection(databaseURL, userName, passWord)) {
             final String termParam = param[0];
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery);
+            PreparedStatement preparedStatement = conn.prepareStatement(baseSQLQuery);
             preparedStatement.setString(1, termParam);
             log.info("Executing SQL Query: " + preparedStatement.toString());
             return retrieveFromResultSet(preparedStatement.executeQuery());
@@ -83,7 +83,7 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
      *
      * @param rs - The result of the sql query.
      * @return A List of OfferedClassInformation where each entry in the list represents a row in the ResultSet.
-     * @throws SQLException
+     * @throws SQLException When retrieving from the ResultSet fails.
      */
     @Override
     public List<OfferedClassInformation> retrieveFromResultSet(ResultSet rs) throws SQLException {
