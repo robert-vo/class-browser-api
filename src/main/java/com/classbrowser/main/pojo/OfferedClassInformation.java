@@ -16,7 +16,7 @@ import java.util.Optional;
 public class OfferedClassInformation {
     private HashMap<String, String> termInformation;
     private String classTitle;
-    private HashMap<String, String> departmentInformation;
+    private HashMap<String, Object> departmentInformation;
     private String classStatus;
     private String classReferenceNumber;
     private HashMap<String, Integer> seatInformation;
@@ -36,7 +36,7 @@ public class OfferedClassInformation {
     private static Logger log = Logger.getLogger(OfferedClassInformation.class);
 
     public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle,
-                                   HashMap<String, String> departmentInformation, String classStatus,
+                                   HashMap<String, Object> departmentInformation, String classStatus,
                                    String classReferenceNumber, HashMap<String, Integer> seatInformation,
                                    HashMap<String, String> dateTimeInformation, String attributes,
                                    HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation,
@@ -80,11 +80,11 @@ public class OfferedClassInformation {
         this.classTitle = classTitle;
     }
 
-    public HashMap<String, String> getDepartmentInformation() {
+    public HashMap<String, Object> getDepartmentInformation() {
         return departmentInformation;
     }
 
-    public void setDepartmentInformation(HashMap<String, String> departmentInformation) {
+    public void setDepartmentInformation(HashMap<String, Object> departmentInformation) {
         this.departmentInformation = departmentInformation;
     }
 
@@ -249,10 +249,10 @@ public class OfferedClassInformation {
         classDays.put("saturday",   rs.getBoolean("saturday"));
         classDays.put("sunday",     rs.getBoolean("sunday"));
 
-        HashMap<String, String> departmentInformation = new LinkedHashMap<>();
+        HashMap<String, Object> departmentInformation = new LinkedHashMap<>();
         departmentInformation.put("department",         rs.getString("department"));
         departmentInformation.put("departmentName",     rs.getString("department_name"));
-        departmentInformation.put("departmentCRN",      rs.getString("department_crn"));
+        departmentInformation.put("departmentCRN",      rs.getInt("department_crn"));
 
         HashMap<String, String> locationInformation = new LinkedHashMap<>();
         locationInformation.put("location",               rs.getString("location"));
