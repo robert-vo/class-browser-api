@@ -24,7 +24,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
 
 * online - Use one of the True Values to indicate an online class, False Values for classes that are not online.
 * hybrid - Use one of the True Values to indicate a hybrid class, False Values for classes that are not hybrid.
-* facetoface - Use one of the True Values to indicate a face to face class, False Values for classes that are not face to face.
+* face-to-face - Use one of the True Values to indicate a face to face class, False Values for classes that are not face to face.
 * status - Use one of the True Values, or "Open", to indicate an open class. False Values, or "Closed", indicates a closed class.
 * session - Represents the session in which a class is under. Values include:
   * MIN - Mini Academic Session
