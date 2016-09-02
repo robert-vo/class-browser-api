@@ -51,7 +51,7 @@ public class OfferedClassInformationDAOImpl extends AbstractInformationDAO imple
                 " terms.term_id = class.term_id AND" +
                 " class.department_crn = class_information.department_crn ";
         final String SQL_QUERY_ALL_CLASSES = StringSQLQueryUtility.buildSqlQuery(allParams, SQL_QUERY);
-        return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("Term"));
+        return processStringQuery(SQL_QUERY_ALL_CLASSES, allParams.get("term"));
     }
 
     /**
