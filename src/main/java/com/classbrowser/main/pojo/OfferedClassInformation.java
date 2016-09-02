@@ -18,7 +18,7 @@ public class OfferedClassInformation {
     private String classTitle;
     private HashMap<String, String> departmentInformation;
     private String classStatus;
-    private String courseNumber;
+    private String classReferenceNumber;
     private HashMap<String, Integer> seatInformation;
     private HashMap<String, String> dateTimeInformation;
     private String attributes;
@@ -35,12 +35,19 @@ public class OfferedClassInformation {
     private String lastUpdated;
     private static Logger log = Logger.getLogger(OfferedClassInformation.class);
 
-    public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle, HashMap<String, String> departmentInformation, String classStatus, String courseNumber, HashMap<String, Integer> seatInformation, HashMap<String, String> dateTimeInformation, String attributes, HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation, HashMap<String, String> locationInformation, String format, String description, String duration, String session, String component, String syllabus, String[] core, String lastUpdated) {
+    public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle,
+                                   HashMap<String, String> departmentInformation, String classStatus,
+                                   String classReferenceNumber, HashMap<String, Integer> seatInformation,
+                                   HashMap<String, String> dateTimeInformation, String attributes,
+                                   HashMap<String, Boolean> classDays, HashMap<String, String> instructorInformation,
+                                   HashMap<String, String> locationInformation, String format, String description,
+                                   String duration, String session, String component, String syllabus, String[] core,
+                                   String lastUpdated) {
         this.termInformation = termInformation;
         this.classTitle = classTitle;
         this.departmentInformation = departmentInformation;
         this.classStatus = classStatus;
-        this.courseNumber = courseNumber;
+        this.classReferenceNumber = classReferenceNumber;
         this.seatInformation = seatInformation;
         this.dateTimeInformation = dateTimeInformation;
         this.attributes = attributes;
@@ -89,12 +96,12 @@ public class OfferedClassInformation {
         this.classStatus = classStatus;
     }
 
-    public String getCourseNumber() {
-        return courseNumber;
+    public String getClassReferenceNumber() {
+        return classReferenceNumber;
     }
 
-    public void setCourseNumber(String courseNumber) {
-        this.courseNumber = courseNumber;
+    public void setClassReferenceNumber(String classReferenceNumber) {
+        this.classReferenceNumber = classReferenceNumber;
     }
 
     public HashMap<String, Integer> getSeatInformation() {
@@ -214,7 +221,7 @@ public class OfferedClassInformation {
      *
      * @param rs The ResultSet that is of a single row from a table result.
      * @return A OfferedClassInformation Object from the row in the ResultSet.
-     * @throws SQLException
+     * @throws SQLException When retrieving from the ResultSet fails.
      */
     public static OfferedClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
         HashMap<String, String> termInformation = new LinkedHashMap<>();
@@ -264,7 +271,7 @@ public class OfferedClassInformation {
 
         return new OfferedClassInformation(termInformation,
                 rs.getString("CLASS_TITLE"), departmentInformation,
-                rs.getString("Status"), rs.getString("crn"),
+                rs.getString("Status"), rs.getString("CRN"),
                 seatInformation, dateTimeInformation,
                 rs.getString("attributes"),
                 classDays, instructorInformation, locationInformation,
