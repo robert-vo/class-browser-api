@@ -47,7 +47,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * "HBS" - Health and Biomedical Sciences
   * "AAA" - Agnes Arnold Auditorium
 * credit_hours - An integer between 1 and 5, inclusive, to retrieve classes with a certain amount of hours fulfilled.
-* isCore - Use one of the True Values to indicate if a class fulfills a core requirement. False Values to indicate otherwise.
+* is_core - Use one of the True Values to indicate if a class fulfills a core requirement. False Values to indicate otherwise.
 * weekendU - Use one of the True Values to indicate if a class is a weekendU class. False Values to indicate otherwise.
 * core_id - An integer between 1 and 10, inclusive. The list below indicates what each number corresponds to.
   * 1: Communication
