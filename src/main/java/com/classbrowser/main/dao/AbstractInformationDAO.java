@@ -71,6 +71,7 @@ public abstract class AbstractInformationDAO<T> {
 
     /**
      * Attempts to handle the jdbcDriver.
+     * @throws ClassNotFoundException When the JDBC Driver is incorrect or invalid.
      */
     private void handleJavaLangClassDriver() {
         log.info("Attempting to handle the java jdbcDriver.");
@@ -87,8 +88,9 @@ public abstract class AbstractInformationDAO<T> {
      * Retrieves data from the database and returns it as a ResponseInformation holding a List of a given POJO.
      *
      * @param params - Parameters passed through the URL, used to filter out unwanted data.
-     * @return A type, T, which is implemented as a ResponseEntity<List<POJO>>.
-     * @throws Exception
+     * @return A ResponseInformation holding a List of T, {@code ResponseInformation<List<T>>}
+     *         to be returned to the URL request.
+     * @throws Exception When an error occurs with retrieving or converting the data from the database queries.
      */
     public abstract T getFromDatabaseAndResponseInfo(Map params) throws Exception;
 
