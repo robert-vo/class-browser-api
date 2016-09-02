@@ -30,8 +30,11 @@ public class ClassBrowserAPIController {
     private static Logger log = Logger.getLogger(ClassBrowserAPIController.class);
     private final String REQUEST_MAPPING_URL_DEPARTMENT     = "/department";
     private final String REQUEST_MAPPING_URL_CORE           = "/core={coreID}";
-    private final String REQUEST_MAPPING_URL_TERM           = "/classes/term={term}";
+    private final String REQUEST_MAPPING_URL_TERM           = "/classes/term={termID}";
     private final String REQUEST_MAPPING_URL_INFORMATION    = "/information";
+    private final String CREDIT_HOURS_PARAMETER             = "credit-hours";
+    private final String DEPARTMENT_PARAMETER               = "department";
+    private final String CORE_PARAMETER                     = "core";
 
     /**
      * Endpoint for viewing information about core classes.
@@ -39,12 +42,13 @@ public class ClassBrowserAPIController {
      * @param coreID - The core ID, an integer from 1 to 10, that corresponds to the core class category.
      * @return A ResponseEntity with information about core classes, or an error message if anything went wrong.
      * Visit the following link for more information.
-     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CORE.md
-     * @throws Exception
+     * {@see https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CORE.md}
+     * @throws InvalidArgumentException Given an invalid argument.
+     * @throws NumberFormatException Given an invalid core ID.
      */
     @RequestMapping(value = REQUEST_MAPPING_URL_CORE, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getAllCoreCourses(@PathVariable(value = "coreID") String coreID) throws Exception {
+    public ResponseEntity getAllCoreCourses(@PathVariable(value = "coreID") String coreID) throws InvalidArgumentException, NumberFormatException {
         log.info("User accessing /api/core=" + coreID);
         try {
             if(OfferedClassInformation.isNotValidCore(coreID)) {
@@ -69,29 +73,36 @@ public class ClassBrowserAPIController {
      * @param params - Other parameters to filter out data from the result.
      * @return A ResponseEntity with information about offered classes for a given term, or an error message if anything went wrong.
      * Visit the following link for more information.
-     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/TERM.md
+     * {@see https://github.com/robert-vo/class-browser-api/blob/master/endpoints/TERM.md}
      * @throws Exception
      */
     @RequestMapping(value = REQUEST_MAPPING_URL_TERM, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getAllClassesFromTerm(@PathVariable(value = "term") String term,
+    public ResponseEntity getAllClassesFromTerm(@PathVariable(value = "termID") String term,
                                                 @RequestParam Map<String, String> params) throws Exception {
-        log.info("User accessing /api/classes/term=" + term);
+        final String TERM_PARAMETER = "term";
+
+        log.info("User accessing /api/classes/" + TERM_PARAMETER + "=" + term);
 
         try {
             if (term.isEmpty()) {
-                throw new Exception("Term is required.");
+                throw new Exception(TERM_PARAMETER + " is required.");
             }
             else if (OfferedClassInformation.isNotValidTerm(term)) {
-                throw new InvalidArgumentException("Term");
+                throw new InvalidArgumentException(TERM_PARAMETER);
             }
         }
         catch (Exception e) {
-            return generateErrorMessageResponseEntity("Term");
+            return generateErrorMessageResponseEntity(TERM_PARAMETER);
         }
 
         OfferedClassInformationDAOImpl offeredClassInformationDAOImpl = new OfferedClassInformationDAOImpl();
-        params.put("Term", term);
+        params.put(TERM_PARAMETER, term);
+
+        log.info("User has inputted the following parameters -");
+        params.keySet()
+                .stream()
+                .forEach(paramKey -> log.info("Parameter " + paramKey + " with the following value: " + params.get(paramKey)));
 
         return attemptDatabaseOperation(offeredClassInformationDAOImpl, params);
     }
@@ -101,7 +112,7 @@ public class ClassBrowserAPIController {
      *
      * @return A ResponseEntity with information about all of the departments.
      * Visit the following link for more information.
-     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/DEPARTMENT.md
+     * {@see https://github.com/robert-vo/class-browser-api/blob/master/endpoints/DEPARTMENT.md}
      * @throws Exception
      */
     @RequestMapping(value = REQUEST_MAPPING_URL_DEPARTMENT, method = RequestMethod.GET)
@@ -123,37 +134,37 @@ public class ClassBrowserAPIController {
      * @param core - The core ID, an integer from 1 to 10, that corresponds to the core class category.
      * @return
      * Visit the following link for more information.
-     * https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CLASS_INFORMATION.md
+     * {@see https://github.com/robert-vo/class-browser-api/blob/master/endpoints/CLASS_INFORMATION.md}
      * @throws Exception
      */
     @RequestMapping(value = REQUEST_MAPPING_URL_INFORMATION, method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity getClassInformation(@RequestParam(value = "department", required = false)     Optional<String> department,
-                                              @RequestParam(value = "credit_hours", required = false)   Optional<String> creditHours,
-                                              @RequestParam(value = "core", required = false)           Optional<String> core) throws Exception {
+    public ResponseEntity getClassInformation(@RequestParam(value = DEPARTMENT_PARAMETER, required = false)     Optional<String> department,
+                                              @RequestParam(value = CREDIT_HOURS_PARAMETER, required = false)   Optional<String> creditHours,
+                                              @RequestParam(value = CORE_PARAMETER, required = false)           Optional<String> core) throws Exception {
         log.info("User accessing /api/information with parameters: ");
         if(department.isPresent()) {
-            log.info("department = " + department.get());
+            log.info(DEPARTMENT_PARAMETER + " = " + department.get());
         }
         if(creditHours.isPresent()) {
-            log.info("credit_hours = " + creditHours.get());
+            log.info(CREDIT_HOURS_PARAMETER + " = " + creditHours.get());
         }
         if(core.isPresent()) {
-            log.info("core = " + core.get());
+            log.info(CORE_PARAMETER + " = " + core.get());
         }
 
         try {
             if (creditHours.isPresent() && OfferedClassInformation.isNotValidCreditHours(creditHours.get())) {
-                log.error("The credit_hour parameter is invalid with value: " + creditHours.get());
-                throw new InvalidArgumentException("CREDIT_HOUR");
+                log.error("The " + CREDIT_HOURS_PARAMETER + " parameter is invalid with value: " + creditHours.get());
+                throw new InvalidArgumentException(CREDIT_HOURS_PARAMETER);
             }
             else if (core.isPresent() && OfferedClassInformation.isNotValidCore(core.get())) {
-                log.error("The core parameter is invalid with value: " + core.get());
-                throw new InvalidArgumentException("Core");
+                log.error("The " + CORE_PARAMETER + " parameter is invalid with value: " + core.get());
+                throw new InvalidArgumentException(CORE_PARAMETER);
             }
         }
         catch (Exception e) {
-            if(e.getMessage().contains("CREDIT_HOUR")) {
+            if(e.getMessage().contains(CREDIT_HOURS_PARAMETER)) {
                 return generateErrorMessageResponseEntity("CREDIT_HOUR");
             }
             else {
@@ -163,15 +174,17 @@ public class ClassBrowserAPIController {
 
         ClassInformationDAOImpl classInformationDAOImpl = new ClassInformationDAOImpl();
         Map<String, String> params = new HashMap<>();
+
         if(department.isPresent()) {
-            params.put("department", department.get());
+            params.put(DEPARTMENT_PARAMETER, department.get());
         }
         if(creditHours.isPresent()) {
-            params.put("credit_hours", creditHours.get());
+            params.put(CREDIT_HOURS_PARAMETER, creditHours.get());
         }
         if(core.isPresent()) {
-            params.put("Core", core.get());
+            params.put(CORE_PARAMETER, core.get());
         }
+
         return attemptDatabaseOperation(classInformationDAOImpl, params);
     }
 }
