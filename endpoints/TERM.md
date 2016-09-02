@@ -31,7 +31,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * 1 - Regular Academic Session
   * 2, 3, 4, 5, 6 - Sections of a Regular Academic Session
 * department or subject - A String that represents the department or subject the class(es) belong to.
-* department_crn - The 4 digit number that represents the class in a given department.
+* department-crn - The 4 digit number that represents the class in a given department.
 * location - Where the class takes place. Examples include:
   * "UH" - University of Houston
   * "UH-Northwest Campus" - University of Houston's Northwest Campus
@@ -46,10 +46,10 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * "SEC" - Science and Engineering Complex
   * "HBS" - Health and Biomedical Sciences
   * "AAA" - Agnes Arnold Auditorium
-* credit_hours - An integer between 1 and 5, inclusive, to retrieve classes with a certain amount of hours fulfilled.
-* is_core - Use one of the True Values to indicate if a class fulfills a core requirement. False Values to indicate otherwise.
+* credit-hours - An integer between 1 and 5, inclusive, to retrieve classes with a certain amount of hours fulfilled.
+* is-core - Use one of the True Values to indicate if a class fulfills a core requirement. False Values to indicate otherwise.
 * weekendU - Use one of the True Values to indicate if a class is a weekendU class. False Values to indicate otherwise.
-* core_id - An integer between 1 and 10, inclusive. The list below indicates what each number corresponds to.
+* core-id or core - An integer between 1 and 10, inclusive. The list below indicates what each number corresponds to.
   * 1: Communication
   * 2: Mathematics
   * 3: Life and Physical Sciences
@@ -155,7 +155,8 @@ Returned is a JSON object with keys:
     "classTitle" : "Anthropology of Religion",
     "departmentInformation" : {
       "department" : "ANTH",
-      "departmentName" : "Anthropology"
+      "departmentName" : "Anthropology",
+      "departmentCRN" : "3348"
     },
     "classStatus" : "Closed",
     "courseNumber" : "24422",
