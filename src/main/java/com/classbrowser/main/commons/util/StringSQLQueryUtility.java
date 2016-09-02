@@ -29,10 +29,13 @@ public class StringSQLQueryUtility {
     final static String SESSION_COLUMN              = "session";
     final static String DEPARTMENT_COLUMN           = "department";
     final static String DEPARTMENT_CRN_COLUMN       = "department_crn";
+    final static String DEPARTMENT_CRN_PARAMETER    = "DEPARTMENT-CRN";
     final static String COMPONENT_COLUMN            = "component";
     final static String LOCATION_COLUMN             = "location";
     final static String BUILDING_COLUMN             = "building_abbreviation";
     final static String CREDIT_HOURS_COLUMN         = "credit_hours";
+    final static String CREDIT_HOURS_PARAMETER      = "CREDIT-HOURS";
+    final static String SUBJECT_PARAMETER           = "SUBJECT";
     final static String CORE_COLUMN                 = "core";
     final static String LIKE_CORE                   = "%core%";
     final static String LIKE_WEEKEND_U              = "%Weekend U%";
@@ -53,7 +56,9 @@ public class StringSQLQueryUtility {
     final static String BUILDING                    = "BUILDING";
     final static String CREDIT_HOURS                = "CREDIT_HOURS";
     final static String CORE_ID                     = "CORE";
+    final static String CORE_ID_PARAMETER           = "CORE-ID";
     final static String IS_CORE                     = "IS_CORE";
+    final static String IS_CORE_PARAMETER           = "IS-CORE";
     final static String MONDAY                      = "MONDAY";
     final static String TUESDAY                     = "TUESDAY";
     final static String WEDNESDAY                   = "WEDNESDAY";
@@ -131,9 +136,11 @@ public class StringSQLQueryUtility {
             case SESSION:
                 return getStringForSessionQuery(SESSION_COLUMN, EQUALS, paramValue);
             case DEPARTMENT:
+            case SUBJECT_PARAMETER:
                 return createStringFromColumnConditionValue(CLASS_INFORMATION_TABLE, DEPARTMENT_COLUMN,
                         EQUALS, paramValue);
             case DEPARTMENT_CRN:
+            case DEPARTMENT_CRN_PARAMETER:
                 return createStringFromColumnConditionValue(CLASS_INFORMATION_TABLE, DEPARTMENT_CRN_COLUMN,
                         EQUALS, paramValue);
             case LOCATION:
@@ -146,15 +153,18 @@ public class StringSQLQueryUtility {
                 return createStringFromColumnConditionValue("", BUILDING_COLUMN,
                         EQUALS, paramValue);
             case CREDIT_HOURS:
+            case CREDIT_HOURS_PARAMETER:
                 return createStringFromColumnConditionValue("", CREDIT_HOURS_COLUMN,
                         EQUALS, paramValue);
             case IS_CORE:
+            case IS_CORE_PARAMETER:
                 return createStringFromMatchingTrueFalseValues(LIKE_CORE, paramValue,
                         TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, CLASS_TABLE, ATTRIBUTES_COLUMN);
             case WEEKEND_U:
                 return createStringFromMatchingTrueFalseValues(LIKE_WEEKEND_U, paramValue,
                         TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, CLASS_TABLE, ATTRIBUTES_COLUMN);
             case CORE_ID:
+            case CORE_ID_PARAMETER:
                 return createStringMatchLikeEquals(paramValue, CORE_COLUMN);
             case MONDAY:
                 return createStringFromMatchingTrueFalseValues("1", paramValue,
