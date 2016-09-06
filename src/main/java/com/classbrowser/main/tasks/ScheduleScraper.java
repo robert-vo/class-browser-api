@@ -37,8 +37,16 @@ public class ScheduleScraper {
 
     /**
      * Runs Scraper for the given terms at midnight, CST.
+     * The scraper will read system properties to infer what to scrape.
      */
     @Scheduled(cron = "0 0 0 * * *", zone="America/Chicago")
+    public static void updateCurrentClasses() {
+
+    }
+
+    /**
+     * Updates all classes for Summer 2016, Fall 2016, and Spring 2017, on demand.
+     */
     public static void updateAllClasses() {
         log.info("Starting scraper...");
 
@@ -81,6 +89,8 @@ public class ScheduleScraper {
             log.error("Unable to start the scraper due to invalid database credentials.");
         }
     }
+
+
 
     /**
      * Adds or updates class entries in the database.
