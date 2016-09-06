@@ -44,7 +44,7 @@ public class ScheduleScraper {
 
         ClassScraper classScraper = new ClassScraper(terms);
 
-        int pageLimit = 1;
+        int pageLimit = 0;
 
         setDatabaseCredentials();
 
