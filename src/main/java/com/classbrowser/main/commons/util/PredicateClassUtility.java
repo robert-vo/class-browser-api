@@ -1,6 +1,7 @@
 package com.classbrowser.main.commons.util;
 
-import com.scraper.main.Class;
+import com.scraper.main.pojo.Class;
+import com.scraper.main.pojo.Status;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -63,7 +64,7 @@ public class PredicateClassUtility {
      * If {@param status} does not exist, the original stream will not be altered.
      */
     public static Predicate<Class> getPredicateToFilterByStatus(Optional<Boolean> status) {
-        return e -> !status.isPresent() || (status.get() == Boolean.TRUE ? e.getClassStatus().equals(Class.Status.Open) : e.getClassStatus().equals(Class.Status.Closed));
+        return e -> !status.isPresent() || (status.get() == Boolean.TRUE ? e.getClassStatus().equals(Status.Open) : e.getClassStatus().equals(Status.Closed));
     }
 
     /**

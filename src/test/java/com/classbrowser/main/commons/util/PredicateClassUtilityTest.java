@@ -1,7 +1,8 @@
 package com.classbrowser.main.commons.util;
 
-import com.scraper.main.Class;
-import com.scraper.main.Term;
+import com.scraper.main.pojo.Class;
+import com.scraper.main.pojo.Status;
+import com.scraper.main.pojo.Term;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,11 +22,11 @@ public class PredicateClassUtilityTest {
 
     @Before
     public void setUp() {
-        classInformationOne = new Class(Term.FALL_2016, "TitleA", "ONE_DEPT", "1111", Class.Status.Open, "Course", 0, 0, 0, null, null, "Core", null, null,
+        classInformationOne = new Class(Term.FALL_2016, "TitleA", "ONE_DEPT", "1111", Status.Open, "Course", 0, 0, 0, null, null, "Core", null, null,
                 false, false, false, false, false, false, false, "classonename", "Email", "UH", "PGH", "Room", "Hybrid", "Description", "15 weeks",
                 "Regular Academic Session", "LEC", "Syllabus");
 
-        classInformationTwo = new Class(Term.SUMMER_2016, "TitleB", "TWO_DEPT", "9999", Class.Status.Closed, "Course", 0, 0, 0, null, null, "Distance", null, null,
+        classInformationTwo = new Class(Term.SUMMER_2016, "TitleB", "TWO_DEPT", "9999", Status.Closed, "Course", 0, 0, 0, null, null, "Distance", null, null,
                 true, true, true, true, true, true, true, "classtwoname", "Email", "UHV", "SEC", "Room", "Online", "Description", "6 weeks",
                 "MIN", "LAB", "Unavailable");
         classInformationNull = null;
