@@ -33,7 +33,7 @@ public class TriggerScraperController {
 
         if (trigger.equals(System.getProperty("triggerKeyword"))) {
             try {
-                ScheduleScraper.updateClasses();
+                ScheduleScraper.updateAllClasses();
                 log.info("Class Scraping complete!");
                 return new ResponseEntity<>("Class Scraping complete!", HttpStatus.OK);
             }

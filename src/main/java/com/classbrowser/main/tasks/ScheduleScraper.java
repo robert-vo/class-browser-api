@@ -39,7 +39,7 @@ public class ScheduleScraper {
      * Runs Scraper for the given terms at midnight, CST.
      */
     @Scheduled(cron = "0 0 0 * * *", zone="America/Chicago")
-    public static void updateClasses() {
+    public static void updateAllClasses() {
         log.info("Starting scraper...");
 
         ClassScraper classScraper = new ClassScraper(terms);
