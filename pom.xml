@@ -5,7 +5,7 @@
 
     <groupId>com.robert.classbrowser</groupId>
     <artifactId>ClassBrowser-api</artifactId>
-    <version>v1.1</version>
+    <version>v1.11</version>
     <packaging>war</packaging>
 
     <parent>
@@ -32,7 +32,7 @@
         <dependency>
             <groupId>com.github.robert-vo</groupId>
             <artifactId>Class-Scraper</artifactId>
-            <version>a3c1cab3e3</version>
+            <version>v1.31</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
