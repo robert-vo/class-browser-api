@@ -92,6 +92,12 @@ public class ScheduleScraper {
         }
     }
 
+    /**
+     * Prints messages saying how many classes were scraped for each term.
+     *
+     * @param terms The {@code List<Term>} that the scraper has scraped through.
+     * @param classes The classes scraped from the terms.
+     */
     private static void printMessageForAllClassForTerms(List<Term> terms, List<Class> classes) {
         terms
             .stream()
@@ -103,6 +109,13 @@ public class ScheduleScraper {
                                 .toArray().length));
     }
 
+    /**
+     * Prints messages saying how many classes were scraped for each term and for each session.
+     *
+     * @param terms The {@code List<Term>} that the scraper has scraped through.
+     * @param sessions The {@code List<Session>} that the scraper has scraped through.
+     * @param classes The classes scraped from the terms and session.
+     */
     private static void printMessageForSessionAndTerms(List<Term> terms, List<Session> sessions, List<Class> classes) {
         terms
             .stream()
