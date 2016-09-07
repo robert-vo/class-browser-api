@@ -24,7 +24,7 @@ public abstract class AbstractInformationDAO<T> {
     /**
      * Default constructor to ensure that the database credentials are set.
      */
-    AbstractInformationDAO() throws ClassNotFoundException {
+    AbstractInformationDAO() {
         setDatabaseInformation();
         handleJavaLangClassDriver();
     }
@@ -52,7 +52,7 @@ public abstract class AbstractInformationDAO<T> {
      * Attempts to handle the jdbcDriver.
      * @throws ClassNotFoundException When the JDBC Driver is incorrect or invalid.
      */
-    private void handleJavaLangClassDriver() throws ClassNotFoundException {
+    private void handleJavaLangClassDriver() {
         log.info("Attempting to handle the java jdbcDriver.");
         try {
             java.lang.Class.forName(jdbcDriver);
