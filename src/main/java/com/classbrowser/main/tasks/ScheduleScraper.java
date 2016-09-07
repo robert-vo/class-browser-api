@@ -136,7 +136,7 @@ public class ScheduleScraper {
     /**
      * Updates all classes for Summer 2016, Fall 2016, and Spring 2017, on demand.
      */
-    public static void updateAllClasses() {
+    public static void updateAllClassesUsingTrigger() {
         log.info("Starting scraper...");
 
         ClassScraper classScraper = new ClassScraper(terms);
