@@ -2,6 +2,8 @@ package com.classbrowser.main.tasks;
 
 import com.scraper.main.ClassScraper;
 import com.scraper.main.DatabaseOperations;
+import com.scraper.main.pojo.Class;
+import com.scraper.main.pojo.Session;
 import com.scraper.main.pojo.Term;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -10,10 +12,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * A component of the class browser api that updates the database on a schedule.
@@ -27,7 +26,7 @@ public class ScheduleScraper {
                                                                     Term.FALL_2016, Term.SPRING_2017));
     private static  Logger     log                = Logger.getLogger(ScheduleScraper.class);
     final static    String     defaultJdbcDriver  = "com.mysql.jdbc.Driver";
-    final static    String     defaultDatabaseURL = "jdbc:mysql://localhost/clfsass";
+    final static    String     defaultDatabaseURL = "jdbc:mysql://localhost/class";
     final static    String     defaultUserName    = "root";
     final static    String     defaultPassWord    = "password";
     static String jdbcDriver;
@@ -37,11 +36,88 @@ public class ScheduleScraper {
 
     /**
      * Runs Scraper for the given terms at midnight, CST.
-     * The scraper will read system properties to infer what to scrape.
+     * The scraper will read system properties to determine what to scrape.
      */
     @Scheduled(cron = "0 0 0 * * *", zone="America/Chicago")
     public static void updateCurrentClasses() {
+        setDatabaseCredentials();
 
+        if(isValidDatabaseCredentials()) {
+            List<Term> allTermsToScrape = new LinkedList<>();
+            List<Session> allSessionsToScrape = new LinkedList<>();
+            int pageLimit;
+            Optional<String> allTermsAsString = Optional.ofNullable(System.getProperty("termsToScrape"));
+            Optional<String> allSessionsAsString = Optional.ofNullable(System.getProperty("sessionsToBeScraped"));
+
+            if (!allTermsAsString.isPresent()) {
+                throw new IllegalStateException("termsToScrape system property is missing. Aborting scheduled scraper.");
+            }
+            if(!allSessionsAsString.isPresent()) {
+                throw new IllegalStateException("sessionToBeScraped system property is missing. Aborting scheduled scraper.");
+            }
+
+            for (String term : allTermsAsString.get().split(",")) {
+                allTermsToScrape.add(Term.returnTermFromString(term.trim()));
+            }
+
+            for (String session : allSessionsAsString.get().split(",")) {
+                allSessionsToScrape.add(Session.returnSessionFromString(session.trim()));
+            }
+
+            pageLimit = Integer.parseInt(Optional.ofNullable(System.getProperty("pageLimit"))
+                    .orElse("0"));
+
+            List<Class> allClasses = new LinkedList<>();
+
+            allTermsToScrape
+                    .stream()
+                    .forEach(term ->
+                            allSessionsToScrape
+                                    .stream()
+                                    .forEach(session -> {
+                                        log.info("Starting scraper for term: " + term + " and session: " + session);
+                                        ClassScraper classScraper = new ClassScraper(term);
+                                        classScraper.setSessionOnScraper(session);
+                                        classScraper.setPageLimit(pageLimit);
+                                        classScraper.startScraper();
+                                        allClasses.addAll(classScraper.getAllClasses());
+                                    }));
+
+            printMessageForAllClassForTerms(allTermsToScrape, allClasses);
+            printMessageForSessionAndTerms(allTermsToScrape, allSessionsToScrape, allClasses);
+            performDatabaseActionsForAllClasses(allClasses);
+        }
+        else {
+            log.error("Unable to start the scraper due to invalid database credentials.");
+        }
+    }
+
+    private static void printMessageForAllClassForTerms(List<Term> terms, List<Class> classes) {
+        terms
+            .stream()
+            .forEach(term ->
+                    log.info("Number of classes found for the term, " + term + " is: " +
+                            classes
+                                .stream()
+                                .filter(aClass -> aClass.getTerm().equals(term))
+                                .toArray().length));
+    }
+
+    private static void printMessageForSessionAndTerms(List<Term> terms, List<Session> sessions, List<Class> classes) {
+        terms
+            .stream()
+            .forEach(term ->
+                    sessions
+                        .stream()
+                        .forEach(session -> log.info("Number of classes for term " + term + " and session " + session +
+                                " is:" + classes
+                                            .stream()
+                                            .filter(aClassTerm -> aClassTerm.getTerm().equals(term))
+                                            .filter(aClassSession ->
+                                                    aClassSession.getSession().equals("Regular Academic Session") ?
+                                                            session.getSessionName().equals("1") :
+                                                            aClassSession.getSession().equals(session.getSessionName()))
+                                            .toArray().length)));
     }
 
     /**
@@ -81,7 +157,7 @@ public class ScheduleScraper {
 
             log.info("Scraper finished!");
 
-            performDatabaseActionsFromScraper(classScraper);
+            performDatabaseActionsForAllClasses(classScraper.getAllClasses());
 
             log.info("Scheduled task is complete!");
         }
@@ -90,15 +166,13 @@ public class ScheduleScraper {
         }
     }
 
-
-
     /**
      * Adds or updates class entries in the database.
      *
-     * @param classScraper - The result from the scraping that stores a List of Classes.
+     * @param allClasses - The List of Classes retrieved from the scraping.
      */
-    private static void performDatabaseActionsFromScraper(ClassScraper classScraper) {
-        log.info("Starting database actions for scraper with size of: " + classScraper.getAllClasses().size());
+    private static void performDatabaseActionsForAllClasses(List<Class> allClasses) {
+        log.info("Starting database actions for scraper with size of: " + allClasses.size());
 
         log.debug("Here at the credentials to be used for the database operations.");
         log.debug("JDBC Driver: " + jdbcDriver);
@@ -108,7 +182,7 @@ public class ScheduleScraper {
 
         try(DatabaseOperations databaseOperations = new DatabaseOperations(jdbcDriver, databaseURL, userName, passWord)) {
             log.info("Updating the database...");
-            databaseOperations.performUpdateOrInsertForAllClass(classScraper.getAllClasses());
+            databaseOperations.performUpdateOrInsertForAllClass(allClasses);
         }
         catch(SQLException sqle) {
             log.error("An error has occurred with the sql query. Please see the following error: " + sqle);
