@@ -31,9 +31,11 @@ public class TriggerScraperController {
     public ResponseEntity triggerClassScraping(@PathVariable(value = "trigger") String trigger) {
         log.info("Attempting to start class scraping...");
 
-        if (trigger.equals(System.getProperty("triggerKeyword"))) {
+        boolean canTriggerScraper = trigger.equals(System.getProperty("triggerKeyword"));
+
+        if (canTriggerScraper) {
             try {
-                ScheduleScraper.updateAllClasses();
+                ScheduleScraper.updateAllClassesUsingTrigger();
                 log.info("Class Scraping complete!");
                 return new ResponseEntity<>("Class Scraping complete!", HttpStatus.OK);
             }
