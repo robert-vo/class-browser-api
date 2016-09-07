@@ -43,6 +43,7 @@ public class StringSQLQueryUtility {
     final static String ONLINE                      = "ONLINE";
     final static String HYBRID                      = "HYBRID";
     final static String FACE_TO_FACE_PARAM          = "FACE-TO-FACE";
+    final static String FACE_TO_FACE_ONE_WORD       = "FACETOFACE";
     final static String FACE_TO_FACE_VALUE          = "Face To Face";
     final static String STATUS                      = "STATUS";
     final static String SESSION                     = "SESSION";
@@ -126,6 +127,7 @@ public class StringSQLQueryUtility {
                 return createStringFromMatchingTrueFalseValues(HYBRID, paramValue, TRUE_VALUES, FALSE_VALUES,
                         EQUALS, NOT_EQUALS, CLASS_TABLE, FORMAT_COLUMN);
             case FACE_TO_FACE_PARAM:
+            case FACE_TO_FACE_ONE_WORD:
                 return createStringFromMatchingTrueFalseValues(FACE_TO_FACE_VALUE, paramValue,
                         TRUE_VALUES, FALSE_VALUES, EQUALS, NOT_EQUALS, CLASS_TABLE, FORMAT_COLUMN);
             case STATUS:
