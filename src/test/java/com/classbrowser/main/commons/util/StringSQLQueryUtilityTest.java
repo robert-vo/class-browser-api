@@ -55,7 +55,7 @@ public class StringSQLQueryUtilityTest {
 
     @Test
     public void testBuildSqlQueryForFaceToFaceFilterTrue() throws Exception {
-        paramMap.put("facetoface", "1");
+        paramMap.put("face-to-face", "1");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.format = 'Face To Face'");
     }
 
@@ -307,20 +307,20 @@ public class StringSQLQueryUtilityTest {
 
     @Test
     public void testBuildSqlQueryForIsCoreYes() throws Exception {
-        paramMap.put("isCore", "yes");
+        paramMap.put("is-Core", "yes");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.attributes like '%core%'");
     }
 
     @Test
     public void testBuildSqlQueryForIsCoreNo() throws Exception {
-        paramMap.put("isCore", "no");
+        paramMap.put("is-Core", "no");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.attributes not like '%core%'");
     }
 
     @Test
     public void testBuildSqlQueryForSundayYesIsCoreNo() throws Exception {
         paramMap.put("sunday", "yes");
-        paramMap.put("isCore", "no");
+        paramMap.put("is-Core", "no");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.Sunday = '1' AND CLASS.attributes not like '%core%'");
     }
 
