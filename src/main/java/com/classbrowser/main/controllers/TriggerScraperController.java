@@ -31,7 +31,7 @@ public class TriggerScraperController {
     public ResponseEntity triggerClassScraping(@PathVariable(value = "trigger") String trigger) {
         log.info("Attempting to start class scraping...");
 
-        boolean canTriggerScraper = trigger.equals(System.getProperty("triggerKeyword"));
+        boolean canTriggerScraper = trigger.equals(System.getProperty("TRIGGER_KEYWORD"));
 
         if (canTriggerScraper) {
             try {

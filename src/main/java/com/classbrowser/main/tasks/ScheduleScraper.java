@@ -46,14 +46,14 @@ public class ScheduleScraper {
             List<Term> allTermsToScrape = new LinkedList<>();
             List<Session> allSessionsToScrape = new LinkedList<>();
             int pageLimit;
-            Optional<String> allTermsAsString = Optional.ofNullable(System.getProperty("termsToScrape"));
-            Optional<String> allSessionsAsString = Optional.ofNullable(System.getProperty("sessionsToBeScraped"));
+            Optional<String> allTermsAsString = Optional.ofNullable(System.getProperty("TERMS_TO_SCRAPE"));
+            Optional<String> allSessionsAsString = Optional.ofNullable(System.getProperty("SESSIONS_TO_SCRAPE"));
 
             if (!allTermsAsString.isPresent()) {
-                throw new IllegalStateException("termsToScrape system property is missing. Aborting scheduled scraper.");
+                throw new IllegalStateException("TERMS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
             }
             if(!allSessionsAsString.isPresent()) {
-                throw new IllegalStateException("sessionToBeScraped system property is missing. Aborting scheduled scraper.");
+                throw new IllegalStateException("SESSIONS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
             }
 
             for (String term : allTermsAsString.get().split(",")) {
@@ -64,7 +64,7 @@ public class ScheduleScraper {
                 allSessionsToScrape.add(Session.returnSessionFromString(session.trim()));
             }
 
-            pageLimit = Integer.parseInt(Optional.ofNullable(System.getProperty("pageLimit"))
+            pageLimit = Integer.parseInt(Optional.ofNullable(System.getProperty("PAGE_LIMIT"))
                     .orElse("0"));
 
             List<Class> allClasses = new LinkedList<>();
@@ -146,7 +146,7 @@ public class ScheduleScraper {
         setDatabaseCredentials();
 
         if(isValidDatabaseCredentials()) {
-            Optional<String> pageLimitFromSystemProperties = Optional.ofNullable(System.getProperty("pageLimit"));
+            Optional<String> pageLimitFromSystemProperties = Optional.ofNullable(System.getProperty("PAGE_LIMIT"));
 
             if (pageLimitFromSystemProperties.isPresent()) {
                 try {
@@ -154,7 +154,7 @@ public class ScheduleScraper {
                             pageLimitFromSystemProperties.get());
                     pageLimit = Integer.parseInt(pageLimitFromSystemProperties.get());
                 } catch (NumberFormatException ex) {
-                    log.error("Error for page limit of value: " + System.getProperty("pageLimit"));
+                    log.error("Error for page limit of value: " + System.getProperty("PAGE_LIMIT"));
                     log.error(ex);
                     log.warn("Continuing class scraper with no page limit.");
                 }
@@ -233,10 +233,10 @@ public class ScheduleScraper {
      */
     private static void setDatabaseCredentials() {
         log.info("Setting database credentials.");
-        jdbcDriver    = Optional.ofNullable(System.getProperty("jcbcDriver")).orElse(defaultJdbcDriver);
-        databaseURL   = Optional.ofNullable(System.getProperty("databaseURL")).orElse(defaultDatabaseURL);
-        userName      = Optional.ofNullable(System.getProperty("databaseUserName")).orElse(defaultUserName);
-        passWord      = Optional.ofNullable(System.getProperty("databasePassWord")).orElse(defaultPassWord);
+        jdbcDriver    = Optional.ofNullable(System.getProperty("JDBC_DRIVER")).orElse(defaultJdbcDriver);
+        databaseURL   = Optional.ofNullable(System.getProperty("DATABASE_URL")).orElse(defaultDatabaseURL);
+        userName      = Optional.ofNullable(System.getProperty("USERNAME")).orElse(defaultUserName);
+        passWord      = Optional.ofNullable(System.getProperty("PASSWORD")).orElse(defaultPassWord);
         log.info("Database credentials set!");
     }
 
