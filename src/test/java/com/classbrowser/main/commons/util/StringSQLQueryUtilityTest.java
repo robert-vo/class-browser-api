@@ -175,13 +175,13 @@ public class StringSQLQueryUtilityTest {
 
     @Test
     public void testBuildSqlQueryForOneCreditHour() throws Exception {
-        paramMap.put("credit_hours", "1");
+        paramMap.put("credit-hours", "1");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '1'");
     }
 
     @Test
     public void testBuildSqlQueryForTwoCreditHours() throws Exception {
-        paramMap.put("credit_hours", "2");
+        paramMap.put("credit-hours", "2");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '2'");
     }
 
@@ -217,7 +217,7 @@ public class StringSQLQueryUtilityTest {
         paramMap.put("location", "ABC");
         paramMap.put("component", "lec");
         paramMap.put("hybrid", "true");
-        paramMap.put("credit_hours", "2");
+        paramMap.put("credit-hours", "2");
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.component = 'lec' AND CLASS.format = 'HYBRID' AND CLASS.location = 'ABC' AND credit_hours = '2'");
     }
 
