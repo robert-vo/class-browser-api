@@ -359,4 +359,10 @@ public class StringSQLQueryUtilityTest {
         assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND CLASS.SYLLABUS <> 'Unavailable'");
     }
 
+    @Test
+    public void testBuildSqlQueryForDecimalCreditHours() throws Exception {
+        paramMap.put("credit-hours", "1.5");
+        assertEquals(StringSQLQueryUtility.buildSqlQuery(paramMap, SQL_QUERY_FOR_ALL_TERMS), SQL_QUERY_FOR_ALL_TERMS + " AND credit_hours = '1.5'");
+    }
+
 }
