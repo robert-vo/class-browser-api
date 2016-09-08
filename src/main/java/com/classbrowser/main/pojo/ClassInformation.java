@@ -11,13 +11,13 @@ import java.sql.SQLException;
  */
 public class ClassInformation {
     public String department;
-    public int department_crn;
+    public String department_crn;
     public String class_description;
     public String class_title;
     public int credit_hours;
     public String core_id;
 
-    public ClassInformation(String department, int department_crn, String class_description, String class_title, int credit_hours, String core_id) {
+    public ClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, String core_id) {
         this.department = department;
         this.department_crn = department_crn;
         this.class_description = class_description;
@@ -34,11 +34,11 @@ public class ClassInformation {
         this.department = department;
     }
 
-    public int getDepartment_crn() {
+    public String getDepartment_crn() {
         return department_crn;
     }
 
-    public void setDepartment_crn(int department_crn) {
+    public void setDepartment_crn(String department_crn) {
         this.department_crn = department_crn;
     }
 
@@ -82,11 +82,20 @@ public class ClassInformation {
      * @throws SQLException
      */
     public static ClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
-        return new ClassInformation(rs.getString("Department"),
-                rs.getInt("Department_crn"),
-                rs.getString("class_description"),
-                rs.getString("class_title"),
+        return new ClassInformation(getStringOrEmptyIfResultSetNull(rs, "Department"),
+                getStringOrEmptyIfResultSetNull(rs, "Department_crn"),
+                getStringOrEmptyIfResultSetNull(rs, "class_description"),
+                getStringOrEmptyIfResultSetNull(rs, "class_title"),
                 rs.getInt("credit_hours"),
-                rs.getString("core"));
+                getStringOrEmptyIfResultSetNull(rs, "core"));
+    }
+
+    private static String getStringOrEmptyIfResultSetNull(ResultSet rs, String columnLabel) throws SQLException {
+        String stringToReturn = rs.getString(columnLabel);
+
+        if(rs.wasNull()) {
+            stringToReturn = "";
+        }
+        return stringToReturn;
     }
 }
