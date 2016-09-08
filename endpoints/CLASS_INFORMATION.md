@@ -42,17 +42,17 @@ The following JSON response has been shortened.
   "parameters" : { },
   "result" : [ {
     "department" : "AAS",
-    "department_crn" : 1310,
+    "department_crn" : "1310",
     "class_description" : "Cr: 3. (3-0). Survey of Africana culture in Americas and throughout the world by examining its origins and development from an African-centered point of reference.",
     "class_title" : "Introductn to Africana Culture",
-    "credit_hours" : 3,
-    "core_id" : null
+    "credit_hours" : 3.0,
+    "core_id" : ""
   }, {
     "department" : "AAS",
-    "department_crn" : 2320,
+    "department_crn" : "2320",
     "class_description" : "Cr. 3. (3-0). Prerequisite: ENGL 1303. An introductory analysis of the discipline of African American/African Studies, its mission, key theories and major concerns.",
     "class_title" : "Intro To African American Stdy",
-    "credit_hours" : 3,
+    "credit_hours" : 3.0,
     "core_id" : "4"
   }, {
 
@@ -62,11 +62,11 @@ The following JSON response has been shortened.
 
   }, {
     "department" : "WGSS",
-    "department_crn" : 4360,
+    "department_crn" : "4360",
     "class_description" : "Prerequisite(s): ENGL 1304 or equivalent. WGSS 3350 or WGSS 3360 or permission of the instructor. Student should be a registered WGSS major and have completed all or most of their other required coursework for the major. THE WGSS Capstone Internship Course involves the student working in an approved gender-equity-focused local advocacy or service nonprofit or business. In addition the student will document their work and write a paper analyzing it within a disciplinary framework arranged in advance with the course's faculty supervisor. The student will hold at least 4 meetings with the faculty supervisor over the semester, and work regularly with a supervisor based in the nonprofit or business itself.",
     "class_title" : "Capstone Internship Course",
     "credit_hours" : 3,
-    "core_id" : null
+    "core_id" : ""
   }	]
 }
 ```
@@ -93,10 +93,10 @@ The following JSON response has been shortened.
   },
   "result" : [ {
     "department" : "COSC",
-    "department_crn" : 1306,
+    "department_crn" : "1306",
     "class_description" : "Cr. 3. (3-0). Prerequisite: MATH 1310 or equivalent. May not be applied to a major or minor in computer science. Overview of basic hardware and software concepts of a computer with design, analysis and programming of efficient algorithms to solve computational problems.",
     "class_title" : "Computer Science & Program",
-    "credit_hours" : 3,
+    "credit_hours" : 3.0,
     "core_id" : "9"
   } ]
 }
