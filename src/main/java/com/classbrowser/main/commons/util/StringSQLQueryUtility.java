@@ -154,11 +154,9 @@ public class StringSQLQueryUtility {
             case BUILDING:
                 return createStringFromColumnConditionValue("", BUILDING_COLUMN,
                         EQUALS, paramValue);
-            case CREDIT_HOURS:
             case CREDIT_HOURS_PARAMETER:
                 return createStringFromColumnConditionValue("", CREDIT_HOURS_COLUMN,
                         EQUALS, paramValue);
-            case IS_CORE:
             case IS_CORE_PARAMETER:
                 return createStringFromMatchingTrueFalseValues(LIKE_CORE, paramValue,
                         TRUE_VALUES, FALSE_VALUES, LIKE, NOT_LIKE, CLASS_TABLE, ATTRIBUTES_COLUMN);
