@@ -15,12 +15,13 @@ public class CoreClassInformation {
     public String department_crn;
     public String class_description;
     public String class_title;
-    public int credit_hours;
+    public double credit_hours;
     public int core_id;
     public String core_title;
     public int hours_required;
 
-    public CoreClassInformation(String department, String department_crn, String class_description, String class_title, int credit_hours, int core_id, String core_title, int hours_required) {
+    public CoreClassInformation(String department, String department_crn, String class_description, String class_title,
+                                double credit_hours, int core_id, String core_title, int hours_required) {
         this.department = department;
         this.department_crn = department_crn;
         this.class_description = class_description;
@@ -63,11 +64,11 @@ public class CoreClassInformation {
         this.class_title = class_title;
     }
 
-    public int getCredit_hours() {
+    public double getCredit_hours() {
         return credit_hours;
     }
 
-    public void setCredit_hours(int credit_hours) {
+    public void setCredit_hours(double credit_hours) {
         this.credit_hours = credit_hours;
     }
 
@@ -107,7 +108,7 @@ public class CoreClassInformation {
                 getStringOrEmptyIfResultSetNull(rs, "Department_crn"),
                 getStringOrEmptyIfResultSetNull(rs, "class_description"),
                 getStringOrEmptyIfResultSetNull(rs, "class_title"),
-                rs.getInt("credit_hours"),
+                rs.getDouble("credit_hours"),
                 rs.getInt("core_id"),
                 getStringOrEmptyIfResultSetNull(rs, "core_title"),
                 rs.getInt("hours_required"));
