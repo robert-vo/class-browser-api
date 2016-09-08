@@ -4,6 +4,8 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.classbrowser.main.commons.util.StringSQLQueryUtility.getStringOrEmptyIfResultSetNull;
+
 /**
  * Java POJO to represent the department information.
  *
@@ -42,6 +44,8 @@ public class DepartmentInformation {
      * @throws SQLException
      */
     public static DepartmentInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
-        return new DepartmentInformation(rs.getString("DEPARTMENT_ABBREVIATION"), rs.getString("DEPARTMENT_NAME"));
+        return new DepartmentInformation(
+                getStringOrEmptyIfResultSetNull(rs, "DEPARTMENT_ABBREVIATION"),
+                getStringOrEmptyIfResultSetNull(rs, "DEPARTMENT_NAME"));
     }
 }

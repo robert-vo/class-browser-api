@@ -3,6 +3,8 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.classbrowser.main.commons.util.StringSQLQueryUtility.getStringOrEmptyIfResultSetNull;
+
 /**
  * Java POJO to represent a class that falls under one of the core categories.
  *
@@ -101,13 +103,13 @@ public class CoreClassInformation {
      * @throws SQLException
      */
     public static CoreClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
-        return new CoreClassInformation(rs.getString("Department"),
-                rs.getString("Department_crn"),
-                rs.getString("class_description"),
-                rs.getString("class_title"),
+        return new CoreClassInformation(getStringOrEmptyIfResultSetNull(rs,"Department"),
+                getStringOrEmptyIfResultSetNull(rs, "Department_crn"),
+                getStringOrEmptyIfResultSetNull(rs, "class_description"),
+                getStringOrEmptyIfResultSetNull(rs, "class_title"),
                 rs.getInt("credit_hours"),
                 rs.getInt("core_id"),
-                rs.getString("core_title"),
+                getStringOrEmptyIfResultSetNull(rs, "core_title"),
                 rs.getInt("hours_required"));
     }
 }

@@ -8,13 +8,15 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
+import static com.classbrowser.main.commons.util.StringSQLQueryUtility.getStringOrEmptyIfResultSetNull;
+
 /**
  * Java POJO to represent a class that is being offered for a particular term.
  *
  * @author Robert Vo
  */
 public class OfferedClassInformation {
-    private HashMap<String, String> termInformation;
+    private HashMap<String, Object> termInformation;
     private String classTitle;
     private HashMap<String, Object> departmentInformation;
     private String classStatus;
@@ -35,7 +37,7 @@ public class OfferedClassInformation {
     private String lastUpdated;
     private static Logger log = Logger.getLogger(OfferedClassInformation.class);
 
-    public OfferedClassInformation(HashMap<String, String> termInformation, String classTitle,
+    public OfferedClassInformation(HashMap<String, Object> termInformation, String classTitle,
                                    HashMap<String, Object> departmentInformation, String classStatus,
                                    String classReferenceNumber, HashMap<String, Integer> seatInformation,
                                    HashMap<String, String> dateTimeInformation, String attributes,
@@ -64,11 +66,11 @@ public class OfferedClassInformation {
         this.lastUpdated = lastUpdated;
     }
 
-    public HashMap<String, String> getTermInformation() {
+    public HashMap<String, Object> getTermInformation() {
         return termInformation;
     }
 
-    public void setTermInformation(HashMap<String, String> termInformation) {
+    public void setTermInformation(HashMap<String, Object> termInformation) {
         this.termInformation = termInformation;
     }
 
@@ -224,10 +226,10 @@ public class OfferedClassInformation {
      * @throws SQLException When retrieving from the ResultSet fails.
      */
     public static OfferedClassInformation getPojoFromResultSet(ResultSet rs) throws SQLException {
-        HashMap<String, String> termInformation = new LinkedHashMap<>();
-        termInformation.put("termID",  rs.getString("term_id"));
-        termInformation.put("year",     rs.getString("year"));
-        termInformation.put("semester", rs.getString("semester"));
+        HashMap<String, Object> termInformation = new LinkedHashMap<>();
+        termInformation.put("termID",  getStringOrEmptyIfResultSetNull(rs, "term_id"));
+        termInformation.put("year",     rs.getInt("year"));
+        termInformation.put("semester", getStringOrEmptyIfResultSetNull(rs, "semester"));
 
         HashMap<String, Integer> seatInformation = new LinkedHashMap<>();
         seatInformation.put("seatsTaken",       rs.getInt("seats_taken"));
@@ -235,10 +237,10 @@ public class OfferedClassInformation {
         seatInformation.put("seatsTotal",       rs.getInt("seats_total"));
 
         HashMap<String, String> dateTimeInformation = new LinkedHashMap<>();
-        dateTimeInformation.put("startDate",    rs.getString("start_date"));
-        dateTimeInformation.put("endDate",      rs.getString("end_date"));
-        dateTimeInformation.put("startTime",    rs.getString("start_time"));
-        dateTimeInformation.put("endTime",      rs.getString("end_time"));
+        dateTimeInformation.put("startDate",    getStringOrEmptyIfResultSetNull(rs, "start_date"));
+        dateTimeInformation.put("endDate",      getStringOrEmptyIfResultSetNull(rs, "end_date"));
+        dateTimeInformation.put("startTime",    getStringOrEmptyIfResultSetNull(rs, "start_time"));
+        dateTimeInformation.put("endTime",      getStringOrEmptyIfResultSetNull(rs, "end_time"));
 
         HashMap<String, Boolean> classDays = new LinkedHashMap<>();
         classDays.put("monday",     rs.getBoolean("monday"));
@@ -250,37 +252,43 @@ public class OfferedClassInformation {
         classDays.put("sunday",     rs.getBoolean("sunday"));
 
         HashMap<String, Object> departmentInformation = new LinkedHashMap<>();
-        departmentInformation.put("department",         rs.getString("department"));
-        departmentInformation.put("departmentName",     rs.getString("department_name"));
-        departmentInformation.put("departmentCRN",      rs.getString("department_crn"));
+        departmentInformation.put("department",         getStringOrEmptyIfResultSetNull(rs, "department"));
+        departmentInformation.put("departmentName",     getStringOrEmptyIfResultSetNull(rs, "department_name"));
+        departmentInformation.put("departmentCRN",      getStringOrEmptyIfResultSetNull(rs, "department_crn"));
 
         HashMap<String, String> locationInformation = new LinkedHashMap<>();
-        locationInformation.put("location",               rs.getString("location"));
-        locationInformation.put("buildingID",             rs.getString("building_id"));
-        locationInformation.put("buildingAbbreviation",   rs.getString("building_abbreviation"));
-        locationInformation.put("buildingName",           rs.getString("building_name"));
+        locationInformation.put("location",               getStringOrEmptyIfResultSetNull(rs, "location"));
+        locationInformation.put("buildingID",             getStringOrEmptyIfResultSetNull(rs, "building_id"));
+        locationInformation.put("buildingAbbreviation",   getStringOrEmptyIfResultSetNull(rs, "building_abbreviation"));
+        locationInformation.put("buildingName",           getStringOrEmptyIfResultSetNull(rs, "building_name"));
 
         HashMap<String, String> instructorInformation = new LinkedHashMap<>();
-        instructorInformation.put("instructor",         rs.getString("instructor"));
-        instructorInformation.put("instructorEmail",    rs.getString("instructor_email"));
+        instructorInformation.put("instructor",         getStringOrEmptyIfResultSetNull(rs, "instructor"));
+        instructorInformation.put("instructorEmail",    getStringOrEmptyIfResultSetNull(rs, "instructor_email"));
 
-        Optional<String> possibleCoreClasses = Optional.ofNullable(rs.getString("CORE"));
+        Optional<String> possibleCoreClasses = Optional.ofNullable(getStringOrEmptyIfResultSetNull(rs, "CORE"));
         String[] core = null;
-        if(possibleCoreClasses.isPresent()) {
+        if(possibleCoreClasses.isPresent() && !possibleCoreClasses.get().equals("")) {
             core = possibleCoreClasses.get().split(",");
         }
 
         return new OfferedClassInformation(termInformation,
-                rs.getString("CLASS_TITLE"), departmentInformation,
-                rs.getString("Status"), rs.getString("CRN"),
-                seatInformation, dateTimeInformation,
-                rs.getString("attributes"),
+                getStringOrEmptyIfResultSetNull(rs, "CLASS_TITLE"),
+                departmentInformation,
+                getStringOrEmptyIfResultSetNull(rs, "Status"),
+                getStringOrEmptyIfResultSetNull(rs, "CRN"),
+                seatInformation,
+                dateTimeInformation,
+                getStringOrEmptyIfResultSetNull(rs, "attributes"),
                 classDays, instructorInformation, locationInformation,
-                rs.getString("format"), rs.getString("CLASS_DESCRIPTION"),
-                rs.getString("duration"), rs.getString("session"),
-                rs.getString("component"), rs.getString("syllabus"),
+                getStringOrEmptyIfResultSetNull(rs, "format"),
+                getStringOrEmptyIfResultSetNull(rs, "CLASS_DESCRIPTION"),
+                getStringOrEmptyIfResultSetNull(rs, "duration"),
+                getStringOrEmptyIfResultSetNull(rs, "session"),
+                getStringOrEmptyIfResultSetNull(rs, "component"),
+                getStringOrEmptyIfResultSetNull(rs, "syllabus"),
                 core,
-                rs.getString("last_updated_at"));
+                getStringOrEmptyIfResultSetNull(rs, "last_updated_at"));
     }
 
     /**
