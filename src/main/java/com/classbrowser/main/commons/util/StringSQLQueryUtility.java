@@ -2,6 +2,8 @@ package com.classbrowser.main.commons.util;
 
 import org.apache.log4j.Logger;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -305,5 +307,21 @@ public class StringSQLQueryUtility {
     public static String buildSqlQueryForInformation(Map<String, String> allParams) throws Exception {
         return allParams.size() == 0 ?
                 SQL_QUERY_FOR_ALL_INFORMATION : buildSqlQuery(allParams, SQL_QUERY_FOR_ALL_INFORMATION + " WHERE");
+    }
+
+    /**
+     * Returns the String value from the ResultSet, if it is available.
+     * If the value is null, the method will return an empty String.
+     *
+     * @param rs The table of data to be extracted.
+     * @param columnLabel The label of the column in the table of data.
+     * @return The String value of the entry in the ResultSet.
+     * @throws SQLException if the columnLabel is not valid;
+     *         if a database access error occurs or this method is
+     *         called on a closed result set
+     */
+    public static String getStringOrEmptyIfResultSetNull(ResultSet rs, String columnLabel) throws SQLException {
+        String stringToReturn = rs.getString(columnLabel);
+        return rs.wasNull() ? "" : stringToReturn;
     }
 }
