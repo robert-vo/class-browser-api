@@ -93,9 +93,6 @@ public class ClassInformation {
     private static String getStringOrEmptyIfResultSetNull(ResultSet rs, String columnLabel) throws SQLException {
         String stringToReturn = rs.getString(columnLabel);
 
-        if(rs.wasNull()) {
-            stringToReturn = "";
-        }
-        return stringToReturn;
+        return rs.wasNull() ? "" : stringToReturn;
     }
 }
