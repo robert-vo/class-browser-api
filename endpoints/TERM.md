@@ -90,6 +90,7 @@ Returned is a JSON object with keys:
   * departmentInformation - An object containing information about the department of the class.
     * department - The department in which the class is in.
     * departmentName - The full name of the department in which the class is in.
+    * departmentCRN - The 4 character length code that represents the class in the department.
   * classStatus - Denotes whether a class is open or closed to registration.
   * classReferenceNumber - The 5-digit unique identifier for a class, also known as the course reference numbers (CRN).
   * seatInformation - An object containing information about the seats of a class.
@@ -156,7 +157,8 @@ Returned is a JSON object with keys:
     "departmentInformation" : {
       "department" : "ANTH",
       "departmentName" : "Anthropology",
-      "departmentCRN" : "3348"
+      "departmentCRN" : "3348",
+      "credit_hours" : 3.0
     },
     "classStatus" : "Closed",
     "courseNumber" : "24422",
