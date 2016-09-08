@@ -255,6 +255,7 @@ public class OfferedClassInformation {
         departmentInformation.put("department",         getStringOrEmptyIfResultSetNull(rs, "department"));
         departmentInformation.put("departmentName",     getStringOrEmptyIfResultSetNull(rs, "department_name"));
         departmentInformation.put("departmentCRN",      getStringOrEmptyIfResultSetNull(rs, "department_crn"));
+        departmentInformation.put("credit_hours",       rs.getDouble("credit_hours"));
 
         HashMap<String, String> locationInformation = new LinkedHashMap<>();
         locationInformation.put("location",               getStringOrEmptyIfResultSetNull(rs, "location"));
@@ -267,7 +268,7 @@ public class OfferedClassInformation {
         instructorInformation.put("instructorEmail",    getStringOrEmptyIfResultSetNull(rs, "instructor_email"));
 
         Optional<String> possibleCoreClasses = Optional.ofNullable(getStringOrEmptyIfResultSetNull(rs, "CORE"));
-        String[] core = null;
+        String[] core = new String[] { };
         if(possibleCoreClasses.isPresent() && !possibleCoreClasses.get().equals("")) {
             core = possibleCoreClasses.get().split(",");
         }
@@ -323,7 +324,7 @@ public class OfferedClassInformation {
      */
     public static boolean isNotValidCreditHours(String creditHours) {
         log.info("Checking if " + creditHours + " is valid.");
-        int numericCreditHours = Integer.parseInt(creditHours);
+        double numericCreditHours = Double.parseDouble(creditHours);
         return numericCreditHours < 0 || numericCreditHours > 9;
     }
 }
