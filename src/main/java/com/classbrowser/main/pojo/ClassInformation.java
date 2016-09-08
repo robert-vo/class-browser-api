@@ -3,6 +3,8 @@ package com.classbrowser.main.pojo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.classbrowser.main.commons.util.StringSQLQueryUtility.getStringOrEmptyIfResultSetNull;
+
 /**
  * Java POJO to represent class information.
  * This includes classes that have been offered at one point in time.
@@ -88,11 +90,5 @@ public class ClassInformation {
                 getStringOrEmptyIfResultSetNull(rs, "class_title"),
                 rs.getInt("credit_hours"),
                 getStringOrEmptyIfResultSetNull(rs, "core"));
-    }
-
-    private static String getStringOrEmptyIfResultSetNull(ResultSet rs, String columnLabel) throws SQLException {
-        String stringToReturn = rs.getString(columnLabel);
-
-        return rs.wasNull() ? "" : stringToReturn;
     }
 }
