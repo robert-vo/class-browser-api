@@ -18,3 +18,9 @@ Click on the hyperlinks to get more information about each endpoint.
 
 ### Class Offerings
 [<code>GET:</code>```/api/classes/term={termID}```](endpoints/TERM.md)
+
+## Example
+
+An example using the Class Browser API can be found at the following link. 
+
+[Web Example](https://github.com/robert-vo/class-browser-uh-web)
