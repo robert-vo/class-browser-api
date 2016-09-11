@@ -42,53 +42,57 @@ public class ScheduleScraper {
     public static void updateCurrentClasses() {
         setDatabaseCredentials();
 
-        if(isValidDatabaseCredentials()) {
-            List<Term> allTermsToScrape = new LinkedList<>();
-            List<Session> allSessionsToScrape = new LinkedList<>();
-            int pageLimit;
-            Optional<String> allTermsAsString = Optional.ofNullable(System.getProperty("TERMS_TO_SCRAPE"));
-            Optional<String> allSessionsAsString = Optional.ofNullable(System.getProperty("SESSIONS_TO_SCRAPE"));
+        if(canStartClassUpdate()) {
+            if (isValidDatabaseCredentials()) {
+                List<Term> allTermsToScrape = new LinkedList<>();
+                List<Session> allSessionsToScrape = new LinkedList<>();
+                int pageLimit;
+                Optional<String> allTermsAsString = Optional.ofNullable(System.getProperty("TERMS_TO_SCRAPE"));
+                Optional<String> allSessionsAsString = Optional.ofNullable(System.getProperty("SESSIONS_TO_SCRAPE"));
 
-            if (!allTermsAsString.isPresent()) {
-                throw new IllegalStateException("TERMS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
+                if (!allTermsAsString.isPresent()) {
+                    throw new IllegalStateException("TERMS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
+                }
+                if (!allSessionsAsString.isPresent()) {
+                    throw new IllegalStateException("SESSIONS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
+                }
+
+                for (String term : allTermsAsString.get().split(",")) {
+                    allTermsToScrape.add(Term.returnTermFromString(term.trim()));
+                }
+
+                for (String session : allSessionsAsString.get().split(",")) {
+                    allSessionsToScrape.add(Session.returnSessionFromString(session.trim()));
+                }
+
+                pageLimit = Integer.parseInt(Optional.ofNullable(System.getProperty("PAGE_LIMIT"))
+                        .orElse("0"));
+
+                List<Class> allClasses = new LinkedList<>();
+
+                allTermsToScrape
+                        .stream()
+                        .forEach(term ->
+                                allSessionsToScrape
+                                        .stream()
+                                        .forEach(session -> {
+                                            log.info("Starting scraper for term: " + term + " and session: " + session);
+                                            ClassScraper classScraper = new ClassScraper(term);
+                                            classScraper.setSessionOnScraper(session);
+                                            classScraper.setPageLimit(pageLimit);
+                                            classScraper.startScraper();
+                                            allClasses.addAll(classScraper.getAllClasses());
+                                        }));
+
+                printMessageForAllClassForTerms(allTermsToScrape, allClasses);
+                printMessageForSessionAndTerms(allTermsToScrape, allSessionsToScrape, allClasses);
+                performDatabaseActionsForAllClasses(allClasses);
+            } else {
+                log.error("Unable to start the scraper due to invalid database credentials.");
             }
-            if(!allSessionsAsString.isPresent()) {
-                throw new IllegalStateException("SESSIONS_TO_SCRAPE system property is missing. Aborting scheduled scraper.");
-            }
-
-            for (String term : allTermsAsString.get().split(",")) {
-                allTermsToScrape.add(Term.returnTermFromString(term.trim()));
-            }
-
-            for (String session : allSessionsAsString.get().split(",")) {
-                allSessionsToScrape.add(Session.returnSessionFromString(session.trim()));
-            }
-
-            pageLimit = Integer.parseInt(Optional.ofNullable(System.getProperty("PAGE_LIMIT"))
-                    .orElse("0"));
-
-            List<Class> allClasses = new LinkedList<>();
-
-            allTermsToScrape
-                    .stream()
-                    .forEach(term ->
-                            allSessionsToScrape
-                                    .stream()
-                                    .forEach(session -> {
-                                        log.info("Starting scraper for term: " + term + " and session: " + session);
-                                        ClassScraper classScraper = new ClassScraper(term);
-                                        classScraper.setSessionOnScraper(session);
-                                        classScraper.setPageLimit(pageLimit);
-                                        classScraper.startScraper();
-                                        allClasses.addAll(classScraper.getAllClasses());
-                                    }));
-
-            printMessageForAllClassForTerms(allTermsToScrape, allClasses);
-            printMessageForSessionAndTerms(allTermsToScrape, allSessionsToScrape, allClasses);
-            performDatabaseActionsForAllClasses(allClasses);
         }
         else {
-            log.error("Unable to start the scraper due to invalid database credentials.");
+            log.info("Environment variable, CAN_START_CLASS_UPDATES, prevents the scraping from occurring.");
         }
     }
 
@@ -137,45 +141,50 @@ public class ScheduleScraper {
      * Updates all classes for Summer 2016, Fall 2016, and Spring 2017, on demand.
      */
     public static void updateAllClassesUsingTrigger() {
-        log.info("Starting scraper...");
+        if(canStartClassUpdate()) {
 
-        ClassScraper classScraper = new ClassScraper(terms);
+            log.info("Starting scraper...");
 
-        int pageLimit = 0;
+            ClassScraper classScraper = new ClassScraper(terms);
 
-        setDatabaseCredentials();
+            int pageLimit = 0;
 
-        if(isValidDatabaseCredentials()) {
-            Optional<String> pageLimitFromSystemProperties = Optional.ofNullable(System.getProperty("PAGE_LIMIT"));
+            setDatabaseCredentials();
 
-            if (pageLimitFromSystemProperties.isPresent()) {
-                try {
-                    log.info("Page limit constraint found in the system properties with value: " +
-                            pageLimitFromSystemProperties.get());
-                    pageLimit = Integer.parseInt(pageLimitFromSystemProperties.get());
-                } catch (NumberFormatException ex) {
-                    log.error("Error for page limit of value: " + System.getProperty("PAGE_LIMIT"));
-                    log.error(ex);
-                    log.warn("Continuing class scraper with no page limit.");
+            if (isValidDatabaseCredentials()) {
+                Optional<String> pageLimitFromSystemProperties = Optional.ofNullable(System.getProperty("PAGE_LIMIT"));
+
+                if (pageLimitFromSystemProperties.isPresent()) {
+                    try {
+                        log.info("Page limit constraint found in the system properties with value: " +
+                                pageLimitFromSystemProperties.get());
+                        pageLimit = Integer.parseInt(pageLimitFromSystemProperties.get());
+                    } catch (NumberFormatException ex) {
+                        log.error("Error for page limit of value: " + System.getProperty("PAGE_LIMIT"));
+                        log.error(ex);
+                        log.warn("Continuing class scraper with no page limit.");
+                    }
                 }
+                if (pageLimit > 0) {
+                    log.info("Found page limit. Setting page limit of " + pageLimit);
+                    classScraper.setPageLimit(pageLimit);
+                }
+
+                log.info("Scraper started!");
+
+                classScraper.startScraperForMultipleTerms();
+
+                log.info("Scraper finished!");
+
+                performDatabaseActionsForAllClasses(classScraper.getAllClasses());
+
+                log.info("Scheduled task is complete!");
+            } else {
+                log.error("Unable to start the scraper due to invalid database credentials.");
             }
-            if (pageLimit > 0) {
-                log.info("Found page limit. Setting page limit of " + pageLimit);
-                classScraper.setPageLimit(pageLimit);
-            }
-
-            log.info("Scraper started!");
-
-            classScraper.startScraperForMultipleTerms();
-
-            log.info("Scraper finished!");
-
-            performDatabaseActionsForAllClasses(classScraper.getAllClasses());
-
-            log.info("Scheduled task is complete!");
         }
         else {
-            log.error("Unable to start the scraper due to invalid database credentials.");
+            log.info("Environment variable, CAN_START_CLASS_UPDATES, prevents the scraping from occurring.");
         }
     }
 
@@ -238,6 +247,18 @@ public class ScheduleScraper {
         userName      = Optional.ofNullable(System.getProperty("USERNAME")).orElse(defaultUserName);
         passWord      = Optional.ofNullable(System.getProperty("PASSWORD")).orElse(defaultPassWord);
         log.info("Database credentials set!");
+    }
+
+    /**
+     * Checks the environment variable, CAN_START_CLASS_UPDATES, is equal to "true", "1", or "yes".
+     *
+     * @return Returns whether CAN_START_CLASS_UPDATES is equal to "true", "1", or "yes".
+     */
+    private static boolean canStartClassUpdate() {
+        Optional<String> canStartScraper = Optional.ofNullable(System.getProperty("CAN_START_CLASS_UPDATES"));
+        return canStartScraper.isPresent() && (canStartScraper.get().equals("true") ||
+                canStartScraper.get().equals("1") ||
+                canStartScraper.get().equals("yes"));
     }
 
 }
