@@ -23,6 +23,7 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
  *
  * @author Robert Vo
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class ClassBrowserAPIController {
