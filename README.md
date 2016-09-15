@@ -23,12 +23,11 @@ Environment Variables are used throughout the Class Browser API to establish a d
   * Default value for PASSWORD is: <code>password</code>
 
 ### Class Scraper Constraints
-* **CAN_START_CLASS_UPDATES**: value
-* **PAGE_LIMIT**: value
-* **SESSIONS_TO_SCRAPE**: value
-* **TERMS_TO_SCRAPE**: value
-* **TRIGGER_KEYWORD**: value
-
+* **CAN_START_CLASS_UPDATES**: A true (1, yes, true) value will allow the scraper to run, regardless of run method (cron task or forced through trigger). 
+* **PAGE_LIMIT**: Determines how many pages the scraper will traverse through per term.
+* **SESSIONS_TO_SCRAPE**: Comma-separated values that denotes which sessions, for each term, the scraper will traverse through. Values include: <code>1, 2, 3, 4, 5, 6, MIN</code>.
+* **TERMS_TO_SCRAPE**: Comma-separated values that denotes which terms the scraper will traverse through. Values include: [<code>See:</code>```/api/classes/term={termID}```](endpoints/TERM.md) for more information about the allows term values.
+* **TRIGGER_KEYWORD**: The keyword needed to initiate the scraper from an endpoint request. The keyword is used to prevent anyone from activating the scraper on demand.
 
 ## Endpoints
 Click on the hyperlinks to get more information about each endpoint. 
