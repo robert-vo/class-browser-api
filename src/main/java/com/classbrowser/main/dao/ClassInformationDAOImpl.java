@@ -30,7 +30,7 @@ public class ClassInformationDAOImpl extends AbstractInformationDAO implements C
     public ResponseInformation<List<ClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<ClassInformation> allClasses = selectAllClassInformation(params);
         int numberOfRows = allClasses.size();
-        log.info("Retrieved " + numberOfRows + ".");
+        log.info("Retrieved " + numberOfRows + " classes.");
         return new ResponseInformation<>(numberOfRows, params, allClasses);
     }
 

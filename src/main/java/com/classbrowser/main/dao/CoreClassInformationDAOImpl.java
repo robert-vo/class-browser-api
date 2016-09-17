@@ -27,9 +27,10 @@ public class CoreClassInformationDAOImpl extends AbstractInformationDAO implemen
      */
     @Override
     public ResponseInformation<List<CoreClassInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
-        List<CoreClassInformation> allCoreClasses = selectAllCoreClass((String) params.get("Core"));
+        String coreValue = (String) params.get("Core");
+        List<CoreClassInformation> allCoreClasses = selectAllCoreClass(coreValue);
         int numberOfRows = allCoreClasses.size();
-        log.info("Retrieved " + numberOfRows + " items.");
+        log.info("Retrieved " + numberOfRows + " core classes given the core category: " + coreValue + ".");
         return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
     }
 

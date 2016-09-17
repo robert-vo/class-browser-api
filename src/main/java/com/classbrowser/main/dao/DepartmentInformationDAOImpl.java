@@ -29,7 +29,7 @@ public class DepartmentInformationDAOImpl extends AbstractInformationDAO impleme
     public ResponseInformation<List<DepartmentInformation>> getFromDatabaseAndResponseInfo(Map params) throws Exception{
         List<DepartmentInformation> allCoreClasses = selectAllDepartments();
         int numberOfRows = allCoreClasses.size();
-        log.info("Retrieved " + numberOfRows + " items.");
+        log.info("Retrieved " + numberOfRows + " departments.");
         return new ResponseInformation<>(numberOfRows, params, allCoreClasses);
     }
 
