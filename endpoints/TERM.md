@@ -46,7 +46,7 @@ The optional parameters can be used to filter the results to your needs. True/Fa
   * "SEC" - Science and Engineering Complex
   * "HBS" - Health and Biomedical Sciences
   * "AAA" - Agnes Arnold Auditorium
-* credit-hours - An integer between 1 and 5, inclusive, to retrieve classes with a certain amount of hours fulfilled.
+* credit-hours - An integer with possible values of 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10, to retrieve classes with a certain amount of hours fulfilled.
 * is-core - Use one of the True Values to indicate if a class fulfills a core requirement. False Values to indicate otherwise.
 * weekendU - Use one of the True Values to indicate if a class is a weekendU class. False Values to indicate otherwise.
 * core-id or core - An integer between 1 and 10, inclusive. The list below indicates what each number corresponds to.
