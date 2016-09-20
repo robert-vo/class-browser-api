@@ -23,8 +23,7 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
  *
  * @author Robert Vo
  */
-//TODO: Update second origins domain to hosted website server.
-@CrossOrigin(origins = {"http://localhost:63342", "http://localhost:63343", "classbrowseruh.us-west-2.elasticbeanstalk.com/api"})
+@CrossOrigin(origins = {"http://localhost:63342", "http://localhost:63343", "http://classbrowseruh.azurewebsites.net"})
 @RestController
 @RequestMapping("/api")
 public class ClassBrowserAPIController {
