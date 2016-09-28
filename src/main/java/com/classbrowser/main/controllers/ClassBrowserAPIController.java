@@ -23,7 +23,7 @@ import static com.classbrowser.main.commons.util.ResponseEntityUtility.generateE
  *
  * @author Robert Vo
  */
-@CrossOrigin(origins = {"http://localhost:63342", "http://localhost:63343", "http://classbrowseruh.azurewebsites.net"})
+@CrossOrigin(origins = {"http://localhost:63342", "http://localhost:63343", "http://robertvo.me"})
 @RestController
 @RequestMapping("/api")
 public class ClassBrowserAPIController {
