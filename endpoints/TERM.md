@@ -119,6 +119,7 @@ Returned is a JSON object with keys:
     * buildingID - Unique number to identify a building.
     * buildingAbbreviation - The abbreviation of a building.
     * buildingName - The full name of the building where the class takes place at.
+    * roomNumber - The room number inside of the building where the class takes place at.
   * format - Indicates how the content of the class will be delivered. Examples include: Face to Face, Hybrid and Online.
   * description - The full class description.
   * duration - The length, in weeks, of the class.
@@ -191,7 +192,8 @@ Returned is a JSON object with keys:
       "location" : "UH",
       "buildingID" : "534",
       "buildingAbbreviation" : "H",
-      "buildingName" : "Fred J. Heyne"
+      "buildingName" : "Fred J. Heyne",
+      "roomNumber" :  "218" 
     },
     "format" : "Face to Face",
     "description" : "Cr. 3. (3-0). Prerequisite: ANTH 1300, 2302 or consent of instructor. Cross-cultural survey of religious beliefs and practices.",
