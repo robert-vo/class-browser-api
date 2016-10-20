@@ -262,6 +262,7 @@ public class OfferedClassInformation {
         locationInformation.put("buildingID",             getStringOrEmptyIfResultSetNull(rs, "building_id"));
         locationInformation.put("buildingAbbreviation",   getStringOrEmptyIfResultSetNull(rs, "building_abbreviation"));
         locationInformation.put("buildingName",           getStringOrEmptyIfResultSetNull(rs, "building_name"));
+        locationInformation.put("roomNumber",             getStringOrEmptyIfResultSetNull(rs, "building_room_num"));
 
         HashMap<String, String> instructorInformation = new LinkedHashMap<>();
         instructorInformation.put("instructor",         getStringOrEmptyIfResultSetNull(rs, "instructor"));
