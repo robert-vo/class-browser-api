@@ -15,6 +15,13 @@ public class UserInformation implements Serializable {
     public UserInformation() {
     }
 
+    public UserInformation(String firstName, String lastName, String theirEmailAddress, String feedback) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.theirEmailAddress = theirEmailAddress;
+        this.feedback = feedback;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -45,5 +52,9 @@ public class UserInformation implements Serializable {
 
     public void setFeedback(String feedback) {
         this.feedback = feedback;
+    }
+
+    public String getFirstAndLastName() {
+        return firstName + " " + lastName;
     }
 }
