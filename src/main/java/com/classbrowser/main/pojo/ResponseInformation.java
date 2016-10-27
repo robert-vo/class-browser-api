@@ -18,6 +18,9 @@ public class ResponseInformation<T> {
     private T result;
     private static Logger log = Logger.getLogger(ResponseInformation.class);
 
+    public ResponseInformation() {
+    }
+
     /**
      * Constructs a ResponseInformation object from the given arguments.
      *
